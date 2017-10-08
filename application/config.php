@@ -138,6 +138,8 @@ return [
         'taglib_begin' => '{',
         // 标签库标签结束标记
         'taglib_end'   => '}',
+		//视图分离  视图根所在路径 
+        'view_base'=>__DIR__.'/../template/', //入口文件在public下
     ],
 
     // 视图输出字符串内容替换
