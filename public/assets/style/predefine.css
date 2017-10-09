@@ -1,11 +1,8 @@
 /* 列表 */ 
 ul,ol{
-	counter-reset: li; /* 创建一个计数器 */
-	list-style: none; /* 清除列表默认的编码*/
-	*list-style: decimal; /* 让IE6/7具有默认的编码 */
-	font: 15px 'trebuchet MS', 'lucida sans';
+	list-style: none; 
 	padding: 0;
-	margin-bottom: 4em;
+	margin: 0;
 	text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 ul ul,ol ol{
@@ -108,7 +105,17 @@ a {
 .v-b{
 	vertical-align: bottom;
 }
-
+/* 样式 */
+.pointer{
+	cursor: pointer;
+}
+.test-bd{
+	border:1px solid;
+	border-image: -webkit-linear-gradient( red, blue, yellow, black, white, green) 1 1;
+}
+.test-bg{
+	background: -webkit-linear-gradient( red, blue, yellow, black, white, green) 1 1;
+}
 /* 元素响应式居中 */
 #outer-center {
 	position: relative;
