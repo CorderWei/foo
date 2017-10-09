@@ -56,7 +56,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 默认模块名
-    'default_module'         => 'index',
+    'default_module'         => 'home',
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     // 默认控制器名
@@ -125,7 +125,7 @@ return [
         // 模板引擎类型 支持 php think 支持扩展
         'type'         => 'Think',
         // 模板路径
-        'view_path'    => __DIR__.'/../template/pc/',
+        'view_path'    => '',//__DIR__.'/../template/pc/',
         // 模板后缀
         'view_suffix'  => 'html',
         // 模板文件名分隔符
