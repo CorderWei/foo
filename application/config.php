@@ -17,7 +17,7 @@ return [
     // 应用命名空间
     'app_namespace'          => 'app',
     // 应用调试模式
-    'app_debug'              => false,
+    'app_debug'              => true,
     // 应用Trace
     'app_trace'              => false,
     // 应用模式状态
@@ -125,7 +125,7 @@ return [
         // 模板引擎类型 支持 php think 支持扩展
         'type'         => 'Think',
         // 模板路径
-        'view_path'    => '',
+        'view_path'    => __DIR__.'/../template/pc/',
         // 模板后缀
         'view_suffix'  => 'html',
         // 模板文件名分隔符
@@ -138,8 +138,6 @@ return [
         'taglib_begin' => '{',
         // 标签库标签结束标记
         'taglib_end'   => '}',
-		//视图分离  视图根所在路径 
-        'view_base'=>__DIR__.'/../template/', //入口文件在public下
     ],
 
     // 视图输出字符串内容替换
