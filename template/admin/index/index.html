@@ -7,9 +7,13 @@
 		{foreach name="menu" item="vo" key="k"}
 			<div class="admincp-map-div" data-param="map-{$k}">
 				{foreach name="vo.child" item="v2"}
-					<dl><dt>{$v2.name}</dt>
+					<dl>
+						<dt>{$v2.name}</dt>
 						{foreach name="v2.child" item="v3"}
-							<dd class=""><a href="javascript:void(0);" data-param="{$v3.act}|{$v3.op}">{$v3.name}</a><i class="fa fa-check-square-o"></i></dd>
+							<dd class="">
+								<a href="javascript:void(0);" data-param="{$v3.act}|{$v3.op}">{$v3.name}</a>
+								<i class="fa fa-check-square-o"></i>
+							</dd>
 						{/foreach}
 					</dl>
 				{/foreach}

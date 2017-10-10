@@ -1,0 +1,81 @@
+{include file="public/head"}
+<body>
+	<div>
+		<label>所在地点</label>
+		<!-- 省份 -->
+		<select name="pro" id="pro">
+			{foreach name="region" item="v"}
+			<option value="{$v.region_id}">{$v.region_name}</option>
+			{/foreach}
+		</select>
+		<!-- 城市 -->
+		<select name="city" id="city">
+			<option></option>
+		</select>
+		<!-- 区县 -->
+		<select name="area" id="area">
+			<option></option>
+		</select>  
+		<button id="note_city">确定</button>
+	</div>
+	<script>
+		$('#pro').change(function () {
+			$.ajax({
+				type: "post",
+				url: "{:Url('Index/citychange')}",
+				data: 'pro_id=' + $('#pro').val(),
+				dataType: "json",
+				success: function (data) {
+					$('#city').html(data);
+				}
+			});
+		});
+		$('#city').change(function () {
+			$.ajax({
+				type: "post",
+				url: "{:Url('Index/citychange')}",
+				data: 'pro_id=' + $('#city').val(),
+				dataType: "json",
+				success: function (data) {
+					$('#area').html(data);
+				}
+			});
+		});
+		$('#note_city').click(function () {
+			var pro_id = $("#pro").val();
+			var city_id = $("#city").val();
+			var area_id = $("#area").val();
+			var pro_name = $("#pro").find("option:selected").text();
+			var city_name = $("#city").find("option:selected").text();
+			var area_name = $("#area").find("option:selected").text();
+			if (city_id == 0) {
+				alert('请选择具体城市');
+				return false;
+			}
+
+			if (area_id == 0) {
+				alert('请选择具体地区');
+				return false;
+			}
+			var url = "{:Url('Index/note_city')}";
+			var data = {
+				"pro_id": pro_id,
+				"city_id": city_id,
+				"area_id": area_id,
+				"pro_name": pro_name,
+				"city_name": city_name,
+				"area_name": area_name
+			};
+			$.ajax({
+			type: "post",
+				url: "{:Url('Index/note_city')}",
+				data: data,
+				dataType: "json",
+				success: function (data) {
+					location.href = "{:Url('Index/index')}";
+				}
+			});
+		});
+	</script>
+</body>
+{include file="public/foot"}
