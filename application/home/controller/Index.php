@@ -15,7 +15,7 @@
 			if (session('?user'))
 			{
 				$user = session('user');
-				$user = M('users')->where("user_id", $user['user_id'])->find();
+				$user = Db::name('user')->where("id", $user['id'])->find();
 				session('user', $user);  //覆盖session 中的 user               
 				$this->user = $user;
 				$this->user_id = $user['id'];
@@ -67,24 +67,32 @@
 		public function dologin()
 		{
 			$data = input();
-			var_dump($data);
-			die;
+			$map['name'] = $data['name'];
+			$map['pass'] = MD5(MD5($data['pass']));
+			$user = Db::name('User')->where($map)->find();
 
 			//登录成功
-			if (true)
+			if ($user)
 			{
+				// 存储session
+				session('user', $user);
 				$this->success('登录成功', 'index');
 			}
 			else
 			{
-				$this->redirect('login');
+				$this->error('账号或密码错误','login');
 			}
 		}
 
 		// 注册
 		public function register()
 		{
+			// 获取所有分类
+			$cats = Db::name('category')->where('pid = 0')->select();
+			$this->assign('cats', $cats);
+
 			return $this->fetch();
+
 		}
 
 		// 执行注册
@@ -136,6 +144,11 @@
 			$data = input('post.');
 			$_SESSION['position'] = $data;
 			echo 1;
+		}
+		
+		// 环信入口
+		public function huanxin(){
+			return $this->fetch();
 		}
 
 	}
