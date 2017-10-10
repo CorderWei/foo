@@ -27,8 +27,7 @@
 				// 免登录动作列表
 				$nologin = array(
 					'login', 'dologin', 'logout', 'register', 'doregister', 'changepass', 'index', 'note_city',
-					//临时免登录
-					'citychange'
+					'citychange',
 				);
 				if (!in_array($this->request->action(), $nologin))
 				{
@@ -42,12 +41,14 @@
 		{
 			// 获取坐标位置
 			// $coord = GetCoord();
-			// 获取当前城市名称
+			// 获取用户所选(所在)当前城市名称
 			$cur_city = GetCurrentCityName();
 			$this->assign('cur_city', $cur_city);
 
 			// 轮播
 			// 入口
+			$cats = Db::name('category')->where('pid = 0')->select();
+			$this->assign('cats', $cats);
 			// 文章
 			return $this->fetch();
 		}
@@ -55,11 +56,9 @@
 		// 登录
 		public function login()
 		{
-			// 临时测试的代码
-			$look = GetIpLookup();
-			echo $look['country'];
-			echo $look['province'];
-			echo $look['city'];
+			// 获取绑定的所有分类
+			$cats = Db::name('category')->where('pid = 0')->select();
+			$this->assign('cats', $cats);
 
 			return $this->fetch();
 		}
@@ -67,6 +66,9 @@
 		// 执行登录
 		public function dologin()
 		{
+			$data = input();
+			var_dump($data);
+			die;
 
 			//登录成功
 			if (true)

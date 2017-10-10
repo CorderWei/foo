@@ -10,10 +10,9 @@
 		LUN BO
 	</div>
 	<ul class="interface clear">
-		<li><a href="###">暂时不能点击的入口</a></li>
-		<li><a href="###">暂时不能点击的入口</a></li>
-		<li><a href="###">暂时不能点击的入口</a></li>
-		<li><a href="###">暂时不能点击的入口</a></li>
+		{volist name="cats" id="cat" offset="0" length="12"}
+		<li><a href="{:Url('Index/catgory',array('cat_id'=>$cat.id))}">{$cat.name}</a></li>
+		{/volist}
 	</ul>
 	<ul class="articles">
 		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
