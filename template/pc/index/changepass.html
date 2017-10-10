@@ -1,0 +1,68 @@
+{include file="public/head"}
+<form class="am-form" method="post" action="">
+  <fieldset>
+    <legend>修改密码</legend>
+
+	<div class="am-input-group am-input-group-danger">
+		<span class="am-input-group-label"><i class="am-icon-money am-icon-fw"></i></span> 
+		<input type="password" name="old" class="am-form-field" placeholder="初始密码">
+	</div>
+	<span class="old"></span>
+
+	<div class="am-input-group am-input-group-danger" style="margin-top:2rem;">
+		<span class="am-input-group-label"><i class="am-icon-money am-icon-fw"></i></span> 
+		<input type="password" name="xin" class="am-form-field" placeholder="新密码">
+	</div>
+	<span class="xin"></span>
+
+	<div class="am-input-group am-input-group-danger" style="margin-top:2rem;">
+		<span class="am-input-group-label"><i class="am-icon-money am-icon-fw"></i></span> 
+		<input type="password" name="que" class="am-form-field" placeholder="确认密码">
+	</div>
+	<span class="que"></span>
+	<p style="text-align:center;"><button type="submit" id="sub" class="am-btn am-btn-success">提交修改</button></p>
+  </fieldset>
+</form>
+<script>
+$(function(){
+	var old,xin,que;
+	var oldbool = false;
+	var xinbool = false;
+	var quebool = false;
+	$('#sub').click(function(){
+		var old = $('input[name=old]').val();
+		var xin = $('input[name=xin]').val();
+		var que = $('input[name=que]').val();
+		if(old.length == 0){
+			$('.old').html('请填写密码');
+		}else if(old.length > 16 || old.length < 6){
+			$('.old').html('密码格式在6位与16位之间');
+		}else{
+			oldbool = true;
+			$('.old').html('');
+		}
+
+		if(xin.length == 0){
+			$('.xin').html('请填写密码');
+		}else if(xin.length > 16 || xin.length < 6){
+			$('.xin').html('密码格式在6位与16位之间');
+		}else{
+			xinbool = true;
+			$('.xin').html('');
+		}
+
+		if(que != xin){
+			$('.que').html('两个密码不相同');
+		}else{
+			quebool = true;
+			$('.que').html('');
+		}
+		if(oldbool && xinbool && quebool){
+			return true;
+		}else{
+			return false;
+		}
+	});
+});
+</script>
+{include file="public/foot"}

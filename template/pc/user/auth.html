@@ -1,0 +1,6 @@
+		<select name="category">
+			<option value="0">请选择身份</option>
+			{volist name="cats" id="cat"}
+			<option value="{$cat.id}">{$cat.name}</option>
+			{/volist}
+		</select>

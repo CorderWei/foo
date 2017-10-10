@@ -5,6 +5,8 @@
 	use think\Controller;
 	use think\Request;
 	use think\Db;
+	use think\Loader;
+	use app\home\model\User;
 
 	class Index extends Controller
 	{
@@ -15,7 +17,7 @@
 			if (session('?user'))
 			{
 				$user = session('user');
-				$user = Db::name('user')->where("id", $user['id'])->find();
+				$user = Db::name('User')->where("id", $user['id'])->find();
 				session('user', $user);  //覆盖session 中的 user               
 				$this->user = $user;
 				$this->user_id = $user['id'];
@@ -31,7 +33,7 @@
 				);
 				if (!in_array($this->request->action(), $nologin))
 				{
-					$this->redirect('Home/Index/login');
+					$this->error('请您先登录！', 'Home/Index/login');
 					exit;
 				}
 			}
@@ -56,10 +58,6 @@
 		// 登录
 		public function login()
 		{
-			// 获取绑定的所有分类
-			$cats = Db::name('category')->where('pid = 0')->select();
-			$this->assign('cats', $cats);
-
 			return $this->fetch();
 		}
 
@@ -80,27 +78,39 @@
 			}
 			else
 			{
-				$this->error('账号或密码错误','login');
+				$this->error('账号或密码错误', 'login');
 			}
 		}
 
 		// 注册
 		public function register()
 		{
-			// 获取所有分类
-			$cats = Db::name('category')->where('pid = 0')->select();
-			$this->assign('cats', $cats);
-
 			return $this->fetch();
-
 		}
 
 		// 执行注册
 		public function doregister()
 		{
-			//注册成功
-			if (true)
+			$requset = Request::instance();
+			$data = $requset->param();
+			// 采用验证器验证
+			$validate = Loader::validate('Index');
+			if (!$validate->check($data))
 			{
+				$this->error($validate->getError());
+			}
+			// 新增用户
+			$user = new User;
+			$user->data([
+				'name' => $data['name'],
+				'pass' => MD5(MD5($data['pass'])),
+				'add_time' => time(),
+			]);
+			//注册成功后直接登录
+			if ($user->save())
+			{
+				$new_user = Db::name('User')->where("id", $user->id)->find();
+				session('user', $new_user);
 				$this->success('注册成功', 'index');
 			}
 			else
@@ -109,10 +119,48 @@
 			}
 		}
 
+		// 密码修改
+		public function changepass()
+		{
+			// 更改
+			if ($this->request->isPost())
+			{
+				$data = input();
+				$user = $this->user;
+				$u_id = $this->user_id;
+				$map['name'] = $user['name'];
+				$map['pass'] = MD5(MD5($data['old']));
+				$u = Db::name('User')->where($map)->find();
+				if ($u)
+				{
+					if ($data['xin'] == $data['que'])
+					{
+						$d['pass'] = MD5(MD5($data['xin']));
+						Db::name('User')->where("id = $u_id")->update($d);
+						$this->success('密码修改成功,请牢记新密码');
+					}
+				}
+				else
+				{
+					$this->error('原始密码错误');
+				}
+			}
+			// 展示
+			else
+			{
+				return $this->fetch();
+			}
+		}
+
 		// 退出登录
 		public function logout()
 		{
-			
+			// 用户信息
+			session('user', null);
+			// 位置信息
+			session('position', null);
+			// 经纬度存在cookie中保留
+			$this->success('退出完毕', 'index');
 		}
 
 		// 城市切换
@@ -145,9 +193,10 @@
 			$_SESSION['position'] = $data;
 			echo 1;
 		}
-		
+
 		// 环信入口
-		public function huanxin(){
+		public function huanxin()
+		{
 			return $this->fetch();
 		}
 

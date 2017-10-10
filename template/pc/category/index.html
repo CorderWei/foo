@@ -1,4 +1,10 @@
 {include file="public/head"}
 <body>
+	<div>
+		<span>{$Think.session.user.name}</span>
+		<span>&hearts;&hearts;&hearts;</span>
+		<p><a href="{:Url('User/index')}">个人中心</a></p>
+	</div>
+	<div>查询二级分类罗列入口</div>
 </body>
 {include file="public/foot"}
