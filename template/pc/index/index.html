@@ -1,23 +1,27 @@
 {include file="public/head"}
 {load href="/assets/style/index.css" /} 
 <body>
+	<!--顶部入口-->
 	<div>
 		<p class="btn fl t-c"><a href="{:Url('Index/citychange')}">{$cur_city}</a></p>
 		<p class="title inline-block t-c"><a href="/">养殖天网首页</a></p>
 		<p class="btn fr t-c"> <a href="{:Url('Index/huanxin')}">聊天室</a> </p>
 	</div>
+	<!--轮播-->
 	<div class="banner test-bd">
 		LUN BO
 	</div>
+	<!--客户类型入口，最多12个-->
 	<ul class="interface clear">
 		{volist name="cats" id="cat" offset="0" length="12"}
 		<li><a href="{:Url('Category/index',array('cat_id'=>$cat.id))}">{$cat.name}</a></li>
 		{/volist}
 	</ul>
+	<!--栏目文章，最多6行-->
 	<ul class="articles">
-		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
-		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
-		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
+		{volist name="arts" id="art"}
+		<li><a href="{:Url('Index/article_detail',array('id'=>$art.id))}">{$art.title}</a></li>
+		{/volist}
 		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
 		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
 	</ul>

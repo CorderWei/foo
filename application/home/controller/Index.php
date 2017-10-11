@@ -7,6 +7,7 @@
 	use think\Db;
 	use think\Loader;
 	use app\home\model\User;
+	use app\home\model\Article;
 
 	class Index extends Controller
 	{
@@ -48,10 +49,24 @@
 			$this->assign('cur_city', $cur_city);
 
 			// 轮播
-			// 入口
+			// 入口分类
 			$cats = Db::name('category')->where('pid = 0')->select();
 			$this->assign('cats', $cats);
 			// 文章
+			$article = new Article;
+			
+			if(session('?position')){
+				
+			}
+			$arts = $article->limit(6)->select();
+			$this->assign('arts', $arts);
+			return $this->fetch();
+		}
+		// 文章详情
+		public function article_detail(){
+			$id = $this->request->param('id');
+			$article = Article::get($id);
+			$this->assign('article', $article);
 			return $this->fetch();
 		}
 
@@ -190,7 +205,7 @@
 		public function note_city()
 		{
 			$data = input('post.');
-			$_SESSION['position'] = $data;
+			session('position', $data);
 			echo 1;
 		}
 
