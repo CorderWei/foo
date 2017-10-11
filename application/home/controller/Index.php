@@ -38,32 +38,40 @@
 					exit;
 				}
 			}
+			// 获取用户所选(所在)当前城市名称
+			$cur_city = GetCurrentCityName();
+			$this->assign('cur_city', $cur_city);
 		}
 
 		public function index()
 		{
 			// 获取坐标位置
 			// $coord = GetCoord();
-			// 获取用户所选(所在)当前城市名称
-			$cur_city = GetCurrentCityName();
-			$this->assign('cur_city', $cur_city);
-
 			// 轮播
 			// 入口分类
-			$cats = Db::name('category')->where('pid = 0')->select();
-			$this->assign('cats', $cats);
+			// 按照认证模型
+			$interfaces = Db::name('basemodel')->select();
+			// 按照业务类型
+			// $interfaces = Db::name('category')->where('pid = 0')->select();
+			$this->assign('interfaces', $interfaces);
+
 			// 文章
 			$article = new Article;
-			
-			if(session('?position')){
-				
+			// 按照用户所在城市过滤
+			$where = "region = 0";
+			if (session('?position'))
+			{
+				$region = session('position.city_id');
+				$where = "region = 0 or region = $region";
 			}
-			$arts = $article->limit(6)->select();
+			$arts = $article->where($where)->limit(6)->select();
 			$this->assign('arts', $arts);
 			return $this->fetch();
 		}
+
 		// 文章详情
-		public function article_detail(){
+		public function article_detail()
+		{
 			$id = $this->request->param('id');
 			$article = Article::get($id);
 			$this->assign('article', $article);
@@ -174,6 +182,9 @@
 			session('user', null);
 			// 位置信息
 			session('position', null);
+			// 认证模型信息
+			session('basemodel', null);
+			
 			// 经纬度存在cookie中保留
 			$this->success('退出完毕', 'index');
 		}

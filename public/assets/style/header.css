@@ -1,0 +1,14 @@
+.main_title{
+	width:58%;
+}
+.com_btn{
+	cursor: pointer;
+	border:1px solid #f00;
+	border-radius: 5px;
+	width:20%;
+}
+.main_banner{
+	width:99%;
+	margin: 0 auto;
+	height:200px;
+}

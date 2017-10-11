@@ -33,11 +33,45 @@
 					exit;
 				}
 			}
+			// 获取用户所选(所在)当前城市名称
+			$cur_city = GetCurrentCityName();
+			$this->assign('cur_city', $cur_city);
 		}
 
 		public function index()
 		{
+			// 当前基础认证模型
+			$baseid = $this->request->param('cat_id');
+			$basemodel = Db::name('Basemodel')->find($baseid);
+			// 备用
+			session('basemodel',$basemodel);
+			
+			// 系统所有业务分类
+			$categorys = Db::name('category')->select();
+			$this->assign('categorys', $categorys);
 			return $this->fetch();
+		}
+		
+		// 模型分类认证
+		public function auth()
+		{
+			// 要认证的分类
+			var_dump(input('cat_id'));
+			// 获取绑定的所有分类
+			$cats = Db::name('category')->where('pid = 0')->select();
+			$this->assign('cats', $cats);
+			return $this->fetch();
+		}
+		
+		public function detail()
+		{
+			$cat_id = $this->request->param('cat_id');
+			if(is_authed($cat_id)){
+				return $this->fetch();
+			}else{
+				return $this->error('您尚未认证所需信息', "auth?cat_id={$cat_id}");
+			}
+			
 		}
 
 	}

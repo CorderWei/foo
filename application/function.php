@@ -146,9 +146,9 @@
 	 */
 	function GetCurrentCityName()
 	{
-		if (isset($_SESSION['position']))
+		if (session('?position'))
 		{
-			$cur_city = $_SESSION['position']['city_name'];
+			$cur_city = session('position.city_name');
 		}
 		else
 		{
@@ -165,3 +165,23 @@
 		return $cur_city;
 	}
 	
+	/**
+	 * 判断当前用户是否具备当前认证模型下某业务领域的权限
+	 * @param type $cat_id  业务领域编码，业务领域为猪，牛，鸡等
+	 * @return boolean
+	 * 认证模型即 饲养户,厂商,专家,运输车等
+	 */
+	function is_authed($cat_id){
+		$base_id = session('basemodel.id');
+		$cat_ids = session('user.cat_ids');
+		$auth_code = $base_id.'_'.$cat_id;
+		if(empty($cat_ids)){
+			return false;
+		}else{
+			$auths = explode(',',$cat_ids);
+			if(in_array($auth_code, $auths)){
+				return true;
+			}
+		}
+		return false;
+	}
