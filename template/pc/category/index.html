@@ -1,4 +1,5 @@
 {include file="public/head"}
+{load href="/assets/style/category.css" /} 
 <body>
 	{include file="public/header"}
 	<div>
@@ -8,9 +9,9 @@
 		<p><a href="{:Url('User/index')}">个人中心</a></p>
 		<p><a href="{:Url('Category/auth')}">信息认证</a></p>
 	</div>
-	<ul>查询二级分类罗列入口
+	<ul class="cagegory_list">查询二级分类罗列入口
 		{volist name="categorys" id="cat" }
-		<li><a href="{:Url('Category/detail',array('cat_id'=>$cat.id))}">{$cat.name}</a></li>
+		<li class="fl"><a href="{:Url('Category/detail',array('cat_id'=>$cat.id))}">{$cat.name}</a></li>
 		{/volist}
 	</ul>
 </body>

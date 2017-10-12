@@ -1,7 +1,8 @@
 /**
  * foo-js 0.5版本 
  * @wxl 2017-10-2
- * 
+ * 信息传输工具 + EC6扩展兼容封装
+ * 暂时依赖于 jquery 1.12, 兼容性为jquery1.7+
  */
 
 foo = {};
@@ -18,6 +19,8 @@ foo.trans = {};
  * @param {int} flag  数据传输格式, 不填写则为json, 非0为serialize
  * @returns {undefined}
  */
+
+// Main 工具函数
 
 foo.trans.ajaxForm = function (selector, validate, callback, flag) {
 	var form = $(selector);
@@ -41,7 +44,7 @@ foo.trans.ajaxForm = function (selector, validate, callback, flag) {
 	});
 };
 
-// Helper
+// Helper 辅助函数
 
 /**
  * 将序列化的数组转换成Json
@@ -63,5 +66,27 @@ foo.trans.array2Json = function (serialize_Array) {
 		}
 	});
 	return o;
+};
+
+// Extend 扩展的兼容封装
+
+/**
+ * 获取一个文件|图片的地址用于预览
+ * @param {type} file
+ * @returns {unresolved}
+ */
+foo.trans.getObjUrl = function (file) {
+
+	var url = null;
+	if (window.createObjectURL != undefined) { // basic
+		url = window.createObjectURL(file);
+	}
+	else if (window.URL != undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file);
+	}
+	else if (window.webkitURL != undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file);
+	}
+	return url;
 };
 

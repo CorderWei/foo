@@ -52,14 +52,30 @@
 			return $this->fetch();
 		}
 		
-		// 模型分类认证
+		// 模型分类认证信息展示
 		public function auth()
 		{
 			// 要认证的分类
-			var_dump(input('cat_id'));
+			$auth_catid = input('cat_id');
+			if(empty($auth_catid)){
+				$auth_catid = 0;
+			}
+			$this->assign('auth_catid', $auth_catid);
+			
 			// 获取绑定的所有分类
 			$cats = Db::name('category')->where('pid = 0')->select();
 			$this->assign('cats', $cats);
+			
+			// 根据基础认证模型确定要填写的表单 1为饲养户，2为厂区，3为专家，4为
+			$model_id = session('basemodel.id');
+			$tpl_name = 'auth_tpl_'.$model_id;
+			return $this->fetch($tpl_name);
+		}
+		
+		// 模型分类认证
+		public function doauth()
+		{
+			
 			return $this->fetch();
 		}
 		

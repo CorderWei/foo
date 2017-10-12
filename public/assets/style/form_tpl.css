@@ -1,0 +1,9 @@
+.zhuce_shangchuan {
+    width: 50%;
+    float: left;
+    background-size: 11rem 11rem;
+    margin: 0 auto;
+    background: url(../images/tianjia.png) no-repeat center center;
+    height: 12rem;
+}
+
