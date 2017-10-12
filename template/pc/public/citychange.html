@@ -1,0 +1,16 @@
+{load href="/assets/script/citychange.js" /}
+<!-- 城市切换公用模板，搭配公用函数使用-->
+<!-- 省份 -->
+<select name="pro" id="pro" data-url="{:Url('Index/citychange')}">
+	{foreach name="region" item="v"}
+	<option value="{$v.region_id}">{$v.region_name}</option>
+	{/foreach}
+</select>
+<!-- 城市 -->
+<select name="city" id="city" data-url="{:Url('Index/citychange')}">
+	<option></option>
+</select>
+<!-- 区县 -->
+<select name="area" id="area">
+	<option></option>
+</select>

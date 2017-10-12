@@ -2,45 +2,10 @@
 <body>
 	<div>
 		<label>所在地点</label>
-		<!-- 省份 -->
-		<select name="pro" id="pro">
-			{foreach name="region" item="v"}
-			<option value="{$v.region_id}">{$v.region_name}</option>
-			{/foreach}
-		</select>
-		<!-- 城市 -->
-		<select name="city" id="city">
-			<option></option>
-		</select>
-		<!-- 区县 -->
-		<select name="area" id="area">
-			<option></option>
-		</select>  
-		<button id="note_city">确定</button>
+		{include file="public/citychange"}  
+		<button id="note_city" data-url="{:Url('Index/note_city')}">确定</button>
 	</div>
 	<script>
-		$('#pro').change(function () {
-			$.ajax({
-				type: "post",
-				url: "{:Url('Index/citychange')}",
-				data: 'pro_id=' + $('#pro').val(),
-				dataType: "json",
-				success: function (data) {
-					$('#city').html(data);
-				}
-			});
-		});
-		$('#city').change(function () {
-			$.ajax({
-				type: "post",
-				url: "{:Url('Index/citychange')}",
-				data: 'pro_id=' + $('#city').val(),
-				dataType: "json",
-				success: function (data) {
-					$('#area').html(data);
-				}
-			});
-		});
 		$('#note_city').click(function () {
 			var pro_id = $("#pro").val();
 			var city_id = $("#city").val();

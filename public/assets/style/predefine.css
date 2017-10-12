@@ -116,19 +116,12 @@ a {
 .test-bg{
 	background: -webkit-linear-gradient( red, blue, yellow, black, white, green) 1 1;
 }
-/* 元素响应式居中 */
-#outer-center {
-	position: relative;
-	width: 500px;
-	height: 500px;
-	border: 2px solid yellow;
+/** 居中 **/
+.v-center{
+	display: flex;
+	align-items: center;
 }
-
-#inner-center {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 100px;
-	height: 100px;
-	background-color: red;
+.h-center{
+	display: flex;
+	justify-content: center;
 }
