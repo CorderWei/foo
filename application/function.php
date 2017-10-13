@@ -140,6 +140,7 @@
 			return $coord;
 		}
 	}
+
 	/**
 	 * 获取当前城市名称
 	 * @return string
@@ -164,24 +165,62 @@
 		}
 		return $cur_city;
 	}
-	
+
 	/**
 	 * 判断当前用户是否具备当前认证模型下某业务领域的权限
 	 * @param type $cat_id  业务领域编码，业务领域为猪，牛，鸡等
 	 * @return boolean
 	 * 认证模型即 饲养户,厂商,专家,运输车等
 	 */
-	function is_authed($cat_id){
+	function is_authed($cat_id)
+	{
 		$base_id = session('basemodel.id');
 		$cat_ids = session('user.cat_ids');
-		$auth_code = $base_id.'_'.$cat_id;
-		if(empty($cat_ids)){
+		$auth_code = $base_id . '_' . $cat_id;
+		if (empty($cat_ids))
+		{
 			return false;
-		}else{
-			$auths = explode(',',$cat_ids);
-			if(in_array($auth_code, $auths)){
+		}
+		else
+		{
+			$auths = explode(',', $cat_ids);
+			if (in_array($auth_code, $auths))
+			{
 				return true;
 			}
 		}
 		return false;
 	}
+
+	/**
+	 * 根据 N 维数组生成Ul树,可用于ajax操作
+	 * @param array $data  数据源
+	 * @param string $child_flag  作为下级的数组的键
+	 * @param string $data_id  生成li后用于绑定数据的字段 如id
+	 * @param string $data_name  生成li后用于展示性的字段 如name
+	 * 
+	 * <li data-id='1'>语文</li>，<li data-id='2'>数学</li>
+	 * @param int $deep 允许纵深的最大层级
+	 * @return string ul字串
+	 */
+	function make_ul_tree($data, $child_flag, $data_id, $data_name, $deep)
+	{
+		$ul_start = "<ul>";
+		$li = '';
+		if (is_array($data))
+		{
+			--$deep;
+			foreach ($data as $key => $value)
+			{
+				$plus = '';
+				if (array_key_exists($child_flag, $value) && ($deep > 0))
+				{
+					$plus = make_ul_tree($value[$child_flag], $child_flag, $data_id, $data_name, $deep);
+				}
+				$li .= "<li data-id='. $value[$data_id] .'>" . $value[$data_name] . $plus . "</li>";
+			}
+		}
+		$ul_end = "</ul>";
+		return $ul_start . $li . $ul_end;
+	}
+	

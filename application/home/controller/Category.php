@@ -3,6 +3,7 @@
 	namespace app\home\controller;
 
 	use think\Controller;
+	use think\Model;
 	use think\Request;
 	use think\Db;
 
@@ -96,7 +97,7 @@
 			$map['card_no'] = $post_data['card_no'];
 			// 默认未通过审核
 			$map['is_auth'] = 0;
-			
+
 			// 根据认证分类确定模型
 			$model_id = $this->request->param('model_id');
 
@@ -141,30 +142,37 @@
 					$save = $value->
 						validate(['size' => 2097152, 'ext' => 'jpg,png,gif'])->
 						move(ROOT_PATH . $path);
-					if($save){
+					if ($save)
+					{
 						// 组装路径用于写入数据库
-						$map[$key]= $path . DS . $save->getSaveName();
-					}else{
+						$map[$key] = $path . DS . $save->getSaveName();
+					}
+					else
+					{
 						return $save->getError();
 					}
 				}
 			}
 			// 表名
-			$table_name = Db::name('Basemodel')->where('id',$model_id)->value('table_name');
-			if(Db::name($table_name)->insert($map)){
+			$table_name = Db::name('Basemodel')->where('id', $model_id)->value('table_name');
+			if (Db::name($table_name)->insert($map))
+			{
 				$this->success('申请成功，请等待审核', 'index');
 			}
-			else{
+			else
+			{
 				$this->error('申请失败，请联系管理', 'index');
 			}
 			//return $this->fetch();
 		}
 
+		// 二级入口列表，时间关系暂不列入后台维护范畴，相应的根入口必须为不可变动
 		public function detail()
 		{
 			$cat_id = $this->request->param('cat_id');
 			if (is_authed($cat_id))
 			{
+				$this->assign('cat_id', $cat_id);
 				return $this->fetch();
 			}
 			else
@@ -174,12 +182,57 @@
 				$map['user_id'] = $uid;
 				$map['cat_id'] = $cat_id;
 				$map['is_auth'] = 0;
-				if(Db::name($model_name)->where($map)->select()){
+				if (Db::name($model_name)->where($map)->select())
+				{
 					return $this->error('您的信息正在认证中,请耐心等待');
-				}else{
+				}
+				else
+				{
 					return $this->error('您尚未认证所需信息', "auth?cat_id={$cat_id}");
 				}
 			}
+		}
+
+		public function manage()
+		{
+			if (request()->isPost())
+			{
+				
+			}
+			else
+			{
+				$cat_id = $this->request->param('cat_id');
+				// 子分类
+				$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
+				// 已经录入的种类数量信息
+				$uid = $this->user_id;
+				$sql = "select * from foo_category c, foo_manage m where m.cat_id = c.id and c.pid = $cat_id";
+				$list = Db::query($sql);
+				$this->assign('son_cat', $son_cat);
+				$this->assign('list', $list);
+			}
+			return $this->fetch();
+		}
+
+		public function matter()
+		{
+			return $this->fetch();
+		}
+
+		public function drug()
+		{
+			return $this->fetch();
+		}
+
+		public function transport()
+		{
+			return $this->fetch();
+		}
+
+		// 附近会员
+		public function near()
+		{
+			return $this->fetch();
 		}
 
 	}

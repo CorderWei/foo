@@ -9,7 +9,7 @@
 		<p><a href="{:Url('User/index')}">个人中心</a></p>
 		<p><a href="{:Url('Category/auth')}">信息认证</a></p>
 	</div>
-	<ul class="cagegory_list">查询二级分类罗列入口
+	<ul class="cagegory_list">
 		{volist name="categorys" id="cat" }
 		<li class="fl"><a href="{:Url('Category/detail',array('cat_id'=>$cat.id))}">{$cat.name}</a></li>
 		{/volist}

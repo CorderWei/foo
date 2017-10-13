@@ -1,5 +1,46 @@
 {include file="public/head"}
+{load href="/assets/style/category_detail.css" /} 
 <body>
-	
+	{include file="public/header"}
+	<!--客户基础模型入口-->
+	<ul class="interface clear">
+		<li>
+			<a href="{:Url('Category/manage',array('cat_id'=>$cat_id))}">
+				<img src=""/>
+				我的专属
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/matter',array('cat_id'=>$cat_id))}">
+				<img src=""/>
+				行情查询
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Goods/goods_list',array('cat_id'=>$cat_id))}">
+				产品上架
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/drug',array('cat_id'=>$cat_id))}">
+				兽药饲料
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Goods/buy',array('cat_id'=>$cat_id))}">
+				在线抢单
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/transport',array('cat_id'=>$cat_id))}">
+				物流运输
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/near',array('cat_id'=>$cat_id))}">
+				附近会员
+			</a>
+		</li>
+	</ul>
 </body>
 {include file="public/foot"}
