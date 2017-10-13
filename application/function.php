@@ -193,8 +193,22 @@
 	}
 
 	/**
+	 * 一维数组转无限级分类树,从id-pid形式转换为id-son形式
+	 * @param array $items 数据库中查询出的数据
+	 * @return array
+	 */
+	function genTree5($items)
+	{
+		foreach ($items as $item)
+		{
+			$items[$item['pid']]['son'][$item['id']] = &$items[$item['id']];
+		}
+		return isset($items[0]['son']) ? $items[0]['son'] : array();
+	}
+
+	/**
 	 * 根据 N 维数组生成Ul树,可用于ajax操作
-	 * @param array $data  数据源
+	 * @param array $data  数据源 使用getTree5即可
 	 * @param string $child_flag  作为下级的数组的键
 	 * @param string $data_id  生成li后用于绑定数据的字段 如id
 	 * @param string $data_name  生成li后用于展示性的字段 如name
@@ -222,5 +236,59 @@
 		}
 		$ul_end = "</ul>";
 		return $ul_start . $li . $ul_end;
+	}
+
+	/**
+	 * 为4表连接查询拼接sql语句,获取指定范围下指定用户指定分类的待售商品，不填写则为查询全部
+	 * @param string $region 'pro' or 'city' or 'area' 三选一,默认为area,即查询当前城市下所有区的产品
+	 * @param string $city_id  城市编码
+	 * @param string $user_id  用户ID
+	 * @param string $cat_id  产品分类ID
+	 * @param bool $find_son_cat  是否查询产品子类, 如为true, 则查询产品分类中父ID为cat_id的分类下所有商品
+	 * @return string
+	 */
+	function getGoodsSql($region = 'area', $city_id = '0', $user_id = '0', $cat_id = '0', $find_son_cat = false)
+	{
+		$str = "SELECT
+					r.region_name,
+					r.region_id,
+					g.*,
+					c. NAME cat_name,
+					u. NAME user_name
+				FROM
+					foo_goods g,
+					foo_region r,
+					foo_category c,
+					foo_user u
+				WHERE
+					g.$region = r.region_id ";
+
+		if ($city_id > 0)
+		{
+			$str .= "AND r.parent_id = $city_id ";
+		}
+		if ($user_id > 0)
+		{
+			$str .= "AND g.user_id = $user_id ";
+		}
+		if ($cat_id > 0)
+		{
+			if ($find_son_cat > 0)
+			{
+				$str .= "AND g.cat_id in ( SELECT id FROM foo_category WHERE c.pid = $cat_id)";
+			}
+			else
+			{
+				$str .= "AND g.cat_id = $cat_id ";
+			}
+		}
+
+		$str .= "AND g.cat_id = c.id
+				AND g.user_id = u.id
+				AND g.on_sell = 1
+				GROUP BY
+				r.region_name,
+				c. NAME ";
+		return $str;
 	}
 	

@@ -193,11 +193,30 @@
 			}
 		}
 
+		// 我的专属(饲养户/厂商自己的统计管理,公开到行情查询中)
 		public function manage()
 		{
+			// 提交
 			if (request()->isPost())
 			{
-				
+				// 提交删除信息
+				if (request()->isAjax())
+				{
+					// TO DO 删除提交的数据
+				}
+				// 提交新增信息
+				else
+				{
+					// 输入数据时带上位置定位
+					$postion = session('position');
+					if ($postion)
+					{
+						$map['pro'] = $postion['pro'];
+						$map['city'] = $postion['city'];
+						$map['area'] = $postion['area'];
+					}
+					// TO DO 插入多条数据
+				}
 			}
 			else
 			{
@@ -214,13 +233,76 @@
 			return $this->fetch();
 		}
 
+		// 行情查询
 		public function matter()
 		{
+
+			// 按照地区检索
+			if (Request::instance()->isPost())
+			{
+				
+			}
+			// 默认当前城市
+			else
+			{
+				if ($position = session('position'))
+				{
+					$city_id = $position['city_id'];
+					// 查询当前城市下当前分类下，按照二级分类统计的行情
+					$sql = "SELECT
+							r.region_name,
+							sum(m.num) sum,
+								c.name
+							FROM
+								foo_manage m,
+								foo_region r,
+								foo_category c
+							WHERE
+								m.area = r.region_id
+							AND r.parent_id = '".$city_id."'
+							AND m.cat_id = c.id
+							GROUP BY
+								r.region_name,c.name";
+					$matter = Db::query($sql);
+					$this->assign('matter', $matter);
+					// 
+					$city_name = $position['city_name'];
+					$this->assign('city_name', $city_name);
+				}
+			}
+
 			return $this->fetch();
 		}
-
+		// 兽药
 		public function drug()
 		{
+			// 查询所有的上架产品
+			$city_id = session('position.city_id');  // 城市ID
+			$cat_id =  12; //Request::instance()->param('cat_id'); //产品ID
+			$sql = getGoodsSql('area', $city_id, 0, $cat_id, true);
+			$goods = Db::query($sql);
+			// 计算总价添加到数组中
+			foreach ($goods as $key => $value)
+			{
+				$goods[$key]['total'] = $value['price'] * $value['num'];
+			}
+			$this->assign('list', $goods);
+			return $this->fetch();
+		}
+		// 饲料
+		public function food()
+		{
+			// 查询所有的上架产品
+			$city_id = session('position.city_id');  // 城市ID
+			$cat_id =  19; //Request::instance()->param('cat_id'); //产品ID
+			$sql = getGoodsSql('area', $city_id, 0, $cat_id, true);
+			$goods = Db::query($sql);
+			// 计算总价添加到数组中
+			foreach ($goods as $key => $value)
+			{
+				$goods[$key]['total'] = $value['price'] * $value['num'];
+			}
+			$this->assign('list', $goods);
 			return $this->fetch();
 		}
 

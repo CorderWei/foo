@@ -11,7 +11,10 @@
 	<!--栏目文章，最多6行-->
 	<ul class="articles">
 		{volist name="arts" id="art"}
-		<li><a href="{:Url('Index/article_detail',array('id'=>$art.id))}">{$art.title}</a></li>
+		<li>
+			<a href="{:Url('Index/article_detail',array('id'=>$art.id))}">{$art.title}</a>
+			<span>{$art.add_time}</span>
+		</li>
 		{/volist}
 		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
 		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
