@@ -79,6 +79,7 @@ a {
 .hidden{
 	overflow: hidden;
 }
+/* 两行省略 */
 .elip {
 	overflow : hidden;
 	text-overflow: ellipsis;
@@ -86,6 +87,13 @@ a {
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 }
+/* 单行省略 */
+.ellipsis{
+    overflow : hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+}
+
 /* 文字对齐 */
 .t-c{
 	text-align: center; 
@@ -114,7 +122,7 @@ a {
 	border-image: -webkit-linear-gradient( red, blue, yellow, black, white, green) 1 1;
 }
 .test-bg{
-	background: -webkit-linear-gradient( red, blue, yellow, black, white, green) 1 1;
+	background: -webkit-linear-gradient( red, blue, yellow, black, white, green);
 }
 /** 居中 **/
 .v-center{
@@ -124,4 +132,22 @@ a {
 .h-center{
 	display: flex;
 	justify-content: center;
+}
+
+*{
+	box-sizing:border-box;
+}
+
+.btn{
+	display:block;
+	padding:0;
+	text-align: center;
+	background-color: #d93442;
+	width: 15rem;
+	line-height: 3rem;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 1.5rem;
+	border: none;
+	margin: 1rem auto;
 }

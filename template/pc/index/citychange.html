@@ -1,7 +1,8 @@
 {include file="public/head"}
 <body>
-	<div>
-		<label>所在地点</label>
+	<h3 class="head">养殖天网 <a class="btn-goback" href="/"></a></h3>
+	<div class="city-select-box">
+		<label class="select-desc">所在地点</label>
 		{include file="public/citychange"}  
 		<button id="note_city" data-url="{:Url('Index/note_city')}">确定</button>
 	</div>
@@ -32,7 +33,7 @@
 				"area_name": area_name
 			};
 			$.ajax({
-			type: "post",
+				type: "post",
 				url: "{:Url('Index/note_city')}",
 				data: data,
 				dataType: "json",

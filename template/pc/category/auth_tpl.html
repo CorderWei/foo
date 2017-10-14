@@ -1,15 +1,11 @@
 {include file="public/head"}
-{load href="/assets/style/category.css" /} 
-<body>	
-	<h2><a href="/">养殖天网</a></h2>
-	<h3>{$Think.session.basemodel.name}用户信息认证</h3>
-	<form action="{:Url('Category/doAuth')}" enctype="multipart/form-data" method="post">
-		<div>
+
+<body>
+	<h3 class="head">养殖天网 <a class="btn-goback" href="/"></a></h3>
+	<h4 class="cur-page-title">{$Think.session.basemodel.name}用户信息认证</h4>
+	<form class="auth-form" action="{:Url('Category/doAuth')}" enctype="multipart/form-data" method="post">
 			<input type="hidden" name="model_id" value="{$Think.session.basemodel.id}"/>
-		</div>
-		<div>
 			<input type="hidden" name="user_id" value="{$Think.session.user.id}"/>
-		</div>
 		<div>
 			<label>业务范畴:</label>	
 			<select name="cat_id">
@@ -32,8 +28,8 @@
 			<input name="name" />
 		</div>
 		<div>
-			<label>归属地</label>
-			{include file="public/citychange"}
+			<label>归属地:</label>
+			<div class="select-box">{include file="public/citychange"}</div>
 		</div>
 		<div>
 			<label>地址:</label>
@@ -44,21 +40,25 @@
 			<input name="phone" />
 		</div>
 		<div>
-			<h3>上传个人证件照</h3>
-			<input type="file" name="owner_pic" id="owner_pic" multiple="multiple"  />
-			<img src="/assets/image/need_add_pic.png" style="width:8rem;height:8rem;margin:1rem 0 0 3rem;" id="owner_pic_preview" alt="" />
+			<h3 class="upload-title">上传个人证件照</h3>
+			<input hidden type="file" name="owner_pic" id="owner_pic" multiple="multiple"  />
+			<label class="pic-box" for="owner_pic">
+				<img src="/assets/image/need_add_pic.png" id="owner_pic_preview" alt="" />
+			</label>
 		</div>
 		{switch name="Think.session.basemodel.id"}
 		{case value="1"}
 		<!-- 饲养户附加信息 -->
 		<div>
-			<label>饲养区容量(只):</label>
+			<label>容量(只):</label>
 			<input name="capacity" />
 		</div>
 		<div>
-			<h3>上传养殖场地照片</h3>
-			<input type="file" name="market_pic" id="market_pic" multiple="multiple"  />
-			<img src="/assets/image/need_add_pic.png" style="width:8rem;height:8rem;margin:1rem 0 0 3rem;" id="market_pic_preview" alt="" />
+			<h3 class="upload-title">上传养殖场地照片</h3>
+			<input hidden type="file" name="market_pic" id="market_pic" multiple="multiple"  />
+			<label class="pic-box" for="market_pic">
+				<img src="/assets/image/need_add_pic.png" id="market_pic_preview" alt="" />
+			</label>
 		</div>
 		{/case}
 		{case value="2"}
@@ -68,9 +68,11 @@
 			<input name="license" />
 		</div>
 		<div>
-			<h3>上传厂区照片</h3>
-			<input type="file" name="market_pic" id="market_pic" multiple="multiple"  />
-			<img src="/assets/image/need_add_pic.png" style="width:8rem;height:8rem;margin:1rem 0 0 3rem;" id="market_pic_preview" alt="" />
+			<h3 class="upload-title">上传厂区照片</h3>
+			<input hidden type="file" name="market_pic" id="market_pic" multiple="multiple"  />
+			<label class="pic-box" for="market_pic">
+				<img src="/assets/image/need_add_pic.png" id="market_pic_preview" alt="" />
+			</label>
 		</div>
 		{/case}
 		{case value="3"}
@@ -103,9 +105,11 @@
 			<input name="car_license" />
 		</div>
 		<div>
-			<input type="file" name="car_pic" id="car_pic" multiple="multiple"  />
-			<h3>上传车辆照片</h3>
-			<img src="/assets/image/need_add_pic.png" style="width:8rem;height:8rem;margin:1rem 0 0 3rem;" id="car_pic_preview" alt="" />
+			<input hidden type="file" name="car_pic" id="car_pic" multiple="multiple"  />
+			<h3 class="upload-title">上传车辆照片</h3>
+			<label class="pic-box" for="car_pic">
+				<img src="/assets/image/need_add_pic.png" id="car_pic_preview" alt="" />
+			</label>
 		</div>
 		{/case}
 		{default /}

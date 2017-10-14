@@ -1,0 +1,51 @@
+{include file="public/head"}
+{load href="/assets/style/category_detail.css" /} 
+<body>
+	{include file="public/header"}
+	<!--客户基础模型入口-->
+	<ul class="interface clear">
+		<li>
+			<a href="{:Url('Category/manage',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>我的专属</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/matter',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>行情查询</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Goods/goods_list',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>产品上架</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/drug',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>兽药饲料</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Goods/buy',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>在线抢单</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/transport',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>物流运输</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/near',array('cat_id'=>$cat_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>附近会员</p>
+			</a>
+		</li>
+	</ul>
+</body>
+{include file="public/foot"}

@@ -56,6 +56,51 @@
 		return $realip;
 	}
 
+	// 使用curl函数向指定接口提交json格式数据
+	function json_curl($url, $data, $header = false, $method = "POST")
+	{
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		if ($header)
+		{
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		}
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+		if ($data)
+		{   // 默认json格式发送数据
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+		}
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		$ret = curl_exec($ch);
+		curl_close($ch);
+		return $ret;
+	}
+	/**
+	 * 注册环信
+	 * @param type $name
+	 * @param type $pass
+	 * @return type
+	 */
+	function huanxin_reg($name,$pass)
+	{
+		// 注册环信  start //
+		$data = array(
+			'username' => $name,
+			'password' => $pass,
+			'appKey' => '1194170904115576#myapp',
+			'apiUrl' => 'http://a1.easemob.com'
+		);
+		$res = json_curl('http://a1.easemob.com/1194170904115576/myapp/users', $data);
+		$arr = json_decode($res, true);
+		if (isset($arr['error']))
+		{
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * 新浪接口，根据坐标查询当前所在省市区
 	 * @param type $ip
@@ -249,46 +294,37 @@
 	 */
 	function getGoodsSql($region = 'area', $city_id = '0', $user_id = '0', $cat_id = '0', $find_son_cat = false)
 	{
-		$str = "SELECT
-					r.region_name,
-					r.region_id,
-					g.*,
-					c. NAME cat_name,
-					u. NAME user_name
-				FROM
-					foo_goods g,
-					foo_region r,
-					foo_category c,
-					foo_user u
-				WHERE
-					g.$region = r.region_id ";
-
+		$sql = "SELECT
+				g.*, 
+				r.region_name,
+  			    u. NAME user_name,
+				c. NAME cat_name
+			FROM
+				foo_goods g
+			LEFT JOIN foo_region r ON (g.area = r.region_id)
+			LEFT JOIN foo_user u ON (g.user_id = u.id)
+			LEFT JOIN foo_category c ON (g.cat_id = c.id)
+			WHERE on_sell = 1 ";
 		if ($city_id > 0)
 		{
-			$str .= "AND r.parent_id = $city_id ";
+			$sql .= "AND g.$region in (SELECT region_id from foo_region where parent_id = $city_id) ";
 		}
 		if ($user_id > 0)
 		{
-			$str .= "AND g.user_id = $user_id ";
+			$sql .= "AND g.user_id = $user_id ";
 		}
 		if ($cat_id > 0)
 		{
-			if ($find_son_cat > 0)
+			if ($find_son_cat)
 			{
-				$str .= "AND g.cat_id in ( SELECT id FROM foo_category WHERE c.pid = $cat_id)";
+				$sql .= "AND g.cat_id in (SELECT id from foo_category where pid = $cat_id) ";
 			}
 			else
 			{
-				$str .= "AND g.cat_id = $cat_id ";
+				$sql .= "AND g.cat_id = $cat_id) ";
 			}
 		}
-
-		$str .= "AND g.cat_id = c.id
-				AND g.user_id = u.id
-				AND g.on_sell = 1
-				GROUP BY
-				r.region_name,
-				c. NAME ";
-		return $str;
+		$sql .= "ORDER BY r.region_id ";
+		return $sql;
 	}
 	

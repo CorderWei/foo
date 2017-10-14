@@ -2,16 +2,23 @@
 {load href="/assets/style/category.css" /} 
 <body>
 	{include file="public/header"}
-	<div>
-		<span>{$Think.session.user.name}</span>
-		<span>&hearts;&hearts;&hearts;</span>
-		<span>({$Think.session.basemodel.name})</span>
-		<p><a href="{:Url('User/index')}">个人中心</a></p>
-		<p><a href="{:Url('Category/auth')}">信息认证</a></p>
+	<div class="user-info-wrap">
+		<span class="user-name">{$Think.session.user.name}</span>
+		<span class="grade">&starf;&starf;&starf;</span>
+		<span class="basemodel-name">({$Think.session.basemodel.name})</span>
+		<div class="user-bottom">
+			<a href="{:Url('User/index')}">个人中心</a>
+			<a href="{:Url('Category/auth')}">信息认证</a>
+		</div>
 	</div>
-	<ul class="cagegory_list">
+	<ul class="category_list clear">
 		{volist name="categorys" id="cat" }
-		<li class="fl"><a href="{:Url('Category/detail',array('cat_id'=>$cat.id))}">{$cat.name}</a></li>
+		<li class="fl">
+			<a href="{:Url('Category/detail',array('cat_id'=>$cat.id))}">
+				<img src="/assets/image/zhuanshu.png" alt=""/>
+				<p>{$cat.name}</p>
+			</a>
+		</li>
 		{/volist}
 	</ul>
 </body>

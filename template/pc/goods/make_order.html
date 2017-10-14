@@ -3,6 +3,7 @@
 	<head>
 		<title>支付宝移动支付</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<style>
 			*{
 				margin:0;
@@ -46,27 +47,29 @@
 				color:#fff;
 			}
 			.content{
-				margin-top:5px;
+				margin:20px;
 			}
 			.content dt{
-				width:100px;
+				width:30%;
 				display:inline-block;
 				float: left;
-				margin-left: 20px;
 				color: #666;
 				font-size: 13px;
-				margin-top: 8px;
+                line-height:28px;
+                margin:5px 0;
 			}
 			.content dd{
-				margin-left:120px;
-				margin-bottom:5px;
+                width:70%;
+                float:left;
+                margin:5px 0;
 			}
 			.content dd input {
-				width: 85%;
+				width: 100%;
 				height: 28px;
 				border: 0;
 				-webkit-border-radius: 0;
 				-webkit-appearance: none;
+                outline:none;
 			}
 			#foot{
 				margin-top:10px;
@@ -91,8 +94,9 @@
 				display: block;
 			}
 			#btn-dd{
-				margin: 20px;
+				margin: 20px auto;
 				text-align: center;
+                float:none;
 			}
 			.foot-ul{
 				width: 100%;
@@ -101,9 +105,8 @@
 				display: block;
 				height: 1px;
 				border: 0;
-				border-top: 1px solid #eeeeee;
-				width: 100%;
-				margin-left: 20px;
+				background:#ccc;
+                clear:both;
 			}
 			.am-header {
 				display: -webkit-box;
@@ -142,10 +145,10 @@
 			<h1>支付宝移动支付</h1>
 		</header>
 		<div id="main">
-			<form name=alipayment action='' method=post target="_blank">
-				<input id="pro" name="WIDout_pro" value="{$data.pro}"/>
-				<input id="city" name="WIDout_city" value="{$data.city}"/>
-				<input id="area" name="WIDout_area" value="{$data.area}"/>
+			<form name=alipayment action="{:Url('Goods/dobuy')}" method=post target="_blank">
+				<input id="pro" type="hidden" name="WIDout_pro" value="{$data.pro}"/>
+				<input id="city" type="hidden" name="WIDout_city" value="{$data.city}"/>
+				<input id="area" type="hidden" name="WIDout_area" value="{$data.area}"/>
 				<div id="body" style="clear:left">
 					<dl class="content">
 						<dt>商户订单号：</dt>
@@ -193,7 +196,7 @@
 							<input id="WIDbody" name="WIDremark" value="" />
 						</dd>
 						<hr class="one_line">
-						<dt></dt>
+
 						<dd id="btn-dd">
 							<span class="new-btn-login-sp">
 								<button class="new-btn-login" type="submit" style="text-align:center;">确 认</button>

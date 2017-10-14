@@ -1,14 +1,35 @@
+.header{
+    width: 100%;
+    height: auto;
+    background: #FD424D;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    letter-spacing: 1px;
+    position:relative;
+}
 .main_title{
-	width:58%;
+	color:#fff;
+    font-size: 1.8rem;
 }
 .com_btn{
+    display:block;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
 	cursor: pointer;
-	border:1px solid #f00;
-	border-radius: 5px;
-	width:20%;
+	border:1px solid #fff;
+	border-radius: 3px;
+	padding:3px 7px;
+    color:#fff;
+    font-size:1.4rem;
 }
-.main_banner{
-	width:99%;
-	margin: 0 auto;
-	height:200px;
+.btn-city{
+    left:1rem;
+}
+.btn-chat{
+    right:1rem;
+}
+.lunbo-1 img{
+    width:100%;
 }

@@ -1,14 +1,16 @@
 {include file="public/head"}
 <body>
-	<div><a href="/">养殖天网</a></div>
-	<div>
-		<a href="{:Url('User/my_auth')}">我的认证</a>
-	</div>
-	<div>
-		<a href="{:Url('Index/changepass')}">修改密码</a>
-	</div>
-	<div>
-		<a href="{:Url('Index/logout')}">退出登录</a>
-	</div>
+	<h3 class="head">养殖天网 <a class="btn-goback" href="/"></a></h3>
+	<ul class="center-list">
+		<li>
+			<a href="{:Url('User/my_auth')}">我的认证</a>
+		</li>
+		<li>
+			<a href="{:Url('Index/changepass')}">修改密码</a>
+		</li>
+	</ul>
+
+	<a class="btn btn-logout" href="{:Url('Index/logout')}">退出登录</a>
+
 </body>
 {include file="public/foot"}

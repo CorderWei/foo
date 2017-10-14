@@ -5,6 +5,7 @@ use think\Request;
 use think\Db;
 class Index extends Controller
 {
+	
 	// 首页
     public function index()
     {

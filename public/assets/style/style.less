@@ -1,0 +1,455 @@
+html{font-size:10px}
+@media screen and (min-width:321px) and (max-width:375px){html{font-size:11px}}
+@media screen and (min-width:376px) and (max-width:414px){html{font-size:12px}}
+@media screen and (min-width:415px) and (max-width:639px){html{font-size:15px}}
+@media screen and (min-width:640px) and (max-width:719px){html{font-size:20px}}
+@media screen and (min-width:720px) and (max-width:749px){html{font-size:22.5px}}
+@media screen and (min-width:750px) and (max-width:799px){html{font-size:23.5px}}
+@media screen and (min-width:800px){html{font-size:25px}}
+
+/*------------------------  通用头部（返回首页） start  ------------------------------*/
+.head{
+  padding:1rem 0;
+  font-size:1.6rem;
+  text-align:center;
+  color:#fff;
+  margin:0;
+  background:#FD424D;
+  position:relative;
+  .btn-goback{
+    display:block;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    left:1rem;
+    width:1.3rem;
+    height:1.8rem;
+    background:url(../image/back.png) no-repeat center;
+    background-size:contain;
+  }
+}
+/*------------------------  通用头部（返回首页） end  ------------------------------*/
+
+/*------------------------ index首页 start --------------------------*/
+.interface li{
+  width:25%;
+  float: left;
+  border-right:1px solid #f1f1f1;
+  border-bottom:1px solid #f1f1f1;
+  padding-top: 0.55rem;
+  padding-bottom: 1rem;
+  text-align:center;
+  a{
+    display:block;
+    font-size:1.2rem;
+    color:#000;
+    img{
+      width:50%;
+      margin-bottom:.35rem;
+    }
+    p{
+      margin:0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+.interface li:nth-child(4n){
+  border-right:none;
+}
+.hot-articles{
+  font-size:1.6rem;
+  text-indent:1rem;
+  color:#333;
+}
+.articles{
+  border-top:1px solid #dedede;
+}
+.articles li{
+  border-bottom:1px solid #dedede;
+  a{
+    display:block;
+    padding:.9rem 1rem;
+    font-size:1.4rem;
+    overflow: hidden;
+    color:#0e90d2;
+    .art-title{
+      display:block;
+      width:65%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+/*----------------------------- index首页 end -------------------------------*/
+/*----------------------------- 新闻文章页 start --------------------------*/
+.article-title{
+  font-size:2rem;
+  text-align:center;
+  margin:2rem;
+}
+.article-pubdate{
+  text-align:center;
+}
+.article-desc{
+  text-align:center;
+  margin:1.5rem;
+  font-size:1.2rem;
+}
+.article-content{
+  margin:1.5rem;
+  font-size:1.4rem;
+  line-height:2.4rem;
+  text-indent:2em;
+}
+/*-------------------------------- 新闻文章页 end -------------------*/
+
+/*---------------------------- 省市区三级联动页面 start -----------------------------------*/
+.city-select-box{
+  margin:20% auto 0;
+  width:60%;
+
+  .select-desc,#note_city,#pro,#city,#area{
+    display:block;
+    width:100%;
+    font-size:1.4rem;
+    margin:1rem 0;
+    height:3rem;
+    line-height:3rem;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    outline:none;
+  }
+  .select-desc{
+    text-align:center;
+    font-size:1.6rem;
+  }
+  #note_city{
+    padding:0;
+    border:none;
+    background:#FD424D;
+    color:#fff;
+  }
+}
+/*---------------------------- 省市区三级联动页面 end -----------------------------------*/
+
+/*------------------------------- 登录、注册 start -------------------------------------*/
+
+.login-container{
+  background:url(../image/bg.png) repeat;
+  padding-top: 2.3rem;
+  padding-bottom: 7.2rem;
+  .login-img{
+    display:block;
+    width: 7.6rem;
+    height: 5.3rem;
+    margin: 0 auto;
+  }
+  .login-content{
+    width: 88%;
+    margin: 0 auto;
+    border: 1px solid #fad5d3;
+    margin-top: -0.8rem;
+    border-radius: 2.4rem;
+    background:#fff;
+    padding:7rem 10%;
+    .login-form,.register-form{
+      width:100%;
+      input,button{
+        display:block;
+        width:100%;
+        margin:1.4rem 0;
+        height:3rem;
+        font-size:1.4rem;
+        border:none;
+        outline:none;
+        background:#e4dbdc;
+        border-radius:.5rem;
+        padding-left:1rem;
+      }
+      button{
+        background:#a56a72;
+        color:#fff;
+      }
+    }
+  }
+}
+/*------------------------------- 登录、注册 end -------------------------------------*/
+
+/*-------------------------------- category类别首页 start -----------------------*/
+.user-info-wrap{
+  background:#f9f9f9;
+  text-align:center;
+  font-size:1.2rem;
+  padding:.5rem 0;
+  span{
+    line-height:2.5rem;
+  }
+  .grade{
+    margin-left:1rem;
+    margin-right:3rem;
+    color:#f59d0f;
+  }
+  .user-bottom{
+    font-size:0;
+    margin:.5rem 0;
+    a{
+      display:inline-block;
+      font-size:1.2rem;
+      width:8rem;
+      height:2.5rem;
+      line-height:2.5rem;
+      background:#FD424D;
+      border-radius:.4rem;
+      color:#fff;
+    }
+    a:first-child{
+      margin-right:2rem;
+      background:#d93442;
+    }
+  }
+}
+.category_list{
+  padding-bottom:5rem;
+}
+.category_list li{
+  width:25%;
+  float: left;
+  border-right:1px solid #f1f1f1;
+  border-bottom:1px solid #f1f1f1;
+  padding-top: 0.55rem;
+  padding-bottom: 1rem;
+  text-align:center;
+  a{
+    display:block;
+    font-size:1.2rem;
+    color:#000;
+    img{
+      width:50%;
+      margin-bottom:.35rem;
+    }
+    p{
+      margin:0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+/*-------------------------------- category类别首页 end -----------------------*/
+
+/*-------------------------------- 信息认证页 start -----------------------*/
+.cur-page-title{
+  font-size:1.6rem;
+  text-align:center;
+}
+.auth-form{
+  border-top:1px solid #ccc;
+  input[type="submit"]{
+    display: block;
+    text-align: center;
+    background-color: #d93442;
+    width: 15rem;
+    line-height: 4rem;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    margin: 0 auto;
+    margin-bottom: 6rem;
+    margin-top: 5rem;
+    letter-spacing: 2px;
+  }
+}
+.auth-form>div{
+  padding:1rem;
+  border-bottom:1px solid #ccc;
+  overflow:hidden;
+  font-size:1.3rem;
+  &>label{
+    width:25%;
+    float:left;
+    line-height:3rem;
+    text-align:right;
+    padding-right:1rem;
+  }
+  &>input:not([type="file"]),&>select{
+    float:left;
+    width:75%;
+    border:1px solid #D93442;
+    height:3rem;
+    line-height:3rem;
+    border-radius:5px;
+  }
+  h3{
+    font-size:1.4rem;
+  }
+  .upload-title{
+    margin-top:0;
+    text-align:center;
+  }
+  .select-box{
+    width:75%;
+    float:left;
+    select{
+      width:30%;
+      border:1px solid #D93442;
+      height:3rem;
+      line-height:3rem;
+      border-radius:5px;
+      margin-right:2.1%;
+    }
+  }
+  .pic-box{
+    width:auto;
+    display:block;
+    float:none;
+    text-align:center;
+    padding:0;
+    img{
+      width:10rem;
+      height:10rem;
+    }
+  }
+
+
+}
+/*-------------------------------- 信息认证页 end -----------------------*/
+
+/*-------------------------------- 个人中心页 start -----------------------*/
+.center-list{
+  border-top:1px solid #ccc;
+  margin-top:4rem;
+  li{
+    border-bottom:1px solid #ccc;
+    padding:0 1rem;
+    a{
+      display:block;
+      padding:1rem 0;
+      font-size:1.6rem;
+      color:#333;
+      background:url(../image/arrow-right-gray.png) no-repeat right center;
+      background-size:auto 1.6rem;
+    }
+  }
+}
+.btn-logout{
+  margin-top:4rem;
+}
+/*-------------------------------- 个人中心页 end -----------------------*/
+
+/*-------------------------------- 修改密码页 start -----------------------*/
+.modify-psw-form{
+  width:85%;
+  margin:5rem auto;
+  .input-box{
+    text-align:center;
+    font-size:0;
+
+    margin-top:1.5rem;
+    label{
+      font-size:1.4rem;
+      display:inline-block;
+      vertical-align:middle;
+      width:30%;
+      color:#fff;
+      background:#dd514c;
+      line-height:3rem;
+    }
+    input{
+      display:inline-block;
+      vertical-align:middle;
+      width:70%;
+      border:1px solid #dd514c;
+      background:none;
+      font-size:1.4rem;
+      height:3rem;
+      padding-left:1rem;
+    }
+    .warning-text{
+      color:red;
+      font-size:1.2rem;
+      line-height:normal;
+    }
+  }
+  .btn-modify{
+    margin-top:5rem;
+  }
+}
+/*-------------------------------- 修改密码页 end -----------------------*/
+
+/*-------------------------------- 产品上架页 end -----------------------*/
+.product-online-title{
+  font-size:1.5rem;
+  position:relative;
+  text-align:center;
+  span{
+    position:absolute;
+    left:1rem;
+    bottom:0;
+    font-size:1.4rem;
+    font-weight:normal;
+  }
+}
+.product-online-table{
+  width:100%;
+  text-align:center;
+  font-size:1.3rem;
+  tr{
+    border-bottom:1px solid #ccc;
+    td,th{
+      padding:1rem 0;
+      color:#333;
+      button{
+        font-size:1.2rem;
+        border:none;
+        background:#D93442;
+        color:#fff;
+        padding:.3rem .6rem;
+        border-radius:3px;
+      }
+    }
+
+  }
+
+}
+.product-online-table:after{
+  content:"";
+  display:block;
+  height:5rem;
+}
+.btn-show-form{
+  width:8rem;
+  height:2.5rem;
+  line-height:2.5rem;
+}
+.add_form{
+  width:70%;
+  margin:auto;
+  select,input,button{
+    display:block;
+    font-size:1.4rem;
+    height:2.6rem;
+    width:100%;
+    margin:1rem 0;
+  }
+  .foo_submit{
+    line-height:2.6rem;
+  }
+}
+
+/*-------------------------------- 产品上架页 end -----------------------*/
+
+/*-------------------------------- 饲料页 start -----------------------*/
+.food-table{
+  font-size:1.3rem;
+}
+/*-------------------------------- 饲料页 end -----------------------*/
+
+
+
+

@@ -1,13 +1,21 @@
 {include file="public/head"}
 <body>
-<div>
-	注册页面
-	<form action="{:Url('Index/doregister')}" method='post'>
-		<input name="name" placeholder="用户名"/>
-		<input name="pass" placeholder="密码"/>
-		<input name="pass2" placeholder="再次输入密码"/>
-		<button type="submit">提交</button>
-	</form>
-</div>
+
+	<h3 class="head">注册 <a class="btn-goback" href="/"></a></h3>
+	<div class="login-container">
+		<img class="login-img" src="/assets/image/enrolltop.png" alt=""/>
+		<div class="login-content">
+			<form class="register-form" action="{:Url('Index/doregister')}" method='post'>
+				<input name="name" placeholder="用户名"/>
+				<input name="pass" placeholder="密码"/>
+				<input name="pass2" placeholder="再次输入密码"/>
+				<button type="submit">注册</button>
+			</form>
+			<div class="btn-box">
+				<a href="{:Url('Index/login')}">已有账号，立即登录</a>
+			</div>
+		</div>
+
+	</div>
 </body>
 {include file="public/foot"}

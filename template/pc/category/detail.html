@@ -1,49 +1,54 @@
 {include file="public/head"}
-{load href="/assets/style/category_detail.css" /} 
 <body>
 	{include file="public/header"}
 	<!--客户基础模型入口-->
 	<ul class="interface clear">
 		<li>
 			<a href="{:Url('Category/manage',array('cat_id'=>$cat_id))}">
-				<img src=""/>
-				我的专属
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>我的专属</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Category/matter',array('cat_id'=>$cat_id))}">
-				<img src=""/>
-				行情查询
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>行情查询</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Goods/goods_list',array('cat_id'=>$cat_id))}">
-				产品上架
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>产品上架</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Category/drug',array('cat_id'=>$cat_id))}">
-				兽药
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>兽药</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Category/food',array('cat_id'=>$cat_id))}">
-				饲料
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>饲料</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Goods/buy',array('cat_id'=>$cat_id))}">
-				在线抢单
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>在线抢单</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Category/transport',array('cat_id'=>$cat_id))}">
-				物流运输
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>物流运输</p>
 			</a>
 		</li>
 		<li>
 			<a href="{:Url('Category/near',array('cat_id'=>$cat_id))}">
-				附近会员
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>附近会员</p>
 			</a>
 		</li>
 	</ul>

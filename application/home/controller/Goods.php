@@ -108,7 +108,6 @@
 			$order_data = Request::instance()->param();
 			//生成订单号
 			$snno = date('YmdHis') . rand(1000, 9999);
-			var_dump($order_data);
 			$this->assign('data', $order_data);
 			$this->assign('snno', $snno);
 			
@@ -117,59 +116,64 @@
 
 		public function dobuy()
 		{
-//			if (Request::instance()->isPost())
-//			{
-//				// 支付宝逻辑
-//				header("Content-type: text/html; charset=utf-8");
-//				require_once APP_PATH . 'AliPay/wappay/service/AlipayTradeService.php';
-//				require_once APP_PATH . 'AliPay/wappay/buildermodel/AlipayTradeWapPayContentBuilder.php';
-//				require APP_PATH . 'AliPay/config.php';
-//				if (!empty($_POST['WIDout_trade_no']) && trim($_POST['WIDout_trade_no']) != "")
-//				{
-//					//商户订单号，商户网站订单系统中唯一订单号，必填
-//					$out_trade_no = $_POST['WIDout_trade_no'];
-//
-//					//订单名称，必填
-//					$subject = $_POST['WIDsubject'];
-//
-//					//付款金额，必填
-//					$total_amount = $_POST['WIDtotal_amount'];
-//
-//					//商品描述，可空
-//					$body = $_POST['WIDbody'];
-//
-//					//超时时间
-//					$timeout_express = "1m";
-//
-//					// 存储一个未支付的订单，状态码 0 未付款, 1已付款
-//					$map['out_trade_no'] = $_POST['WIDout_trade_no']; //订单号
-//					$map['goods_name'] = $_POST['WIDsubject']; //商品名称
-//					$map['body'] = $_POST['WIDbody']; //规格
-//					$map['price'] = $_POST['WIDprice']; //价格
-//					$map['num'] = $_POST['WIDnum'];  //数量
-//					$map['total_amount'] = $_POST['WIDtotal_amount']; //总计金额
-//					$map['mobile'] = $_POST['WIDmobile']; //联系电话
-//					$map['address'] = $_POST['WIDaddress']; //联系地址
-//					$map['remark'] = $_POST['WIDremark'];  //备注
-//					date_default_timezone_set('PRC');
-//					$map['add_time'] = time();
-//					$map['pay_status'] = 0;
-//					$map['ship_status'] = 0;
-//					//M('order')->add($map);
-//
-//					$payRequestBuilder = new \AlipayTradeWapPayContentBuilder();
-//					$payRequestBuilder->setBody($body);
-//					$payRequestBuilder->setSubject($subject);
-//					$payRequestBuilder->setOutTradeNo($out_trade_no);
-//					$payRequestBuilder->setTotalAmount($total_amount);
-//					$payRequestBuilder->setTimeExpress($timeout_express);
-//
-//					$payResponse = new \AlipayTradeService($config);
-//					$result = $payResponse->wapPay($payRequestBuilder, $config['return_url'], $config['notify_url']);
-//				}
-//			}
-			
-			return $this->fetch();
+			if (Request::instance()->isPost())
+			{
+				// 支付宝逻辑
+				header("Content-type: text/html; charset=utf-8");
+				require_once APP_PATH . 'AliPay/wappay/service/AlipayTradeService.php';
+				require_once APP_PATH . 'AliPay/wappay/buildermodel/AlipayTradeWapPayContentBuilder.php';
+				require APP_PATH . 'AliPay/config.php';
+				if (!empty($_POST['WIDout_trade_no']) && trim($_POST['WIDout_trade_no']) != "")
+				{
+					//商户订单号，商户网站订单系统中唯一订单号，必填
+					$out_trade_no = $_POST['WIDout_trade_no'];
+
+					//订单名称，必填
+					$subject = $_POST['WIDsubject'];
+
+					//付款金额，必填
+					$total_amount = $_POST['WIDtotal_amount'];
+
+					//商品描述，可空
+					$body = $_POST['WIDbody'];
+
+					//超时时间
+					$timeout_express = "1m";
+
+					// 存储一个未支付的订单，状态码 0 未付款, 1已付款
+					$map['out_trade_no'] = $_POST['WIDout_trade_no']; //订单号
+					$map['cat_name'] = $_POST['WIDsubject']; //商品名称
+					$map['cat_id'] = $_POST['WIDbody']; //规格
+					$map['price'] = $_POST['WIDprice']; //价格
+					$map['num'] = $_POST['WIDnum'];  //数量
+					$map['total'] = $_POST['WIDtotal_amount']; //总计金额
+					$map['mobile'] = $_POST['WIDmobile']; //联系电话
+					$map['address'] = $_POST['WIDaddress']; //联系地址
+					$map['remark'] = $_POST['WIDremark'];  //备注
+					date_default_timezone_set('PRC');
+					$map['add_time'] = time();
+					$map['pay_status'] = 0;
+					$map['ship_status'] = 0;
+
+					$payRequestBuilder = new \AlipayTradeWapPayContentBuilder();
+					$payRequestBuilder->setBody($body);
+					$payRequestBuilder->setSubject($subject);
+					$payRequestBuilder->setOutTradeNo($out_trade_no);
+					$payRequestBuilder->setTotalAmount($total_amount);
+					$payRequestBuilder->setTimeExpress($timeout_express);
+
+					$payResponse = new \AlipayTradeService($config);
+					$result = $payResponse->wapPay($payRequestBuilder, $config['return_url'], $config['notify_url']);
+					if($result){
+						$map['pay_status'] = 1;
+					}
+					if(Db::name('Order')->insert($map)){
+						
+					}
+					//M('order')->add($map);			
+					return $this->fetch();
+				}
+			}
 		}
 
 	}

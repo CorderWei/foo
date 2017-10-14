@@ -1,23 +1,24 @@
 {include file="public/head"}
-{load href="/assets/style/index.css" /} 
 <body>
 	{include file="public/header"}
 	<!--客户基础模型入口-->
 	<ul class="interface clear">
 		{volist name="interfaces" id="inter" }
-		<li><a href="{:Url('Category/index',array('cat_id'=>$inter.id))}">{$inter.name}</a></li>
+		<li>
+			<a href="{:Url('Category/index',array('cat_id'=>$inter.id))}">
+				<img src="/assets/image/siyang.png" alt=""/>
+				<p>{$inter.name}</p>
+			</a>
+		</li>
 		{/volist}
 	</ul>
 	<!--栏目文章，最多6行-->
+	<h3 class="hot-articles">热门新闻</h3>
 	<ul class="articles">
 		{volist name="arts" id="art"}
-		<li>
-			<a href="{:Url('Index/article_detail',array('id'=>$art.id))}">{$art.title}</a>
-			<span>{$art.add_time}</span>
-		</li>
+		<li><a class="clear" href="{:Url('Index/article_detail',array('id'=>$art.id))}"><span class="fl art-title">{$art.title}</span><span class="fr">{$art.add_time}</span></a></li>
 		{/volist}
-		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
-		<li><a href="###">暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章暂时不能点击的文章</a></li>
+
 	</ul>
 </body>
 {include file="public/foot"}

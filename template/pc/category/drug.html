@@ -1,60 +1,6 @@
 {include file="public/head"}
 <body>
 	<h2><a href="/">养殖天网</a></h2>
-	{$cur_city} 兽药列表
-	<ul>
-		<li>
-			<span>地区</span>
-			<span>供货人</span>
-			<span>品种</span>
-			<span>价格</span>
-			<span>数量</span>
-			<span>合计</span>
-			<span>上架时间</span>
-			<span>操作</span>
-		<li>
-			-------下方 | 线只是分割作用，修改样式时删除掉！ 本行也删除-----
-			{volist name="list" id="item"}
-		<li>
-			<form class="hidden_form" action="{:Url('Goods/make_order')}" method="post">
-			<input name="pro" type="hidden" value="{$item.pro}"/>
-			<input name="city" type="hidden" value="{$item.city}"/>
-			<input name="area" type="hidden" value="{$item.area}"/>
-			
-			<input name="cat_id" type="hidden" value="{$item.cat_id}"/>
-			<input name="cat_name" type="hidden" value="{$item.cat_name}"/>
-			<input name="seller_id" type="hidden" value="{$item.user_id}"/>
-			<input name="seller_name" type="hidden" value="{$item.user_name}"/>
-			
-			<input name="price" type="hidden" value="{$item.price}"/>
-			<input name="num" type="hidden" value="{$item.num}"/>
-			<input name="total" type="hidden" value="{$item.total}"/>
-			</form>
-			
-			<span>{$item.region_name}</span>|
-			<span>
-				<a href="{:Url('User/people',array('id'=>$item.user_id))}">{$item.user_name}</a>
-			</span>|
-			<span>{$item.cat_name}</span>|
-			<span>{$item.price}元/包</span>|
-			<span>{$item.num}</span>|
-			<span>{$item.total}元</span>|
-			<span>{$item.add_time}</span>|
-			<button class="dobuy">抢单</button>
-		</li>
-		{/volist}
-	</ul>
-	<script>
-		$(function(){
-			submit_event();
-		});
-		function submit_event(){
-			$(document.body).on('click', ".dobuy", function () {
-				var form = $(this).siblings('.hidden_form');
-				form.submit();
-			});
-		}
-	</script>
+	兽药和饲料信息
 </body>
 {include file="public/foot"}
-

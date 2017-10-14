@@ -53,7 +53,7 @@
 			session('basemodel', $basemodel);
 
 			// 系统所有业务分类
-			$categorys = Db::name('category')->select();
+			$categorys = Db::name('category')->where('pid = 0')->select();
 			$this->assign('categorys', $categorys);
 			return $this->fetch();
 		}
@@ -236,7 +236,7 @@
 		// 行情查询
 		public function matter()
 		{
-
+			$cat_id = $this->request->param('cat_id');
 			// 按照地区检索
 			if (Request::instance()->isPost())
 			{
@@ -250,19 +250,26 @@
 					$city_id = $position['city_id'];
 					// 查询当前城市下当前分类下，按照二级分类统计的行情
 					$sql = "SELECT
-							r.region_name,
-							sum(m.num) sum,
-								c.name
+							SUM(m.num) sum, 
+ 							r.region_name,
+							c. NAME cat_name
+						FROM
+							foo_manage m
+						LEFT JOIN foo_category c ON (m.cat_id = c.id)
+						LEFT JOIN foo_region r ON (m.area = r.region_id)
+						WHERE
+						1 = 1
+						AND m.city = $city_id
+						AND m.cat_id IN (
+							SELECT
+								id
 							FROM
-								foo_manage m,
-								foo_region r,
-								foo_category c
+								foo_category
 							WHERE
-								m.area = r.region_id
-							AND r.parent_id = '".$city_id."'
-							AND m.cat_id = c.id
-							GROUP BY
-								r.region_name,c.name";
+								pid = $cat_id
+						)
+						GROUP BY
+						region_name,cat_name";
 					$matter = Db::query($sql);
 					$this->assign('matter', $matter);
 					// 

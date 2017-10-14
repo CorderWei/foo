@@ -52,7 +52,7 @@
 			// 按照认证模型
 			$interfaces = Db::name('basemodel')->select();
 			// 按照业务类型
-			// $interfaces = Db::name('category')->where('pid = 0')->select();
+			//$interfaces = Db::name('category')->where('pid = 0')->select();
 			$this->assign('interfaces', $interfaces);
 
 			// 文章
@@ -63,6 +63,8 @@
 			{
 				$region = session('position.city_id');
 				$where = "region = 0 or region = $region";
+			}else{
+				$this->redirect('citychange');
 			}
 			$arts = $article->where($where)->limit(6)->select();
 			$this->assign('arts', $arts);
@@ -122,10 +124,15 @@
 			{
 				$this->error($validate->getError());
 			}
+			// 环信用户注册
+			if(!huanxin_reg($data['name'],$data['pass'])){
+				$this->error("用户名已存在！");
+			}
 			// 新增用户
 			$user = new User;
 			$user->data([
 				'name' => $data['name'],
+				'hx_pass' => $data['pass'],
 				'pass' => MD5(MD5($data['pass'])),
 				'add_time' => time(),
 			]);
@@ -223,7 +230,10 @@
 		// 环信入口
 		public function huanxin()
 		{
-			return $this->fetch();
+			$user = $this->user;
+			$name = $user['name'];
+			$hx_pass = $user['hx_pass'];
+			$this->redirect("/WebIm.html?name=$name&hx_pass=$hx_pass");
 		}
 
 	}

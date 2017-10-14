@@ -1,15 +1,6 @@
 {include file="public/head"}
 <body>
 	<h2><a href="/">养殖天网</a></h2>
-	{$city_name}市养殖行情：
-	<ul>
-	{volist name="$matter" id="m"}
-	<li>
-		<span>{$m.region_name}</span>
-		<span>{$m.name}</span>
-		<span>{$m.sum}只</span>
-	</li>
-	{/volist}
-	</ul>
+	行情信息查询
 </body>
 {include file="public/foot"}
