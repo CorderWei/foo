@@ -1,9 +1,22 @@
 {include file="public/head"}
 <body>
-	<h3 class="head">产品上架 <a class="btn-goback" href="/"></a></h3>
-
+	{include file="public/title"}
+	<caption><h4 class="product-online-title"><span>{$cur_city}</span>我已上架的产品列表</h4></caption>
+	<div id="search">
+		<form action="" method="post">
+		<span>种类:</span>
+		<select id="search" name="son_id">
+			<option value="">--所有--</option>
+			{volist name="son_cat" id="cat"}
+			<option value="{$cat.id}">{$cat.name}</option>
+			{/volist}
+		</select>
+		<span>价格区间:</span>
+		<input name="min_price"/>元——<input name="max_price"/>元
+		<input type="submit" value="查询"/>
+		</form>
+	</div>
 	<table class="product-online-table">
-		<caption><h4 class="product-online-title"><span>{$cur_city}</span>我已上架的产品列表</h4></caption>
 		<tr>
 			<th>地区</th>
 			<th>品种</th>
@@ -19,37 +32,17 @@
 			<td>{$item.cat_name}</td>
 			<td>{$item.num}</td>
 			<td>{$item.price}</td>
-			<td>{$item.add_time}</td>
+			<td>{$item.add_time|date='Y-m-d',###}</td>
 			<td><button class="foo_trigger">下架</button></td>
 		</tr>
 		{/volist}
 	</table>
-	<!--<ul class="online-list">
-		<li>
-			<span class="list-item">地区</span>
-			<span class="list-item">品种</span>
-			<span class="list-item">数量</span>
-			<span class="list-item">价格</span>
-			<span class="list-item">上架时间</span>
-			<span class="list-item">操作</span>
-		</li>
-		{volist name="list" id="item"}
-		<li>
-			<input class="foo_del" type="hidden" data-url="{:Url('AjaxCrud/handle')}" data-handle="U" data-table="Goods" data-KN="id" data-KV="{$item.id}" data-FN="on_sell" data-FV="0"  />
-			<span class="list-item">{$item.region_name}</span>
-			<span class="list-item">{$item.cat_name}</span>
-			<span class="list-item">{$item.num}</span>
-			<span class="list-item">{$item.price}元/只</span>
-			<span class="list-item">{$item.add_time}</span>
-			<button class="list-item foo_trigger">下架</button>
-		</li>
-		{/volist}
-	</ul>-->
+	
 	<button class="btn btn-show-form" id="add">添加</button>
 	<form id="add_form" class="none add_form" method="post" action="{:Url('Goods/add_goods')}">
 		<select name="cat_id">
 			<option value="0">--请选择分类--</option>
-			{volist name="$son_cat" id="cat"}
+			{volist name="son_cat" id="cat"}
 			<option value="{$cat.id}">{$cat.name}</option>
 			{/volist}
 		</select>

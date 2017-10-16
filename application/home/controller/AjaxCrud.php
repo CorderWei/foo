@@ -42,16 +42,16 @@
 							}
 							break;
 						case 'D':
-							if (Db::name($table)->delete($key, $value))
+							if (Db::name($table)->where($kn,$kv)->delete())
 							{
-								echo [
+								return [
 								"is_done" => 1,
 								"message" => '删除成功!'
 								];
 							}
 							else
 							{
-								echo [
+								return [
 								"is_done" => 0,
 								"message" => '删除失败!'
 								];

@@ -250,6 +250,30 @@
 		}
 		return isset($items[0]['son']) ? $items[0]['son'] : array();
 	}
+	
+	/**
+	 * 根据经纬度实现两点测距
+	 * @param type $lat1
+	 * @param type $lon1
+	 * @param type $lat2
+	 * @param type $lon2
+	 * @return type
+	 */
+	function distance($lat1, $lon1, $lat2, $lon2) {
+			$R = 6371393; //地球平均半径,单位米
+
+			$dlat = deg2rad($lat2-$lat1);
+
+			$dlon = deg2rad($lon2-$lon1);
+
+			$a = pow(sin($dlat/2), 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * pow(sin($dlon/2), 2);
+
+			$c = 2 * atan2(sqrt($a), sqrt(1-$a));
+
+			$d = $R * $c;
+
+			return round($d);
+	}
 
 	/**
 	 * 根据 N 维数组生成Ul树,可用于ajax操作

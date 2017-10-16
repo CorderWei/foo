@@ -1,33 +1,64 @@
 {include file="public/head"}
 <body>
-	<h2><a href="/">养殖天网</a></h2>
-	个人饲养场地信息管理
-	-------------------
-	<ul>
-	{volist name="$list" id="li" key="k"}
-	<li>
-		<label>编号</label>
-		<p>第{$k}栏</p>
-		<label>名称</label>
-		<p>{$li.name}</p>
-		<label>数量</label>
-		<p>{$li.num}</p>
-	</li>	
-	{/volist}
-	</ul>
-	-------------------
-	<button>添加</button>
-	<br/>说明(改完后删除)：每点击一次添加按钮，出现一个分类/数量/删除，点击删除后删除当前行
-	<div>
-	<label>分类</label>
-	<select>
-	{volist name="$son_cat" id="cat"}
-	<option value="{$cat.id}">{$cat.name}</option>
-	{/volist}
-	</select>
-	<label>数量</label>
-	<input></input>
-	<button>删除</button>
-	</div>
+	{include file="public/title"}
+	<table class="product-online-table">
+		<caption><h4 class="product-online-title"><span>{$cur_city}</span>饲养场地信息管理</h4></caption>
+		<tr>
+			<th>栏号</th>
+			<th>种类</th>
+			<th>数量</th>
+			<th>操作</th>
+		</tr>
+		{volist name="list" id="item" key="k"}
+		<tr>
+			<input class="foo_del" type="hidden" data-url="{:Url('AjaxCrud/handle')}" data-handle="D" data-table="Manage" data-KN="id" data-KV="{$item.id}"/>
+			<td>{$k}</td>
+			<td>{$item.name}</td>
+			<td>{$item.num}</td>
+			<td><button class="foo_trigger">删除</button></td>
+		</tr>
+		{/volist}
+	</table>
+	
+	<button class="btn btn-show-form" id="add">添加</button>
+	<form id="add_form" class="none add_form" method="post" action="{:Url('Category/manage')}">
+		<select name="cat_id">
+			<option value="0">--请选择分类--</option>
+			{volist name="son_cat" id="cat"}
+			<option value="{$cat.id}">{$cat.name}</option>
+			{/volist}
+		</select>
+        <input placeholder="数量" name="num"/>
+		<button class="foo_submit btn ">确定添加</button>
+	</form>
+	<script>
+		$(function () {
+			show_form_event();
+			del_event();
+		});
+		// 【显示】动作的事件监听器
+		function show_form_event() {
+			$(document.body).on('click', "#add", function () {
+				$("#add_form").toggle();
+			});
+		}
+		// 【删除】动作的事件监听器
+		function del_event() {
+			$(document.body).on('click', ".foo_trigger", function () {
+				if (confirm("您确定删除吗？")) {
+					var binder = $(this).parents('tr').find('.foo_del');
+					console.log(binder.data());
+					var url = binder.data('url');
+					$.post(url, binder.data(), function (data) {
+						console.log(data);
+						if (data.is_done > 0) {
+							console.log('成功');
+						}
+						binder.parent('tr').remove();
+					});
+				}
+			});
+		}
+	</script>
 </body>
 {include file="public/foot"}

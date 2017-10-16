@@ -199,33 +199,38 @@
 			// 提交
 			if (request()->isPost())
 			{
-				// 提交删除信息
-				if (request()->isAjax())
-				{
-					// TO DO 删除提交的数据
-				}
 				// 提交新增信息
-				else
-				{
-					// 输入数据时带上位置定位
+
+					$map = Request::instance()->param();
+					$map['user_id'] = $this->user_id;
 					$postion = session('position');
 					if ($postion)
 					{
-						$map['pro'] = $postion['pro'];
-						$map['city'] = $postion['city'];
-						$map['area'] = $postion['area'];
+						$map['pro'] = $postion['pro_id'];
+						$map['city'] = $postion['city_id'];
+						$map['area'] = $postion['area_id'];
 					}
-					// TO DO 插入多条数据
-				}
+					if (Db::name('Manage')->insert($map))
+					{
+						$this->success('新增栏成功');
+					}
+					else
+					{
+						$this->error('系统繁忙，请您稍后');
+					}
+				
 			}
 			else
 			{
-				$cat_id = $this->request->param('cat_id');
+				$cat_id = $this->request->param('cat_id') or session('category');
 				// 子分类
 				$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
 				// 已经录入的种类数量信息
 				$uid = $this->user_id;
-				$sql = "select * from foo_category c, foo_manage m where m.cat_id = c.id and c.pid = $cat_id";
+				$sql = "select * from foo_category c, foo_manage m "
+					. "where m.cat_id = c.id "
+					. "and m.user_id = $uid "
+					. "and c.pid = $cat_id";
 				$list = Db::query($sql);
 				$this->assign('son_cat', $son_cat);
 				$this->assign('list', $list);
@@ -280,12 +285,13 @@
 
 			return $this->fetch();
 		}
+
 		// 兽药
 		public function drug()
 		{
 			// 查询所有的上架产品
 			$city_id = session('position.city_id');  // 城市ID
-			$cat_id =  12; //Request::instance()->param('cat_id'); //产品ID
+			$cat_id = 12; //Request::instance()->param('cat_id'); //产品ID
 			$sql = getGoodsSql('area', $city_id, 0, $cat_id, true);
 			$goods = Db::query($sql);
 			// 计算总价添加到数组中
@@ -296,12 +302,13 @@
 			$this->assign('list', $goods);
 			return $this->fetch();
 		}
+
 		// 饲料
 		public function food()
 		{
 			// 查询所有的上架产品
 			$city_id = session('position.city_id');  // 城市ID
-			$cat_id =  19; //Request::instance()->param('cat_id'); //产品ID
+			$cat_id = 19; //Request::instance()->param('cat_id'); //产品ID
 			$sql = getGoodsSql('area', $city_id, 0, $cat_id, true);
 			$goods = Db::query($sql);
 			// 计算总价添加到数组中

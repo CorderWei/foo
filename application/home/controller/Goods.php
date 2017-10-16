@@ -42,9 +42,36 @@
 
 		public function goods_list()
 		{
-			// ajax 方式产品上架/下架
-			if (Request::instance()->isAjax())
+			// 查询允许添加上架的分类
+			$cat_id = Request::instance()->param('cat_id') or session('category'); //产品父级ID
+			$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
+			$this->assign('son_cat', $son_cat);
+			
+			// post方式用于筛选
+			if (Request::instance()->isPost())
 			{
+				$param = Request::instance()->param();
+				
+				$son_id = $param['son_id'];
+				$min_price = $param['min_price'];
+				$max_price = $param['max_price'];
+				
+				$sql = "SELECT * FROM foo_goods WHERE 1=1 ";
+				if(!empty($son_id)){
+					$sql .= "AND cat_id = $son_id ";
+				}
+
+				if(empty($min_price)){
+					$min_price = 0;
+				}
+				if(empty($max_price)){
+					$max_price = 0x3f3f3f3f;
+				}
+				
+				$sql .= "AND price between $min_price and $max_price ";
+				echo $sql;
+				$my_goods = Db::query($sql);
+				$this->assign('list', $my_goods);
 				return $this->fetch();
 			}
 			else
@@ -52,14 +79,9 @@
 				// 查询我的上架产品
 				$city_id = session('position.city_id');  // 城市ID
 				$uid = $this->user_id; // 用户ID
-				$cat_id = Request::instance()->param('cat_id'); //产品ID
 				$sql = getGoodsSql('area', $city_id, $uid, $cat_id, true);
 				$my_goods = Db::query($sql);
 				$this->assign('list', $my_goods);
-				// 查询允许添加上架的分类
-
-				$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
-				$this->assign('son_cat', $son_cat);
 				return $this->fetch();
 			}
 		}
@@ -102,7 +124,7 @@
 			$this->assign('list', $goods);
 			return $this->fetch();
 		}
-		
+
 		public function make_order()
 		{
 			$order_data = Request::instance()->param();
@@ -110,7 +132,7 @@
 			$snno = date('YmdHis') . rand(1000, 9999);
 			$this->assign('data', $order_data);
 			$this->assign('snno', $snno);
-			
+
 			return $this->fetch();
 		}
 
@@ -164,10 +186,12 @@
 
 					$payResponse = new \AlipayTradeService($config);
 					$result = $payResponse->wapPay($payRequestBuilder, $config['return_url'], $config['notify_url']);
-					if($result){
+					if ($result)
+					{
 						$map['pay_status'] = 1;
 					}
-					if(Db::name('Order')->insert($map)){
+					if (Db::name('Order')->insert($map))
+					{
 						
 					}
 					//M('order')->add($map);			
