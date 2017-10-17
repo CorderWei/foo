@@ -1,82 +1,86 @@
 {include file="public/head"}
 <body>
 	{include file="public/title"}
-	<caption><h4 class="product-online-title"><span>{$cur_city}</span>我已上架的产品列表</h4></caption>
-	<div id="search">
-		<form action="" method="post">
+<caption><h4 class="product-online-title"><span>{$cur_city}</span>我已上架的产品列表</h4></caption>
+<div id="search">
+	<form action="" method="post">
 		<span>种类:</span>
 		<select id="search" name="son_id">
-			<option value="">--所有--</option>
+			<option value="0">--所有--</option>
 			{volist name="son_cat" id="cat"}
+			{if condition="$cat['id'] eq $select_id"}
+			<option value="{$cat.id}" selected="selected">{$cat.name}</option>
+			{else/}
 			<option value="{$cat.id}">{$cat.name}</option>
+			{/if}
 			{/volist}
 		</select>
 		<span>价格区间:</span>
 		<input name="min_price"/>元——<input name="max_price"/>元
 		<input type="submit" value="查询"/>
-		</form>
-	</div>
-	<table class="product-online-table">
-		<tr>
-			<th>地区</th>
-			<th>品种</th>
-			<th>数量</th>
-			<th>单价(元)</th>
-			<th>上架时间</th>
-			<th>操作</th>
-		</tr>
-		{volist name="list" id="item"}
-		<tr>
-			<input class="foo_del" type="hidden" data-url="{:Url('AjaxCrud/handle')}" data-handle="U" data-table="Goods" data-KN="id" data-KV="{$item.id}" data-FN="on_sell" data-FV="0"  />
-			<td>{$item.region_name}</td>
-			<td>{$item.cat_name}</td>
-			<td>{$item.num}</td>
-			<td>{$item.price}</td>
-			<td>{$item.add_time|date='Y-m-d',###}</td>
-			<td><button class="foo_trigger">下架</button></td>
-		</tr>
-		{/volist}
-	</table>
-	
-	<button class="btn btn-show-form" id="add">添加</button>
-	<form id="add_form" class="none add_form" method="post" action="{:Url('Goods/add_goods')}">
-		<select name="cat_id">
-			<option value="0">--请选择分类--</option>
-			{volist name="son_cat" id="cat"}
-			<option value="{$cat.id}">{$cat.name}</option>
-			{/volist}
-		</select>
-        <input placeholder="数量" name="num"/>
-        <input placeholder="单价(元)" name="price"/>
-		<button class="foo_submit btn ">确定添加</button>
 	</form>
-	<script>
-		$(function () {
-			show_form_event();
-			del_event();
+</div>
+<table class="product-online-table">
+	<tr>
+		<th>地区</th>
+		<th>品种</th>
+		<th>数量</th>
+		<th>单价(元)</th>
+		<th>上架时间</th>
+		<th>操作</th>
+	</tr>
+	{volist name="list" id="item"}
+	<tr>
+	<input class="foo_del" type="hidden" data-url="{:Url('AjaxCrud/handle')}" data-handle="U" data-table="Goods" data-KN="id" data-KV="{$item.id}" data-FN="on_sell" data-FV="0"  />
+	<td>{$item.region_name}</td>
+	<td>{$item.cat_name}</td>
+	<td>{$item.num}</td>
+	<td>{$item.price}</td>
+	<td>{$item.add_time|date='Y-m-d',###}</td>
+	<td><button class="foo_trigger">下架</button></td>
+</tr>
+{/volist}
+</table>
+
+<button class="btn btn-show-form" id="add">添加</button>
+<form id="add_form" class="none add_form" method="post" action="{:Url('Goods/add_goods')}">
+	<select name="cat_id">
+		<option value="0">--请选择分类--</option>
+		{volist name="son_cat" id="cat"}
+		<option value="{$cat.id}">{$cat.name}</option>
+		{/volist}
+	</select>
+	<input placeholder="数量" name="num"/>
+	<input placeholder="单价(元)" name="price"/>
+	<button class="foo_submit btn ">确定添加</button>
+</form>
+<script>
+	$(function () {
+		show_form_event();
+		del_event();
+	});
+	// 【显示】动作的事件监听器
+	function show_form_event() {
+		$(document.body).on('click', "#add", function () {
+			$("#add_form").toggle();
 		});
-		// 【显示】动作的事件监听器
-		function show_form_event() {
-			$(document.body).on('click', "#add", function () {
-				$("#add_form").toggle();
-			});
-		}
-		// 【删除】动作的事件监听器
-		function del_event() {
-			$(document.body).on('click', ".foo_trigger", function () {
-				if (confirm("您确定下架吗？")) {
-					var binder = $(this).siblings('.foo_del');
-					console.log(binder.data());
-					var url = binder.data('url');
-					$.post(url, binder.data(), function (data) {
-						if (data.is_done > 0) {
-							console.log('成功');
-						}
-						binder.parent('tr').remove();
-					});
-				}
-			});
-		}
-	</script>
+	}
+	// 【删除】动作的事件监听器
+	function del_event() {
+		$(document.body).on('click', ".foo_trigger", function () {
+			if (confirm("您确定下架吗？")) {
+				var binder = $(this).siblings('.foo_del');
+				console.log(binder.data());
+				var url = binder.data('url');
+				$.post(url, binder.data(), function (data) {
+					if (data.is_done > 0) {
+						console.log('成功');
+					}
+					binder.parent('tr').remove();
+				});
+			}
+		});
+	}
+</script>
 </body>
 {include file="public/foot"}

@@ -222,7 +222,7 @@
 		$base_id = session('basemodel.id');
 		$cat_ids = session('user.cat_ids');
 		$auth_code = $base_id . '_' . $cat_id;
-		if (empty($cat_ids))
+		if (!isset($cat_ids))
 		{
 			return false;
 		}
@@ -316,7 +316,7 @@
 	 * @param bool $find_son_cat  是否查询产品子类, 如为true, 则查询产品分类中父ID为cat_id的分类下所有商品
 	 * @return string
 	 */
-	function getGoodsSql($region = 'area', $city_id = '0', $user_id = '0', $cat_id = '0', $find_son_cat = false)
+	function getGoodsSql($region = 'area', $city_id = '0', $user_id = '0', $cat_id = '0', $find_son_cat = false, $other = "")
 	{
 		$sql = "SELECT
 				g.*, 
@@ -345,10 +345,10 @@
 			}
 			else
 			{
-				$sql .= "AND g.cat_id = $cat_id) ";
+				$sql .= "AND g.cat_id = $cat_id ";
 			}
 		}
-		$sql .= "ORDER BY r.region_id ";
+		$sql .= "$other ORDER BY r.region_id ";
 		return $sql;
 	}
 	

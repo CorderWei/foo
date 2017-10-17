@@ -1,0 +1,42 @@
+{include file="public/head"}
+{load href="/assets/style/category.css" /} 
+<body>
+	{include file="public/header"}
+	<div class="user-info-wrap">
+		<span class="user-name">{$Think.session.user.name}</span>
+		<span class="grade">&starf;&starf;&starf;</span>
+		<span class="basemodel-name">({$Think.session.basemodel.name})</span>
+		<div class="user-bottom">
+			<a href="{:Url('User/index')}">个人中心</a>
+			<a href="{:Url('Category/auth')}">信息认证</a>
+		</div>
+	</div>
+	<!--客户基础模型入口-->
+	<ul class="interface clear">
+		<li>
+			<a href="{:Url('Category/matter',['model_id' => $model_id])}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>行情查询</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Goods/goods_list',['model_id' => $model_id])}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>产品上架</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/transport',['model_id' => $model_id])}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>物流运输</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/near',['model_id' => $model_id])}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>附近会员</p>
+			</a>
+		</li>
+	</ul>
+</body>
+{include file="public/foot"}

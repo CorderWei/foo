@@ -47,15 +47,43 @@
 		public function index()
 		{
 			// 当前基础认证模型
-			$baseid = $this->request->param('cat_id');
-			$basemodel = Db::name('Basemodel')->find($baseid);
-			// 备用
-			session('basemodel', $basemodel);
-
-			// 系统所有业务分类
-			$categorys = Db::name('category')->where('pid = 0')->select();
-			$this->assign('categorys', $categorys);
-			return $this->fetch();
+			$model_id = $this->request->param('model_id')?:session('basemodel.id');
+			// 根据分类进入不同的界面(根据养殖户，厂商，专家，运输)
+			switch ($model_id)
+			{
+				case 1:
+					// 养殖户进入，展示所有业务类型
+					$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
+					$this->assign('categorys', $categorys);
+					$tpl_id = 1;
+					break;
+				case 2:
+					// 厂商，进入后再次选择业务分类 5 还是 6
+					$categorys = Db::name('basemodel')->where('id IN (5,6)')->select();
+					$this->assign('categorys', $categorys);
+					$tpl_id = 2;
+					break;
+				case 3:
+					// 专家
+					$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
+					$this->assign('categorys', $categorys);
+					$tpl_id = 3;
+					break;
+				case 4:
+					// 运输
+					$tpl_id = 4;
+					break;
+				case 5:
+				case 6:
+					$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
+					$this->assign('categorys', $categorys);
+					$tpl_id = 5;
+					break;
+				default:
+					break;
+			}
+			$this->assign('model_id', $model_id);
+			return $this->fetch('index_' . $tpl_id);
 		}
 
 		// 模型分类认证信息展示
@@ -73,9 +101,9 @@
 			$cats = Db::name('category')->where('pid = 0')->select();
 			$this->assign('cats', $cats);
 
-			// 根据基础认证模型确定要填写的表单 1为饲养户，2为厂区，3为专家，4为
+			// 根据基础认证模型确定要填写的表单 1为饲养户，2为厂区，3为专家，4为运输
 			$model_id = session('basemodel.id');
-			//$tpl_name = 'auth_tpl_' . $model_id;
+			$this->assign('model_id', $model_id);
 			return $this->fetch('auth_tpl');
 		}
 
@@ -93,7 +121,6 @@
 			$map['pro'] = $post_data['pro'];
 			$map['city'] = $post_data['city'];
 			$map['area'] = $post_data['area'];
-			$map['cat_id'] = $post_data['cat_id'];
 			$map['card_no'] = $post_data['card_no'];
 			// 默认未通过审核
 			$map['is_auth'] = 0;
@@ -105,13 +132,13 @@
 			{
 				//饲养户
 				case 1:
-					// 容量信息
+					// 业务方向,容量信息
+					$map['cat_id'] = $post_data['cat_id'];
 					$map['capacity'] = $post_data['capacity'];
 					break;
-				//厂区拥有者
+				//厂区拥有者, 暂不用父级分支, 跳入5,6
 				case 2:
-					// 营业执照编号
-					$map['license'] = $post_data['license'];
+
 					break;
 				//专家
 				case 3:
@@ -125,10 +152,15 @@
 					$map['car_no'] = $post_data['car_no'];
 					$map['car_license'] = $post_data['car_license'];
 					break;
-
+				case 5:
+				case 6:
+					// 营业执照编号，子模型编号(兽药，饲料)
+					$map['model_id'] = $model_id;
+					$map['license'] = $post_data['license'];
 				default:
 					break;
 			}
+
 			// 图片上传部分
 			$pic_array = ['owner_pic', 'market_pic', 'car_pic']; // 设定允许上传的字段
 			$files = $this->request->file();
@@ -157,11 +189,11 @@
 			$table_name = Db::name('Basemodel')->where('id', $model_id)->value('table_name');
 			if (Db::name($table_name)->insert($map))
 			{
-				$this->success('申请成功，请等待审核', 'index');
+				$this->success('申请成功，请等待审核', url('index', ['model_id' => $model_id]));
 			}
 			else
 			{
-				$this->error('申请失败，请联系管理', 'index');
+				$this->error('申请失败，请联系管理', url('index', ['model_id' => $model_id]));
 			}
 			//return $this->fetch();
 		}
@@ -169,6 +201,10 @@
 		// 二级入口列表，时间关系暂不列入后台维护范畴，相应的根入口必须为不可变动
 		public function detail()
 		{
+			$model_id = $this->request->param('model_id');
+			$basemodel = Db::name('Basemodel')->find($model_id);
+			// 刷新当前模型值
+			session('basemodel', $basemodel);
 			$cat_id = $this->request->param('cat_id');
 			if (is_authed($cat_id))
 			{
@@ -201,28 +237,27 @@
 			{
 				// 提交新增信息
 
-					$map = Request::instance()->param();
-					$map['user_id'] = $this->user_id;
-					$postion = session('position');
-					if ($postion)
-					{
-						$map['pro'] = $postion['pro_id'];
-						$map['city'] = $postion['city_id'];
-						$map['area'] = $postion['area_id'];
-					}
-					if (Db::name('Manage')->insert($map))
-					{
-						$this->success('新增栏成功');
-					}
-					else
-					{
-						$this->error('系统繁忙，请您稍后');
-					}
-				
+				$map = Request::instance()->param();
+				$map['user_id'] = $this->user_id;
+				$postion = session('position');
+				if ($postion)
+				{
+					$map['pro'] = $postion['pro_id'];
+					$map['city'] = $postion['city_id'];
+					$map['area'] = $postion['area_id'];
+				}
+				if (Db::name('Manage')->insert($map))
+				{
+					$this->success('新增栏成功');
+				}
+				else
+				{
+					$this->error('系统繁忙，请您稍后');
+				}
 			}
 			else
 			{
-				$cat_id = $this->request->param('cat_id') or session('category');
+				$cat_id = $this->request->param('cat_id')?:session('category');
 				// 子分类
 				$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
 				// 已经录入的种类数量信息
@@ -263,16 +298,19 @@
 						LEFT JOIN foo_category c ON (m.cat_id = c.id)
 						LEFT JOIN foo_region r ON (m.area = r.region_id)
 						WHERE
-						1 = 1
-						AND m.city = $city_id
-						AND m.cat_id IN (
+						1 = 1 AND m.city = $city_id ";
+					if (!empty($cat_id))
+					{
+						$sql .= "AND m.cat_id IN (
 							SELECT
 								id
 							FROM
 								foo_category
 							WHERE
 								pid = $cat_id
-						)
+						) ";
+					}
+					$sql .= " 
 						GROUP BY
 						region_name,cat_name";
 					$matter = Db::query($sql);

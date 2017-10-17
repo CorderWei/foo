@@ -1,10 +1,11 @@
 {include file="public/head"}
 <body>
-	<h3 class="head"><a class="btn-goback" href="/">养殖天网</a></h3>
+	{include file="public/title"}
 	<h4 class="cur-page-title">{$Think.session.basemodel.name}用户信息认证</h4>
 	<form class="auth-form" action="{:Url('Category/doAuth')}" enctype="multipart/form-data" method="post">
-			<input type="hidden" name="model_id" value="{$Think.session.basemodel.id}"/>
-			<input type="hidden" name="user_id" value="{$Think.session.user.id}"/>
+		<input type="hidden" name="model_id" value="{$Think.session.basemodel.id}"/>
+		<input type="hidden" name="user_id" value="{$Think.session.user.id}"/>
+		{eq name="Think.session.basemodel.name" value="1"}
 		<div>
 			<label>业务范畴:</label>	
 			<select name="cat_id">
@@ -18,17 +19,20 @@
 				{/volist}
 			</select>
 		</div>
+		{/eq}
 		<div>
 			<label>身份证:</label>
 			<input name="card_no" />
 		</div>
 		<div>
-			<label>名称:</label>
+			<label>正式名称:</label>
 			<input name="name" />
 		</div>
 		<div>
 			<label>归属地:</label>
-			<div class="select-box">{include file="public/citychange"}</div>
+			<div class="select-box">
+				{include file="public/citychange"}
+			</div>
 		</div>
 		<div>
 			<label>地址:</label>
@@ -60,7 +64,7 @@
 			</label>
 		</div>
 		{/case}
-		{case value="2"}
+		{case value="5|6"}
 		<!-- 厂区用户附加信息 -->
 		<div>
 			<label>营业执照编号:</label>

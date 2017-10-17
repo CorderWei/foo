@@ -39,46 +39,81 @@
 			$cur_city = GetCurrentCityName();
 			$this->assign('cur_city', $cur_city);
 		}
-
+		
+		/**
+		 * 产品列表
+		 * 
+		 */
 		public function goods_list()
 		{
+			$city_id = session('position.city_id');  // 城市ID
+			$uid = $this->user_id; // 用户ID
 			// 查询允许添加上架的分类
-			$cat_id = Request::instance()->param('cat_id') or session('category'); //产品父级ID
-			$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
+			$cat_id = Request::instance()->param('cat_id')?:session('category'); //产品父级ID
+			// 基础模型信息,因2,3,4模型均不涉及业务子类，需要父类直接标记
+			$model_id = Request::instance()->param('model_id')?:session('basemodel.id');
+			if (!empty($cat_id))
+			{
+				$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
+			}
+			else
+			{
+				if (!empty($model_id))
+				{
+					// 根据模型确定原始信心中规定的分类编号,基础模型和基础业务分类不可删除
+					switch ($model_id)
+					{
+						case 5:
+							$cat_id = 12;
+							break;
+						case 6:
+							$cat_id = 19;
+							break;
+						default:
+							break;
+					}
+					$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
+				}
+				else
+				{
+					$son_cat = [];
+				}
+			}
 			$this->assign('son_cat', $son_cat);
-			
 			// post方式用于筛选
 			if (Request::instance()->isPost())
 			{
 				$param = Request::instance()->param();
-				
+				// 默认查询所有子类
+				$find_son_cat = true;
 				$son_id = $param['son_id'];
-				$min_price = $param['min_price'];
-				$max_price = $param['max_price'];
-				
-				$sql = "SELECT * FROM foo_goods WHERE 1=1 ";
-				if(!empty($son_id)){
-					$sql .= "AND cat_id = $son_id ";
+				$min_price = $param['son_id'];
+				$max_price = $param['min_price'];
+				// 具体分类不为空,则按照具体分类查询
+				if ($param['son_id'])
+				{
+					$cat_id = $son_id;
+					$find_son_cat = false;
 				}
-
-				if(empty($min_price)){
+				if (empty($min_price))
+				{
 					$min_price = 0;
 				}
-				if(empty($max_price)){
+				if (empty($max_price))
+				{
 					$max_price = 0x3f3f3f3f;
 				}
 				
-				$sql .= "AND price between $min_price and $max_price ";
-				echo $sql;
+				$other = "AND g.price between $min_price and $max_price ";
+				$sql = getGoodsSql('area', $city_id, $uid, $cat_id, $find_son_cat, $other);
 				$my_goods = Db::query($sql);
+				$this->assign('select_id', $cat_id);
 				$this->assign('list', $my_goods);
 				return $this->fetch();
 			}
 			else
 			{
 				// 查询我的上架产品
-				$city_id = session('position.city_id');  // 城市ID
-				$uid = $this->user_id; // 用户ID
 				$sql = getGoodsSql('area', $city_id, $uid, $cat_id, true);
 				$my_goods = Db::query($sql);
 				$this->assign('list', $my_goods);

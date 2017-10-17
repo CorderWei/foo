@@ -50,7 +50,7 @@
 			// 轮播
 			// 入口分类
 			// 按照认证模型
-			$interfaces = Db::name('basemodel')->select();
+				$interfaces = Db::name('basemodel')->where('pid = 0')->select();
 			// 按照业务类型
 			//$interfaces = Db::name('category')->where('pid = 0')->select();
 			$this->assign('interfaces', $interfaces);
