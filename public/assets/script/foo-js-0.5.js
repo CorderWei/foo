@@ -44,6 +44,21 @@ foo.trans.ajaxForm = function (selector, validate, callback, flag) {
 	});
 };
 
+/**
+ * ajax 方式页面跳转
+ * @param {string} selector
+ * @param {string} module admin default
+ * @param {function} callback
+ * @returns {text} new page
+ */
+foo.trans.ajaxJump = function (selector,module='admin',callback) {
+	$(selector).on('click',function(){
+		var data_all = $(this).data();
+		var url = "/" + module + "/" + data_all['ctrl'] + "/" + data_all['act'];
+		var data = data_all['data']||{};
+		$.post(url,data,callback,"text");
+	});
+};
 // Helper 辅助函数
 
 /**

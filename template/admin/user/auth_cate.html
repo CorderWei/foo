@@ -1,0 +1,18 @@
+<div>
+	<ul>
+	{volist name="list" id="cate"}
+	<li>
+		<span class="action_btn" data-ctrl="User" data-act="auth_list" data-data='{"table_name":"{$cate.table_name}"}'>
+			{$cate.name}用户申请认证
+		</span>
+	</li>
+	{/volist}
+	</ul>
+</div>
+<script>
+	$(function () {
+		foo.trans.ajaxJump('.action_btn','admin',function(page){
+			$("#content").html(page);
+		});
+	});
+</script>

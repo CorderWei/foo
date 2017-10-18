@@ -116,6 +116,9 @@
 				// 查询我的上架产品
 				$sql = getGoodsSql('area', $city_id, $uid, $cat_id, true);
 				$my_goods = Db::query($sql);
+				// 过滤条件默认选中项
+				$select_id = 0;
+				$this->assign('select_id', $select_id);
 				$this->assign('list', $my_goods);
 				return $this->fetch();
 			}
@@ -167,7 +170,7 @@
 			$snno = date('YmdHis') . rand(1000, 9999);
 			$this->assign('data', $order_data);
 			$this->assign('snno', $snno);
-
+			// 生成订单写入库  状态未付款
 			return $this->fetch();
 		}
 
@@ -225,10 +228,11 @@
 					{
 						$map['pay_status'] = 1;
 					}
-					if (Db::name('Order')->insert($map))
-					{
-						
-					}
+					// 更新订单状态为已付款
+//					if (Db::name('Order')->insert($map))
+//					{
+//						
+//					}
 					//M('order')->add($map);			
 					return $this->fetch();
 				}

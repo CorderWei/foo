@@ -1,0 +1,20 @@
+{include file="public/head"}
+<body>
+    <h3 class="head">管理员登录 <a class="btn-goback" href="/"></a></h3>
+    <div class="login-container">
+<!--        <img class="login-img" src="/assets/image/enrolltop.png" alt=""/>-->
+        <div class="login-content">
+            <form class="login-form" action="{:Url('Index/dologin')}" method='post'>
+                <input name="name" placeholder="用户名"/>
+                <input name="pass" placeholder="密码"/>
+                <button type="submit">登录</button>
+            </form>
+<!--            <div class="btn-box">
+                <a href="{:Url('Index/register')}">还没有账号？点击注册</a>
+            </div>-->
+        </div>
+
+    </div>
+</body>
+{include file="public/foot"}
+

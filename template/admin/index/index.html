@@ -1,24 +1,79 @@
 {include file="public/head"}
+{load href="/assets/admin/style/jquery-accordion-menu.css" /}
+{load href="/assets/admin/style/font-awesome.css" /}
+{load href="/assets/admin/script/jquery-accordion-menu.js" /}
+<style>
+	body{
+		min-width: 1500px;
+	}
+	#title{
+		width:100%;
+		height:3em;
+		padding:1em;
+		vertical-align: middle;
+		border-bottom: 1px solid #dfdfdf;
+	}
+	#menu{
+		width:12%;
+		min-height: 500px;
+		background: #ED5565;
+		float:left;
+	}
+	.filterinput {
+        background-color: rgba(249, 244, 244, 0);
+        border-radius: 15px;
+        width: 90%;
+        height: 30px;
+        border: thin solid #FFF;
+        text-indent: 0.5em;
+        font-weight: bold;
+        color: #FFF;
+    }
+	#menu-list .action_btn{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+		border-bottom: 1px solid #565656;
+    }
+	#content{
+		float:left; width: 1280px; padding: 1em; margin-left: 1em;
+	}
+</style>
+<script>
+	$(function () {
+		$("#menu").jqueryAccordionMenu();
+		foo.trans.ajaxJump('.action_btn','admin',function(page){
+			$("#content").html(page);
+		});
+	});
+</script>
 <body>
-	<div>
-		后台首页
-		
-		//菜单
-		{foreach name="menu" item="vo" key="k"}
-			<div class="admincp-map-div" data-param="map-{$k}">
-				{foreach name="vo.child" item="v2"}
-					<dl>
-						<dt>{$v2.name}</dt>
-						{foreach name="v2.child" item="v3"}
-							<dd class="">
-								<a href="javascript:void(0);" data-param="{$v3.act}|{$v3.op}">{$v3.name}</a>
-								<i class="fa fa-check-square-o"></i>
-							</dd>
-						{/foreach}
-					</dl>
-				{/foreach}
-			</div>
-		{/foreach}
+	<div id="title">
+		养殖天网后台管理
+	</div>
+	<div id="menu" class="jquery-accordion-menu red" data-module="{$module}">
+		<!--菜单列表 插件使用了a死链的布局结构,后续再改写插件-->
+		<ul id="menu-list" class="clear">
+			{foreach name="menu" item="vo" key="k"}
+			<li data-param="map-{$k}">
+				<a href="###" class="submenu-indicator-minus">{$vo.name}</a>
+				<ul class="submenu">
+					{foreach name="vo.child" item="v2"}
+					<li>
+						<a href="###" class="action_btn" data-ctrl="{$v2.op}" data-act="{$v2.act}">
+							{$v2.name}
+						</a>
+					</li>
+					{/foreach}
+				</ul>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+	<div id="content">
+
 	</div>
 </body>
 {include file="public/foot"}
