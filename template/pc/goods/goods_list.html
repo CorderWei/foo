@@ -31,7 +31,7 @@
 	</tr>
 	{volist name="list" id="item"}
 	<tr>
-	<input class="foo_del" type="hidden" data-url="{:Url('AjaxCrud/handle')}" data-handle="U" data-table="Goods" data-KN="id" data-KV="{$item.id}" data-FN="on_sell" data-FV="0"  />
+	<input class="foo_update" type="hidden" data-url="{:Url('AjaxCrud/handle')}" data-handle="U" data-table="Goods" data-KN="id" data-KV="{$item.id}" data-FN="on_sell" data-FV="0"  />
 	<td>{$item.region_name}</td>
 	<td>{$item.cat_name}</td>
 	<td>{$item.num}</td>
@@ -69,7 +69,7 @@
 	function del_event() {
 		$(document.body).on('click', ".foo_trigger", function () {
 			if (confirm("您确定下架吗？")) {
-				var binder = $(this).siblings('.foo_del');
+				var binder = $(this).siblings('.foo_update');
 				console.log(binder.data());
 				var url = binder.data('url');
 				$.post(url, binder.data(), function (data) {

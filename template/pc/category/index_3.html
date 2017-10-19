@@ -11,15 +11,32 @@
 			<a href="{:Url('Category/auth')}">信息认证</a>
 		</div>
 	</div>
-	<ul class="category_list clear">
-		{volist name="categorys" id="cat" }
-		<li class="fl">
-			<a href="{:Url('Category/detail',array('cat_id'=>$cat.id))}">
-				<img src="/assets/image/zhuanshu.png" alt=""/>
-				<p>{$cat.name}</p>
+	<!--客户基础模型入口-->
+	<ul class="interface clear">
+		<li>
+			<a href="{:Url('Expert/course_list',array('model_id'=>$model_id))}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>我的发布</p>
 			</a>
 		</li>
-		{/volist}
+		<li>
+			<a href="{:Url('Category/matter',array('model_id'=>$model_id))}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>行情查询</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Expert/add_course',array('model_id'=>$model_id))}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>发布文章</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/near',array('model_id'=>$model_id))}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>附近会员</p>
+			</a>
+		</li>
 	</ul>
 </body>
 {include file="public/foot"}

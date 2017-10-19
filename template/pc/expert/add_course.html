@@ -1,0 +1,51 @@
+{include file="public/head"}
+<body>
+	{include file="public/title"}
+	<form class="auth-form" action="" enctype="multipart/form-data" method="post">
+		<input type="hidden" name="model_id" value="{$Think.session.basemodel.id}"/>
+		<input type="hidden" name="user_id" value="{$Think.session.user.id}"/>
+		<div>
+			<label>标题</label>
+			<input name="title"/>
+		</div>
+		<div>
+			<label>描述</label>
+			<input name="desc"/>
+		</div>
+		<div>
+			<textarea rows="6" name="content" placeholder="此处输入内容"></textarea>
+		</div>
+		<div>
+			<h3 class="upload-title">附加图片</h3>
+			<input hidden type="file" name="thumb" id="course_pic" multiple="multiple"  />
+			<label class="pic-box" for="course_pic">
+				<img src="/assets/image/need_add_pic.png" id="course_pic_preview" alt="" />
+			</label>
+		</div>
+		
+		<input type="submit" value="提交"/>
+	</form>
+	<script>
+	$(function () {
+		// 挂载事件监听
+		addEventListener();
+		// 挂载提交验证监听
+		//addValidateListener();
+	});
+
+	function addEventListener() {
+		// 图片预览监听
+		var course_pic_preview = document.querySelector('#course_pic_preview');
+		var course_pic = document.querySelector('#course_pic');
+		if (course_pic_preview && course_pic) {
+			course_pic.onchange = function () {
+				var url = foo.trans.getObjUrl(course_pic.files[0]);
+				if (url) {
+					course_pic_preview.src = url;
+				}
+			};
+		}
+	}
+	</script>
+</body>
+{include file="public/foot"}

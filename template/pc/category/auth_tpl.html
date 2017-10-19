@@ -101,11 +101,15 @@
 		<!-- 运输车用户附加信息 -->
 		<div>
 			<label>车牌号:</label>
-			<input name="car_code" />
+			<input name="car_no" />
 		</div>
 		<div>
 			<label>驾驶证编号:</label>
 			<input name="car_license" />
+		</div>
+		<div>
+			<label>配送半径:(公里)</label>
+			<input name="radius" />
 		</div>
 		<div>
 			<input hidden type="file" name="car_pic" id="car_pic" multiple="multiple"  />
@@ -116,7 +120,6 @@
 		</div>
 		{/case}
 		{default /}
-		default
 		{/switch}
 
 		<input type="submit" value="提交"/>

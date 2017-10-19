@@ -1,18 +1,40 @@
+<style>
+	#list_cat li{
+		float: left;
+		width: 45%;
+		height: 50px;
+		border:1px solid #DA4453;
+		border-radius: 5px;
+		text-align: center;
+		line-height: 50px;
+		cursor: pointer;
+		transition: 0.6s;
+		margin:10px;
+	} 
+	#list_cat li:hover{
+		color:#fff;
+		background-color: #DA4453;
+	}
+</style>
 <div>
-	<ul>
+	<ul id="list_cat">
 	{volist name="list" id="cate"}
-	<li>
-		<span class="action_btn" data-ctrl="User" data-act="auth_list" data-data='{"table_name":"{$cate.table_name}"}'>
-			{$cate.name}用户申请认证
+	<li class="auth_btn" data-ctrl="User" data-act="auth_list" 
+			  data-data='{"base_id":"{$cate.id}",
+			  "table_name":"{$cate.table_name}",
+			  "model_name":"{$cate.name}"}'>
+		<span>
+			{$cate.name}申请认证
 		</span>
 	</li>
 	{/volist}
 	</ul>
 </div>
 <script>
-	$(function () {
-		foo.trans.ajaxJump('.action_btn','admin',function(page){
-			$("#content").html(page);
-		});
+$(function () {
+	foo.trans.ajaxJump('.auth_btn', 'admin', function (page) {
+		$("#content").html(page);
+		return false;
 	});
+});
 </script>

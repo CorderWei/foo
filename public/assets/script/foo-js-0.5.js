@@ -57,7 +57,9 @@ foo.trans.ajaxJump = function (selector,module='admin',callback) {
 		var url = "/" + module + "/" + data_all['ctrl'] + "/" + data_all['act'];
 		var data = data_all['data']||{};
 		$.post(url,data,callback,"text");
+		return false;
 	});
+	return false;
 };
 // Helper 辅助函数
 

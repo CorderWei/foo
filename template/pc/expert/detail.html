@@ -1,0 +1,12 @@
+{include file="public/head"}
+<body>
+	{include file="public/title"}
+	<h2 class="article-title">{$course.title}</h2>
+	<p class="article-pubdate">发布日期:{$course.add_time|date='Y-m-d',###}</p>
+	<p class="article-desc">文章简介:{$course.desc}</p>
+	<p class="article-content">文章内容:{$course.content}</p>
+	<p class="article-content">
+		<img src="{$course.thumb}" width="300px"/>
+	</p>
+</body>
+{include file="public/foot"}

@@ -1,3 +1,123 @@
+<style>
+	#list_cat span{
+		display: inline-block;
+
+		width:80px;
+		height:60px;
+		line-height: 60px;
+		text-align: center;
+		overflow: hidden;
+	}
+	.foo_update{
+		color: #fff;
+		background-color: #51a351; 
+	}
+	.cancle{
+		color: #fff;
+		background-color: #da4f49; 
+	}
+</style>
 <div>
-	
+	<ul id="list_cat">
+		<li>
+			<span>用户ID</span>
+			<span>用户账号</span>
+			<span style="width:200px;">名称</span>
+			<span>角色</span>
+			<span>主业务</span>
+			<span style="width:300px;">地址</span>
+			<span>个人照</span>
+			<span>认证照</span>
+			<span>状态</span>
+			<span>操作</span>
+		</li>
+		{volist name="pagedata" id="item"}
+		<li>
+			<span class="action_btn" data-ctrl="User" data-act="auth_detail" 
+				  data-data='{"id":"{$item.id}","table_name":"{$table_name}"}'>
+				{$item.id}
+			</span>
+			<span>
+				{$item.user_name}
+			</span>
+			<span style="width:200px;">
+				{$item.name}
+			</span>
+			<span>
+				{$model_name}
+			</span>
+			<span>
+				{$item.cat_name}
+			</span>
+			<span style="width:300px;">
+				{$item.address}
+			</span>
+			<span>
+				<img src="{$item.owner_pic}" width="80" height="60"/>
+			</span>
+
+			<span>
+				{switch name="$item.model_id"}
+				{case value="1|5|6"}
+				<img src="{$item.market_pic}" width="80" height="60"/>
+				{/case}
+				{case value="4"}
+				<img src="{$item.car_pic}" width="80" height="60"/>
+				{/case}
+				{default /}
+				{/switch}
+			</span>
+
+			<span class="status">
+				{eq name="item.is_auth" value="0"}
+				未通过
+				{else/}
+				已通过
+				{/eq}
+			</span>
+			<span>
+				{eq name="item.is_auth" value="0"}
+				<button class="foo_update" data-url="{:Url('User/user_auth')}" data-handle="U" data-table="{$table_name}" data-model_id="{$base_id}" data-cat_id="{$item.cat_id}" data-kn="id" data-kv="{$item.id}" data-fn="is_auth" data-fv="1" >通过</button>
+				{else/}
+				<button class="foo_update cancle" data-url="{:Url('User/user_auth')}" data-handle="U" data-table="{$table_name}" data-model_id="{$base_id}" data-cat_id="{$item.cat_id}" data-kn="id" data-kv="{$item.id}" data-fn="is_auth" data-fv="0" >撤销</button>
+				{/eq}
+			</span>
+		</li>
+		{/volist}
+	</ul>
 </div>
+<script>
+	$(function () {
+		foo.trans.ajaxJump('.action_btn', 'admin', function (page) {
+			$("#content").html(page);
+			return false;
+		});
+		$(".foo_update").click(function () {
+			var binder = $(this);
+			var url = binder.data(url);
+			var data = binder.data();
+			var status = binder.parents('li').find('.status');
+			$.post(url, data, function (result) {
+				if (result) {
+					if (result['is_done'] > 0) {
+						alert('更新成功');
+						if (data['fv'] > 0) {
+							binder.data('fv', '0');
+							binder.addClass('cancle').text('撤销');
+							status.text('已通过');
+
+						}
+						else {
+							binder.data('fv', '1');
+							binder.removeClass('cancle').text('通过');
+							status.text('未通过');
+						}
+					}
+					else {
+						alert('更新失败');
+					}
+				}
+			});
+		});
+	});
+</script>

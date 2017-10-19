@@ -47,7 +47,10 @@
 		public function index()
 		{
 			// 当前基础认证模型
-			$model_id = $this->request->param('model_id')?:session('basemodel.id');
+			$model_id = $this->request->param('model_id') ?: session('basemodel.id');
+			$basemodel = Db::name('Basemodel')->find($model_id);
+			// 刷新当前模型值
+			session('basemodel', $basemodel);
 			// 根据分类进入不同的界面(根据养殖户，厂商，专家，运输)
 			switch ($model_id)
 			{
@@ -150,6 +153,7 @@
 				// 运输车
 				case 4:
 					$map['car_no'] = $post_data['car_no'];
+					$map['radius'] = $post_data['radius'];
 					$map['car_license'] = $post_data['car_license'];
 					break;
 				case 5:
@@ -169,11 +173,11 @@
 				if (in_array($key, $pic_array))
 				{
 					// 存储路径
-					$path = 'public' . DS . 'uploads' . DS . "$key";
+					$path = '/uploads' . DS . "$key";
 					// 执行存储
 					$save = $value->
 						validate(['size' => 2097152, 'ext' => 'jpg,png,gif'])->
-						move(ROOT_PATH . $path);
+						move(ROOT_PATH . 'public' . $path);
 					if ($save)
 					{
 						// 组装路径用于写入数据库
@@ -214,9 +218,14 @@
 			else
 			{
 				$model_name = session('basemodel.table_name');
+				$model_id = session('basemodel.id');
 				$uid = $this->user_id;
 				$map['user_id'] = $uid;
-				$map['cat_id'] = $cat_id;
+				// 只有养殖户分具体类别
+				if ($model_id == 1)
+				{
+					$map['cat_id'] = $cat_id;
+				}
 				$map['is_auth'] = 0;
 				if (Db::name($model_name)->where($map)->select())
 				{
@@ -257,7 +266,7 @@
 			}
 			else
 			{
-				$cat_id = $this->request->param('cat_id')?:session('category');
+				$cat_id = $this->request->param('cat_id') ?: session('category');
 				// 子分类
 				$son_cat = Db::name('Category')->where("pid = $cat_id")->select();
 				// 已经录入的种类数量信息

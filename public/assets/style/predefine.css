@@ -9,7 +9,7 @@ ul ul,ol ol{
 	margin: 0 0 0 2em; /* 给二级列表增加一定的左边距*/
 }
 li {
-    list-style: none
+    list-style: none;
 }
 /* 表格 */
 table {
@@ -19,16 +19,19 @@ table {
 /* 图片 */ 
 img {
     border: 0;
-    vertical-align: middle
+    vertical-align: middle;
+}
+textarea{
+	width: 100%;
 }
 /* 按钮 */
 button {
-    cursor: pointer
+    cursor: pointer;
 }
 /* 超链接 */
 a {
     color: #666;
-    text-decoration: none
+    text-decoration: none;
 }
 /* 布局 */
 .absolute{
@@ -136,6 +139,9 @@ a {
 
 *{
 	box-sizing:border-box;
+}
+.trans{
+	transition: 1.5s;
 }
 
 .btn{

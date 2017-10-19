@@ -30,14 +30,14 @@
 							{
 								return [
 								"is_done" => 1,
-								"message" => '更新成功!'
+								"message" => '更新成功!',
 								];
 							}
 							else
 							{
 								return [
 								"is_done" => 0,
-								"message" => '更新失败!'
+								"message" => '更新失败!',	
 								];
 							}
 							break;
