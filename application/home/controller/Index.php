@@ -1,71 +1,50 @@
 <?php
 
 	namespace app\home\controller;
-
-	use think\Controller;
+	
 	use think\Request;
 	use think\Db;
 	use think\Loader;
+	use app\home\controller\Base;
 	use app\home\model\User;
 	use app\home\model\Article;
 
-	class Index extends Controller
+	class Index extends Base
 	{
 
 		public function _initialize()
 		{
+			$this->nologin = array(
+				'login', 'dologin', 'logout', 'register', 'doregister', 'changepass', 'index', 'note_city',
+				'citychange',
+			);
 			parent::_initialize();
-			if (session('?user'))
-			{
-				$user = session('user');
-				$user = Db::name('User')->where("id", $user['id'])->find();
-				session('user', $user);  //覆盖session 中的 user               
-				$this->user = $user;
-				$this->user_id = $user['id'];
-				$this->assign('user', $user); //存储用户信息
-				$this->assign('user_id', $this->user_id);
-			}
-			else
-			{
-				// 免登录动作列表
-				$nologin = array(
-					'login', 'dologin', 'logout', 'register', 'doregister', 'changepass', 'index', 'note_city',
-					'citychange',
-				);
-				if (!in_array($this->request->action(), $nologin))
-				{
-					$this->error('请您先登录！', 'Home/Index/login');
-					exit;
+			// 模型定位
+			$this->model_id = Request::instance()->param('model_id')?:session('basemodel.id');
+			if(!empty($this->model_id)){
+				$basemodel = Db::name('basemodel')->find($this->model_id);
+				if($basemodel){
+					session('basemodel',$basemodel);
 				}
 			}
-			// 获取用户所选(所在)当前城市名称
-			$cur_city = GetCurrentCityName();
-			$this->assign('cur_city', $cur_city);
+			dump(session('basemodel'));
 		}
 
 		public function index()
 		{
 			// 获取坐标位置
-			// $coord = GetCoord();
-			// 轮播
+			// 轮播管理
 			// 入口分类
 			// 按照认证模型
-				$interfaces = Db::name('basemodel')->where('pid = 0')->select();
-			// 按照业务类型
-			//$interfaces = Db::name('category')->where('pid = 0')->select();
-			$this->assign('interfaces', $interfaces);
+			$models = Db::name('basemodel')->where('pid = 0')->select();
+			$this->assign('interfaces', $models);
 
 			// 文章
 			$article = new Article;
+			
 			// 按照用户所在城市过滤
-			$where = "region = 0";
-			if (session('?position'))
-			{
-				$region = session('position.city_id');
-				$where = "region = 0 or region = $region";
-			}else{
-				$this->redirect('citychange');
-			}
+			$region = session('position.city_id');
+			$where = "region = 0 or region = $region";
 			$arts = $article->where($where)->limit(6)->select();
 			$this->assign('arts', $arts);
 			return $this->fetch();
@@ -125,8 +104,9 @@
 				$this->error($validate->getError());
 			}
 			// 环信用户注册
-			if(!huanxin_reg($data['name'],$data['pass'])){
-				$this->error("用户名已存在！");
+			if (!huanxin_reg($data['name'], $data['pass']))
+			{
+				$this->error("用户名不规范或已存在！");
 			}
 			// 新增用户
 			$user = new User;
@@ -191,8 +171,8 @@
 			session('position', null);
 			// 认证模型信息
 			session('basemodel', null);
-			
-			// 经纬度存在cookie中保留
+
+			// 经纬度存在cookie中保留,位置信息仍留在cookie中下次使用
 			$this->success('退出完毕', 'index');
 		}
 
@@ -219,11 +199,12 @@
 			}
 		}
 
-		// 当前位置信息存入session
+		// 当前位置信息存入session和cookie
 		public function note_city()
 		{
 			$data = input('post.');
 			session('position', $data);
+			cookie('position', $data);
 			echo 1;
 		}
 
