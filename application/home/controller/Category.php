@@ -7,86 +7,19 @@
 	use think\Request;
 	use think\Db;
 
-	class Category extends Controller
+	class Category extends Base
 	{
 
 		public function _initialize()
 		{
 			parent::_initialize();
-			if (session('?user'))
-			{
-				$user = session('user');
-				$user = Db::name('user')->where("id", $user['id'])->find();
-				session('user', $user);  //覆盖session 中的 user               
-				$this->user = $user;
-				$this->user_id = $user['id'];
-				$this->assign('user', $user); //存储用户信息
-				$this->assign('user_id', $this->user_id);
-			}
-			else
-			{
-				// 免登录动作列表
-				$nologin = array(
-				);
-				if (!in_array($this->request->action(), $nologin))
-				{
-					$this->redirect('Home/Index/login');
-					exit;
-				}
-			}
-			// 获取用户所选(所在)当前城市名称
-			$cur_city = GetCurrentCityName();
-			$this->assign('cur_city', $cur_city);
-
-			// 城市选择组件所需数据
-			$parent_id['parent_id'] = 1;
-			$region = Db::name('Region')->where($parent_id)->select();
-			$this->assign('region', $region);
 		}
 
 		public function index()
 		{
-			// 当前基础认证模型
-			$model_id = $this->request->param('model_id') ?: session('basemodel.id');
-			$basemodel = Db::name('Basemodel')->find($model_id);
-			// 刷新当前模型值
-			session('basemodel', $basemodel);
-			// 根据分类进入不同的界面(根据养殖户，厂商，专家，运输)
-			switch ($model_id)
-			{
-				case 1:
-					// 养殖户进入，展示所有业务类型
-					$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
-					$this->assign('categorys', $categorys);
-					$tpl_id = 1;
-					break;
-				case 2:
-					// 厂商，进入后再次选择业务分类 5 还是 6
-					$categorys = Db::name('basemodel')->where('id IN (5,6)')->select();
-					$this->assign('categorys', $categorys);
-					$tpl_id = 2;
-					break;
-				case 3:
-					// 专家
-					$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
-					$this->assign('categorys', $categorys);
-					$tpl_id = 3;
-					break;
-				case 4:
-					// 运输
-					$tpl_id = 4;
-					break;
-				case 5:
-				case 6:
-					$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
-					$this->assign('categorys', $categorys);
-					$tpl_id = 5;
-					break;
-				default:
-					break;
-			}
-			$this->assign('model_id', $model_id);
-			return $this->fetch('index_' . $tpl_id);
+			$categorys = Db::name('category')->where('pid = 0 AND id NOT IN (12,19)')->select();
+			$this->assign('categorys', $categorys);
+			return $this->fetch();
 		}
 
 		// 模型分类认证信息展示
@@ -98,6 +31,7 @@
 			{
 				$auth_catid = 0;
 			}
+			var_dump($auth_catid);
 			$this->assign('auth_catid', $auth_catid);
 
 			// 获取绑定的所有分类
@@ -113,9 +47,15 @@
 		// 模型分类认证
 		public function doauth()
 		{
+			// 根据认证分类确定模型
+			$model_id = $this->request->param('model_id');
 
 			$post_data = $this->request->param();
-
+//			dump($post_data['cat_id']);
+//			// 如果已经提交了验证信息则回退
+//			if(true){
+//				$this->error('您已经提交了验证信息','category/index', ['model_id'=>$model_id]);
+//			}
 			// 公共信息
 			$map['user_id'] = $post_data['user_id'];
 			$map['name'] = $post_data['name'];
@@ -128,8 +68,7 @@
 			// 默认未通过审核
 			$map['is_auth'] = 0;
 
-			// 根据认证分类确定模型
-			$model_id = $this->request->param('model_id');
+
 
 			switch ($model_id)
 			{
@@ -205,11 +144,14 @@
 		// 二级入口列表，时间关系暂不列入后台维护范畴，相应的根入口必须为不可变动
 		public function detail()
 		{
-			$model_id = $this->request->param('model_id');
-			$basemodel = Db::name('Basemodel')->find($model_id);
-			// 刷新当前模型值
-			session('basemodel', $basemodel);
+			$this->authCheck();
+			$model_id = $this->model_id;
+			dump($model_id);
 			$cat_id = $this->request->param('cat_id');
+			// 列举厂商分类的入口
+			$market_cats = Db::name('Market_cat')->where('pid = 0')->select();
+			$this->assign("market_cats",$market_cats);
+			
 			if (is_authed($cat_id))
 			{
 				$this->assign('cat_id', $cat_id);
@@ -217,7 +159,7 @@
 			}
 			else
 			{
-				$model_name = session('basemodel.table_name');
+				$table_name = session('basemodel.table_name');
 				$model_id = session('basemodel.id');
 				$uid = $this->user_id;
 				$map['user_id'] = $uid;
@@ -227,7 +169,7 @@
 					$map['cat_id'] = $cat_id;
 				}
 				$map['is_auth'] = 0;
-				if (Db::name($model_name)->where($map)->select())
+				if (Db::name($table_name)->where($map)->select())
 				{
 					return $this->error('您的信息正在认证中,请耐心等待');
 				}
@@ -244,17 +186,13 @@
 			// 提交
 			if (request()->isPost())
 			{
-				// 提交新增信息
-
 				$map = Request::instance()->param();
 				$map['user_id'] = $this->user_id;
 				$postion = session('position');
-				if ($postion)
-				{
-					$map['pro'] = $postion['pro_id'];
-					$map['city'] = $postion['city_id'];
-					$map['area'] = $postion['area_id'];
-				}
+				$map['pro'] = $postion['pro_id'];
+				$map['city'] = $postion['city_id'];
+				$map['area'] = $postion['area_id'];
+
 				if (Db::name('Manage')->insert($map))
 				{
 					$this->success('新增栏成功');
@@ -291,14 +229,12 @@
 			{
 				
 			}
-			// 默认当前城市
+			// 查询当前城市
 			else
 			{
-				if ($position = session('position'))
-				{
-					$city_id = $position['city_id'];
-					// 查询当前城市下当前分类下，按照二级分类统计的行情
-					$sql = "SELECT
+				$city_id = session('position.city_id');
+				// 查询当前城市下当前分类下，按照二级分类统计的行情
+				$sql = "SELECT
 							SUM(m.num) sum, 
  							r.region_name,
 							c. NAME cat_name
@@ -308,9 +244,9 @@
 						LEFT JOIN foo_region r ON (m.area = r.region_id)
 						WHERE
 						1 = 1 AND m.city = $city_id ";
-					if (!empty($cat_id))
-					{
-						$sql .= "AND m.cat_id IN (
+				if (!empty($cat_id))
+				{
+					$sql .= "AND m.cat_id IN (
 							SELECT
 								id
 							FROM
@@ -318,16 +254,12 @@
 							WHERE
 								pid = $cat_id
 						) ";
-					}
-					$sql .= " 
+				}
+				$sql .= " 
 						GROUP BY
 						region_name,cat_name";
-					$matter = Db::query($sql);
-					$this->assign('matter', $matter);
-					// 
-					$city_name = $position['city_name'];
-					$this->assign('city_name', $city_name);
-				}
+				$matter = Db::query($sql);
+				$this->assign('matter', $matter);
 			}
 
 			return $this->fetch();
@@ -368,12 +300,6 @@
 		}
 
 		public function transport()
-		{
-			return $this->fetch();
-		}
-
-		// 附近会员
-		public function near()
 		{
 			return $this->fetch();
 		}

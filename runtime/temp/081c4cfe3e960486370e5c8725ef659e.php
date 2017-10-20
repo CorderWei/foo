@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"E:\WWW\foo\public/../application/../template/admin/user\auth_list.html";i:1508398827;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"E:\WWW\foo\public/../application/../template/admin/user\auth_list.html";i:1508428767;}*/ ?>
 <style>
 	#list_cat span{
 		display: inline-block;
@@ -17,9 +17,18 @@
 		color: #fff;
 		background-color: #da4f49; 
 	}
-</style>
-<div>
-	<ul id="list_cat">
+	.pagination{ text-align:center; background:#f1f1f1; padding:7px 0; margin-top: 30px;}
+	.pagination:after { 
+		content: "\0020"; display: block; height: 0; clear: both; 
+	}
+	.pagination li{ float:left;}
+	.pagination a{ margin:0 5px; border:#DA4453 solid 1px; display:inline-block; padding:2px 6px 1px; line-height:
+					   16px; background:#fff; color:#DA4453;}
+	.pagination span{ margin:0 5px; border:#DA4453 solid 1px; display:inline-block; padding:2px 6px 1px; line-height:
+						  16px; color:#DA4453; color:#fff; background:#DA4453;}
+	</style>
+	<div>
+		<ul id="list_cat">
 		<li>
 			<span>用户ID</span>
 			<span>用户账号</span>
@@ -82,7 +91,10 @@
 		</li>
 		<?php endforeach; endif; else: echo "" ;endif; ?>
 	</ul>
+	<?php echo $pagedata->render(); ?>
 </div>
+<script type="text/javascript" src="/assets/script/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/assets/script/foo-js-0.5.js"></script>
 <script>
 	$(function () {
 		foo.trans.ajaxJump('.action_btn', 'admin', function (page) {
@@ -115,6 +127,14 @@
 					}
 				}
 			});
+		});
+		$(".pagination a").click(function () {
+			var url = $(this).attr("href");
+			$.post(url, {}, function (page) {
+				console.log(page);
+				$("#content").html(page);
+			});
+			return false;
 		});
 	});
 </script>

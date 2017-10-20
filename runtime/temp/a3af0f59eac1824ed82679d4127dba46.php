@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:70:"E:\WWW\foo\public/../application/../template/pc/category\auth_tpl.html";i:1508398593;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:70:"E:\WWW\foo\public/../application/../template/pc/public\citychange.html";i:1507772516;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:70:"E:\WWW\foo\public/../application/../template/pc/category\auth_tpl.html";i:1508403292;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:70:"E:\WWW\foo\public/../application/../template/pc/public\citychange.html";i:1507772516;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -59,7 +59,7 @@
 	<form class="auth-form" action="<?php echo Url('Category/doAuth'); ?>" enctype="multipart/form-data" method="post">
 		<input type="hidden" name="model_id" value="<?php echo \think\Session::get('basemodel.id'); ?>"/>
 		<input type="hidden" name="user_id" value="<?php echo \think\Session::get('user.id'); ?>"/>
-		<?php if(\think\Session::get('basemodel.name') == '1'): ?>
+		<?php if(\think\Session::get('basemodel.id') == '1'): ?>
 		<div>
 			<label>业务范畴:</label>	
 			<select name="cat_id">

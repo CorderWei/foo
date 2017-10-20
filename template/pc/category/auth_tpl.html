@@ -5,7 +5,7 @@
 	<form class="auth-form" action="{:Url('Category/doAuth')}" enctype="multipart/form-data" method="post">
 		<input type="hidden" name="model_id" value="{$Think.session.basemodel.id}"/>
 		<input type="hidden" name="user_id" value="{$Think.session.user.id}"/>
-		{eq name="Think.session.basemodel.name" value="1"}
+		{eq name="Think.session.basemodel.id" value="1"}
 		<div>
 			<label>业务范畴:</label>	
 			<select name="cat_id">

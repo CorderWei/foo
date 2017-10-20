@@ -19,15 +19,6 @@
 				'citychange',
 			);
 			parent::_initialize();
-			// 模型定位
-			$this->model_id = Request::instance()->param('model_id')?:session('basemodel.id');
-			if(!empty($this->model_id)){
-				$basemodel = Db::name('basemodel')->find($this->model_id);
-				if($basemodel){
-					session('basemodel',$basemodel);
-				}
-			}
-			dump(session('basemodel'));
 		}
 
 		public function index()
@@ -215,6 +206,12 @@
 			$name = $user['name'];
 			$hx_pass = $user['hx_pass'];
 			$this->redirect("/WebIm.html?name=$name&hx_pass=$hx_pass");
+		}
+		
+		// 附近会员
+		public function near()
+		{
+			return $this->fetch();
 		}
 
 	}

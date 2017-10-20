@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"E:\WWW\foo\public/../application/../template/pc/index\index.html";i:1508134305;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"E:\WWW\foo\public/../application/../template/pc/index\index.html";i:1508479787;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -84,7 +84,7 @@
 	<ul class="interface clear">
 		<?php if(is_array($interfaces) || $interfaces instanceof \think\Collection || $interfaces instanceof \think\Paginator): $i = 0; $__LIST__ = $interfaces;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$inter): $mod = ($i % 2 );++$i;?>
 		<li>
-			<a href="<?php echo Url('Category/index',array('model_id'=>$inter['id'])); ?>">
+			<a href='<?php echo Url("$inter[ctrl_name]/$inter[act_name]",array("model_id"=>$inter['id'])); ?>'>
 				<img src="/assets/image/siyang.png" alt=""/>
 				<p><?php echo $inter['name']; ?></p>
 			</a>

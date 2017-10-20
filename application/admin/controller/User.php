@@ -61,7 +61,9 @@
 				->join('foo_category c', 'c.id = t.cat_id', 'LEFT')
 				->join('foo_user u', 'u.id = t.user_id', 'LEFT')
 				->field("t.*,c.name cat_name,u.name user_name")
-				->paginate(10);
+				->paginate(10, false, [
+				'query' => Request::instance()->param(),
+			]);
 			//$pagedata = Db::name($table_name)->paginate(10);
 			$this->assign("pagedata", $pagedata);
 			echo $this->fetch();
@@ -83,9 +85,9 @@
 					$uid = Db::name($table)->where($kn, $kv)->value('user_id');
 					$old_auth = Db::name('user')->where("id = $uid")->value('cat_ids');
 					// 根据模型和业务方向拼接的权限码,全部业务则cat_id为0
-	                $auth_code = $model_id."_".$cat_id;
+					$auth_code = $model_id . "_" . $cat_id;
 					// 更新 user 表中对应数据的cat_ids字段
-					$new_auth = change_auth($auth_code,$old_auth);
+					$new_auth = change_auth($auth_code, $old_auth);
 					Db::name('user')->where("id = $uid")->setField('cat_ids', $new_auth);
 					// 提交事务
 					Db::commit();

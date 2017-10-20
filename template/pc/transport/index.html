@@ -1,0 +1,36 @@
+{include file="public/head"}
+{load href="/assets/style/category.css" /} 
+<body>
+	{include file="public/header"}
+	<div class="user-info-wrap">
+		<span class="user-name">{$Think.session.user.name}</span>
+		<span class="grade">&starf;&starf;&starf;</span>
+		<span class="basemodel-name">({$Think.session.basemodel.name})</span>
+		<div class="user-bottom">
+			<a href="{:Url('User/index')}">个人中心</a>
+			<a href="{:Url('Category/auth')}">信息认证</a>
+		</div>
+	</div>
+	<!--客户基础模型入口-->
+	<ul class="interface clear">
+		<li>
+			<a href="{:Url('Transport/my_car')}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>我的运输</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Category/matter')}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>行情查询</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Index/near')}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>附近会员</p>
+			</a>
+		</li>
+	</ul>
+</body>
+{include file="public/foot"}

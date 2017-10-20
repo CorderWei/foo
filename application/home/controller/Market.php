@@ -11,37 +11,18 @@
 	 *
 	 * @author Administrator
 	 */
-	class Market extends Controller
+	class Market extends Base
 	{
 
 		public function _initialize()
 		{
 			parent::_initialize();
-			if (session('?user'))
-			{
-				$user = session('user');
-				$user = Db::name('User')->where("id", $user['id'])->find();
-				session('user', $user);  //覆盖session 中的 user               
-				$this->user = $user;
-				$this->user_id = $user['id'];
-				$this->assign('user', $user); //存储用户信息
-				$this->assign('user_id', $this->user_id);
-			}
-			else
-			{
-				// 免登录动作列表
-				$nologin = array(
-
-				);
-				if (!in_array($this->request->action(), $nologin))
-				{
-					$this->error('请您先登录！', 'Home/Index/login');
-					exit;
-				}
-			}
-			// 获取用户所选(所在)当前城市名称
-			$cur_city = GetCurrentCityName();
-			$this->assign('cur_city', $cur_city);
+		}
+		
+		public function index(){
+			$market_cats = Db::name('market_cat')->where('pid = 0')->select();
+			$this->assign('market_cats', $market_cats);
+			return $this->fetch();
 		}
 
 		public function detail()

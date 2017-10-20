@@ -21,18 +21,14 @@
 				<p>产品上架</p>
 			</a>
 		</li>
+		{volist name="market_cats" id="mc"}
 		<li>
-			<a href="{:Url('Category/drug',array('cat_id'=>$cat_id))}">
+			<a href="{:Url('Goods/buy',array('mc_pid'=>$mc.id))}">
                 <img src="/assets/image/zhuanshu.png"/>
-				<p>兽药</p>
+				<p>{$mc.name}</p>
 			</a>
 		</li>
-		<li>
-			<a href="{:Url('Category/food',array('cat_id'=>$cat_id))}">
-                <img src="/assets/image/zhuanshu.png"/>
-				<p>饲料</p>
-			</a>
-		</li>
+		{/volist}
 		<li>
 			<a href="{:Url('Goods/buy',array('cat_id'=>$cat_id))}">
                 <img src="/assets/image/zhuanshu.png"/>
@@ -40,13 +36,13 @@
 			</a>
 		</li>
 		<li>
-			<a href="{:Url('Category/transport',array('cat_id'=>$cat_id))}">
+			<a href="{:Url('Category/transport')}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>物流运输</p>
 			</a>
 		</li>
 		<li>
-			<a href="{:Url('Category/near',array('cat_id'=>$cat_id))}">
+			<a href="{:Url('Index/near')}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>附近会员</p>
 			</a>

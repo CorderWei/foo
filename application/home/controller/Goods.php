@@ -6,8 +6,6 @@
 	use think\Request;
 	use think\Db;
 
-	//use app\home\model\Goods;
-
 	class Goods extends Controller
 	{
 

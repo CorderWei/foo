@@ -168,10 +168,10 @@
 	 */
 	function GetCoord()
 	{
-		$coord = cookie('TW_coord');
+		$coord = cookie('coord');
 		if (isset($coord))
 		{
-			$coord = unserialize(cookie('TW_coord'));
+			$coord = unserialize(cookie('coord'));
 			return $coord;
 		}
 		else
@@ -180,7 +180,7 @@
 			if (array_key_exists('content', $city))
 			{
 				$coord = $city['content']['point'];
-				cookie('TW_coord', serialize($coord));
+				cookie('coord', serialize($coord));
 			}
 			return $coord;
 		}
