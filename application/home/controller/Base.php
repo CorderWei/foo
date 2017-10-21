@@ -115,11 +115,13 @@
 			{
 				case 1:
 					$cid = $cat_id ?: 0;
-					$where['cat_id'] = $cid;
+					$param_name = 'cat_id';
+					$where[$param_name] = $cid;
 					break;
 				case 2:
 					$cid = $mc_id ?: 0;
-					$where['mc_id'] = $cid;
+					$param_name = 'mc_id';
+					$where[$param_name] = $cid;
 					break;
 				case 3:
 					$cid = 0;
@@ -140,8 +142,10 @@
 				}
 				else
 				{
-					return $this->error('您尚未认证所需信息', "auth?cat_id={$cat_id}");
+					return $this->error('您尚未认证所需信息', "Auth/auth_tpl?$param_name={$cat_id}");
 				}
+			}else{
+				return true;
 			}
 		}
 

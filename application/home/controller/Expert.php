@@ -1,8 +1,8 @@
 <?php
 
 	namespace app\home\controller;
-
-	use think\Controller;
+	
+	use app\home\controller\Base;
 	use think\Request;
 	use think\Db;
 
@@ -17,6 +17,7 @@
 		public function _initialize()
 		{
 			parent::_initialize();
+			$this->authCheck();
 		}
 		
 		public function index(){
@@ -77,6 +78,7 @@
 			}
 			return $this->fetch();
 		}
+		
 		public function detail(){
 			$course_id = Request::instance()->param("id");
 			$course = Db::name('Course')->find($course_id);
@@ -84,37 +86,5 @@
 			return $this->fetch();
 		}
 		
-		// 权限验证,能否查看和发布文章
-//		public function check_auth()
-//		{
-//			// 更新当前基础模型编码
-//			$model_id = Request::instance()->param('model_id');
-//			$basemodel = Db::name('Basemodel')->find($model_id);
-//			session('basemodel', $basemodel);
-//			// 2,3,4 基础模型依赖模型ID传输数据
-//			$this->assign('model_id', $model_id);
-//
-//			if (is_authed(0))
-//			{
-//				
-//			}
-//			else
-//			{
-//				$model_name = session('basemodel.table_name');
-//				$uid = $this->user_id;
-//				$map['model_id'] = $model_id;
-//				$map['user_id'] = $uid;
-//				$map['is_auth'] = 0;
-//				if (Db::name($model_name)->where($map)->find())
-//				{
-//					return $this->error('您的信息正在认证中,请耐心等待');
-//				}
-//				else
-//				{
-//					return $this->error('您尚未认证所需信息', Url('category/auth', ['model_id' => $model_id]));
-//				}
-//			}
-//		}
-
 	}
 	

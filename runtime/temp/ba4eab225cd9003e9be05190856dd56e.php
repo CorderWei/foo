@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"E:\WWW\foo\public/../application/../template/pc/transport\index.html";i:1508483196;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"E:\WWW\foo\public/../application/../template/pc/transport\index.html";i:1508487215;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -105,7 +105,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="<?php echo Url('Category/near'); ?>">
+			<a href="<?php echo Url('Index/near'); ?>">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>附近会员</p>
 			</a>

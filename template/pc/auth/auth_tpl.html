@@ -2,13 +2,28 @@
 <body>
 	{include file="public/title"}
 	<h4 class="cur-page-title">{$Think.session.basemodel.name}用户信息认证</h4>
-	<form class="auth-form" action="{:Url('Category/doAuth')}" enctype="multipart/form-data" method="post">
+	<form class="auth-form" action="{:Url('Auth/doAuth')}" enctype="multipart/form-data" method="post">
 		<input type="hidden" name="model_id" value="{$Think.session.basemodel.id}"/>
 		<input type="hidden" name="user_id" value="{$Think.session.user.id}"/>
 		{eq name="Think.session.basemodel.id" value="1"}
 		<div>
 			<label>业务范畴:</label>	
 			<select name="cat_id">
+				<option value="0">请选择业务范畴</option>
+				{volist name="cats" id="cat"}
+				{if condition="$cat['id'] eq $auth_catid"}
+				<option value="{$cat.id}" selected="selected">{$cat.name}</option>
+				{else/}
+				<option value="{$cat.id}">{$cat.name}</option>
+				{/if}
+				{/volist}
+			</select>
+		</div>
+		{/eq}
+		{eq name="Think.session.basemodel.id" value="2"}
+		<div>
+			<label>厂区类型:</label>	
+			<select name="mc_id">
 				<option value="0">请选择业务范畴</option>
 				{volist name="cats" id="cat"}
 				{if condition="$cat['id'] eq $auth_catid"}
@@ -49,6 +64,9 @@
 				<img src="/assets/image/need_add_pic.png" id="owner_pic_preview" alt="" />
 			</label>
 		</div>
+		<div>
+			<textarea rows="6" name="intro" placeholder="简介说明"></textarea>
+		</div>
 		{switch name="Think.session.basemodel.id"}
 		{case value="1"}
 		<!-- 饲养户附加信息 -->
@@ -64,7 +82,7 @@
 			</label>
 		</div>
 		{/case}
-		{case value="5|6"}
+		{case value="2"}
 		<!-- 厂区用户附加信息 -->
 		<div>
 			<label>营业执照编号:</label>
@@ -92,10 +110,6 @@
 			<label>资质证件说明及编号:</label>
 			<input name="license" />
 		</div>
-		<div>
-			<label>个人简介:</label>
-			<input name="intro" />
-		</div>
 		{/case}
 		{case value="4"}
 		<!-- 运输车用户附加信息 -->
@@ -121,7 +135,6 @@
 		{/case}
 		{default /}
 		{/switch}
-
 		<input type="submit" value="提交"/>
 	</form>
 </body>
