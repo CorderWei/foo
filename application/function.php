@@ -113,7 +113,7 @@
 		{
 			$ip = GetIp();
 		}
-		$ip = '112.243.45.146'; //TEST
+		//$ip = '112.243.45.146'; //TEST
 		$res = @file_get_contents('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip=' . $ip);
 		if (empty($res))
 		{
@@ -149,7 +149,7 @@
 		{
 			$ip = GetIp();
 		}
-		$ip = '112.243.45.146'; //TEST
+		//$ip = '112.243.45.146'; //TEST
 		$url = "https://api.map.baidu.com/location/ip?ip=$ip&ak=nYPxjmQB6d0155v3adI4MGaSCPAf82Um&coor=bd09ll";
 		$curl = curl_init(); // 启动一个CURL会话
 		curl_setopt($curl, CURLOPT_URL, $url);

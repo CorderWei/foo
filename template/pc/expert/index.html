@@ -30,6 +30,23 @@
 				<p>发布文章</p>
 			</a>
 		</li>
+		{volist name="market_cats" id="mc"}
+		{elt name="mc.id" value="2"}
+		<li>
+			<a href="{:Url('Goods/buy',array('acc_model_id'=>2,'mc_id'=>$mc.id))}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>{$mc.name}</p>
+			</a>
+		</li>
+		{else/}
+		<li>
+			<a href="{:Url('Market/market_list',array('mc_id'=>$mc.id))}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>{$mc.name}</p>
+			</a>
+		</li>
+		{/elt}
+		{/volist}
 		<li>
 			<a href="{:Url('Index/near')}">
                 <img src="/assets/image/zhuanshu.png"/>

@@ -256,7 +256,6 @@
 						->paginate(10, false, [
 						'query' => Request::instance()->param(),
 					]);
-					echo Db::name('Goods')->getLastSql();
 					break;
 				case 3:
 

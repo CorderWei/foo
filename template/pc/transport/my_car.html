@@ -1,37 +1,44 @@
 {include file="public/head"}
 <body>
 	{include file="public/title"}
-	<div>
-		<label>车辆地址</label>
-		<span>{$car.address}</span>
-	</div>
-	<div>
-		<label>约车电话</label>
-		<span>{$car.phone}</span>
-	</div>
-	<div>
-		<label>车牌号</label>
-		<span>{$car.car_no}</span>
-	</div>
-	<div>
-		<label>驾照编号</label>
-		<span>{$car.car_license}</span>
-	</div>
-	<div>
-		<label>车主证件号</label>
-		<span>{$car.card_no}</span>
-	</div>
-	<div>
-		<label>配送半径(公里)</label>
-		<span>{$car.radius}</span>
-	</div>
-	<div>
-		<label>车主近照</label>
-		<span><img src="{$car.owner_pic}"></span>
-	</div>
-	<div>
-		<label>车辆照片</label>
-		<span><img src="{$car.car_pic}"></span>
-	</div>
+	<style>
+		.auth-form span{
+			line-height: 3rem;
+		}
+	</style>
+	<div class="auth-form">
+		<div>
+			<label>车辆地址 : </label>
+			<span>{$car.address}</span>
+		</div>
+		<div>
+			<label>约车电话 : </label>
+			<span>{$car.phone}</span>
+		</div>
+		<div>
+			<label>车牌号 : </label>
+			<span>{$car.car_no}</span>
+		</div>
+		<div>
+			<label>驾照编号 : </label>
+			<span>{$car.car_license}</span>
+		</div>
+		<div>
+			<label>车主证件号 : </label>
+			<span>{$car.card_no}</span>
+		</div>
+		<div>
+			<label>配送半径(公里) : </label>
+			<span>{$car.radius}</span>
+		</div>
+		<div>
+			<label>车主近照 : </label>
+			<span><img src="{$car.owner_pic}"></span>
+		</div>
+		<div>
+			<label>车辆照片 : </label>
+			<span><img src="{$car.car_pic}"></span>
+		</div>
+	</div>	
 </body>
 {include file="public/foot"}

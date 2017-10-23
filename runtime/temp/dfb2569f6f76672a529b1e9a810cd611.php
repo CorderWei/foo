@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:65:"E:\WWW\foo\public/../application/../template/pc/expert\index.html";i:1508573459;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:70:"E:\WWW\foo\public/../application/../template/pc/public\user_inter.html";i:1508549849;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:65:"E:\WWW\foo\public/../application/../template/pc/expert\index.html";i:1508765555;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:70:"E:\WWW\foo\public/../application/../template/pc/public\user_inter.html";i:1508549849;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -118,6 +118,21 @@
 				<p>发布文章</p>
 			</a>
 		</li>
+		<?php if(is_array($market_cats) || $market_cats instanceof \think\Collection || $market_cats instanceof \think\Paginator): $i = 0; $__LIST__ = $market_cats;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$mc): $mod = ($i % 2 );++$i;if($mc['id'] <= '2'): ?>
+		<li>
+			<a href="<?php echo Url('Goods/buy',array('acc_model_id'=>2,'mc_id'=>$mc['id'])); ?>">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p><?php echo $mc['name']; ?></p>
+			</a>
+		</li>
+		<?php else: ?>
+		<li>
+			<a href="<?php echo Url('Market/market_list',array('mc_id'=>$mc['id'])); ?>">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p><?php echo $mc['name']; ?></p>
+			</a>
+		</li>
+		<?php endif; endforeach; endif; else: echo "" ;endif; ?>
 		<li>
 			<a href="<?php echo Url('Index/near'); ?>">
                 <img src="/assets/image/zhuanshu.png"/>

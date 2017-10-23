@@ -21,6 +21,8 @@
 
 		public function index()
 		{
+			$market_cats = Db::name('market_cat')->where('pid = 0')->select();
+			$this->assign('market_cats', $market_cats);
 			return $this->fetch();
 		}
 
