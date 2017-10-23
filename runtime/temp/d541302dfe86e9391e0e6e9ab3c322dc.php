@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"E:\WWW\foo\public/../application/../template/pc/index\register.html";i:1507882480;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:67:"E:\WWW\foo\public/../application/../template/pc/index\register.html";i:1508765087;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -45,9 +45,9 @@
 		<img class="login-img" src="/assets/image/enrolltop.png" alt=""/>
 		<div class="login-content">
 			<form class="register-form" action="<?php echo Url('Index/doregister'); ?>" method='post'>
-				<input name="name" placeholder="用户名"/>
-				<input name="pass" placeholder="密码"/>
-				<input name="pass2" placeholder="再次输入密码"/>
+				<input name="name" placeholder="英文数字组合,不支持中文"/>
+				<input name="pass" type="password" placeholder="密码"/>
+				<input name="pass2" type="password" placeholder="再次输入密码"/>
 				<button type="submit">注册</button>
 			</form>
 			<div class="btn-box">

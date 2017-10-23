@@ -1,6 +1,11 @@
 {include file="public/head"}
 <body>
 	{include file="public/header"}
+	<div class="user-info-wrap">
+		<span class="user-name">{$Think.session.user.name}</span>
+		<span class="grade">&starf;&starf;&starf;</span>
+		<span class="basemodel-name">({$soncat_name})</span>
+	</div>
 	<!--客户基础模型入口-->
 	<ul class="interface clear">
 		<li>
@@ -22,21 +27,36 @@
 			</a>
 		</li>
 		{volist name="market_cats" id="mc"}
+		{elt name="mc.id" value="2"}
 		<li>
-			<a href="{:Url('Goods/buy',array('mc_pid'=>$mc.id))}">
+			<a href="{:Url('Goods/buy',array('acc_model_id'=>2,'mc_id'=>$mc.id))}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>{$mc.name}</p>
 			</a>
 		</li>
+		{else/}
+		<li>
+			<a href="{:Url('Market/market_list',array('mc_id'=>$mc.id))}">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p>{$mc.name}</p>
+			</a>
+		</li>
+		{/elt}
 		{/volist}
 		<li>
-			<a href="{:Url('Goods/buy',array('cat_id'=>$cat_id))}">
+			<a href="{:Url('Goods/buy',array('acc_model_id'=>1,'cat_id'=>$cat_id))}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>在线抢单</p>
 			</a>
 		</li>
 		<li>
-			<a href="{:Url('Category/transport')}">
+			<a href="{:Url('Expert/course_list')}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>专家文章</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Transport/car_list')}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>物流运输</p>
 			</a>

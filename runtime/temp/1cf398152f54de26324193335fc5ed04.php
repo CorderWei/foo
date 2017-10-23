@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:63:"E:\WWW\foo\public/../application/../template/pc/user\index.html";i:1507945056;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:63:"E:\WWW\foo\public/../application/../template/pc/user\index.html";i:1508680219;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -42,7 +42,7 @@
 	<h3 class="head">养殖天网 <a class="btn-goback" href="/"></a></h3>
 	<ul class="center-list">
 		<li>
-			<a href="<?php echo Url('User/my_auth'); ?>">我的认证</a>
+			<a href="<?php echo Url('Auth/my_auth'); ?>">我的认证</a>
 		</li>
 		<li>
 			<a href="<?php echo Url('Index/changepass'); ?>">修改密码</a>

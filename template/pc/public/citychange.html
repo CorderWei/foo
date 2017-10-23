@@ -3,7 +3,11 @@
 <!-- 省份 -->
 <select name="pro" id="pro" data-url="{:Url('Index/citychange')}">
 	{foreach name="region" item="v"}
+	{if condition="$Think.session.position.pro_id eq $v.region_id"}
+	<option value="{$v.region_id}" selected>{$v.region_name}</option>
+	{else/}
 	<option value="{$v.region_id}">{$v.region_name}</option>
+	{/if}
 	{/foreach}
 </select>
 <!-- 城市 -->

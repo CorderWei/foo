@@ -1,8 +1,10 @@
 {load href="/assets/style/header.css" /}
 {load href="/assets/script/jquery-1.12.4.min.js" /}
 <!--顶部入口-->
+{php}$ctrl_name = think\Session::get('basemodel.ctrl_name');{/php}
+{php}$act_name = think\Session::get('basemodel.act_name');{/php}
 <div class="header">
-	<span class="com_btn t-c btn-city back">返回</span>
+	<a class="com_btn t-c btn-city" href='{:Url("$ctrl_name/$act_name")}'>返回</a>
 	<a class="main_title" href="/">养殖天网首页</a>
 	<a class="com_btn t-c btn-chat" href="{:Url('Index/huanxin')}">聊天室</a>
 </div>

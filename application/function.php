@@ -77,13 +77,14 @@
 		curl_close($ch);
 		return $ret;
 	}
+
 	/**
 	 * 注册环信
 	 * @param type $name
 	 * @param type $pass
 	 * @return type
 	 */
-	function huanxin_reg($name,$pass)
+	function huanxin_reg($name, $pass)
 	{
 		// 注册环信  start //
 		$data = array(
@@ -250,7 +251,7 @@
 		}
 		return isset($items[0]['son']) ? $items[0]['son'] : array();
 	}
-	
+
 	/**
 	 * 根据经纬度实现两点测距
 	 * @param type $lat1
@@ -259,20 +260,21 @@
 	 * @param type $lon2
 	 * @return type
 	 */
-	function distance($lat1, $lon1, $lat2, $lon2) {
-			$R = 6371393; //地球平均半径,单位米
+	function distance($lat1, $lon1, $lat2, $lon2)
+	{
+		$R = 6371393; //地球平均半径,单位米
 
-			$dlat = deg2rad($lat2-$lat1);
+		$dlat = deg2rad($lat2 - $lat1);
 
-			$dlon = deg2rad($lon2-$lon1);
+		$dlon = deg2rad($lon2 - $lon1);
 
-			$a = pow(sin($dlat/2), 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * pow(sin($dlon/2), 2);
+		$a = pow(sin($dlat / 2), 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * pow(sin($dlon / 2), 2);
 
-			$c = 2 * atan2(sqrt($a), sqrt(1-$a));
+		$c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
-			$d = $R * $c;
+		$d = $R * $c;
 
-			return round($d);
+		return round($d);
 	}
 
 	/**
@@ -316,19 +318,9 @@
 	 * @param bool $find_son_cat  是否查询产品子类, 如为true, 则查询产品分类中父ID为cat_id的分类下所有商品
 	 * @return string
 	 */
-	function getGoodsSql($region = 'area', $city_id = '0', $user_id = '0', $cat_id = '0', $find_son_cat = false, $other = "")
+	function getGoodsWhere($region = 'area', $city_id = '0', $user_id = '0', $cat_id = '0', $find_son_cat = false, $other = "")
 	{
-		$sql = "SELECT
-				g.*, 
-				r.region_name,
-  			    u. NAME user_name,
-				c. NAME cat_name
-			FROM
-				foo_goods g
-			LEFT JOIN foo_region r ON (g.area = r.region_id)
-			LEFT JOIN foo_user u ON (g.user_id = u.id)
-			LEFT JOIN foo_category c ON (g.cat_id = c.id)
-			WHERE on_sell = 1 ";
+		$sql = "on_sell = 1 ";
 		if ($city_id > 0)
 		{
 			$sql .= "AND g.$region in (SELECT region_id from foo_region where parent_id = $city_id) ";
@@ -348,7 +340,33 @@
 				$sql .= "AND g.cat_id = $cat_id ";
 			}
 		}
-		$sql .= "$other ORDER BY r.region_id ";
+		$sql .= "$other ";
+		return $sql;
+	}
+
+	function getGoodsWhere2($region = 'area', $city_id = '0', $user_id = '0', $mc_id = '0', $find_son_cat = false, $other = "")
+	{
+		$sql = "on_sell = 1 ";
+		if ($city_id > 0)
+		{
+			$sql .= "AND g.$region in (SELECT region_id from foo_region where parent_id = $city_id) ";
+		}
+		if ($user_id > 0)
+		{
+			$sql .= "AND g.user_id = $user_id ";
+		}
+		if ($mc_id > 0)
+		{
+			if ($find_son_cat)
+			{
+				$sql .= "AND g.cat_id in (SELECT id from foo_market_cat where pid = $mc_id) ";
+			}
+			else
+			{
+				$sql .= "AND g.cat_id = $mc_id ";
+			}
+		}
+		$sql .= "$other ";
 		return $sql;
 	}
 	

@@ -5,34 +5,38 @@
 	<div class="user-info-wrap">
 		<span class="user-name">{$Think.session.user.name}</span>
 		<span class="grade">&starf;&starf;&starf;</span>
-		<span class="basemodel-name">({$Think.session.basemodel.name})</span>
-		<div class="user-bottom">
-			<a href="{:Url('User/index')}">个人中心</a>
-			<a href="{:Url('Category/auth')}">信息认证</a>
-		</div>
+		<span class="basemodel-name">({$soncat_name})</span>
 	</div>
 	<!--客户基础模型入口-->
 	<ul class="interface clear">
 		<li>
-			<a href="{:Url('Category/matter',['model_id' => $model_id])}">
+			<a href="{:Url('Category/matter')}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>行情查询</p>
 			</a>
 		</li>
+		{elt name="mc_id" value="2"}
 		<li>
-			<a href="{:Url('Goods/goods_list',['model_id' => $model_id])}">
+			<a href="{:Url('Goods/goods_list',['mc_id' => $mc_id])}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>产品上架</p>
 			</a>
 		</li>
+		{/elt}
 		<li>
-			<a href="{:Url('Category/transport',['model_id' => $model_id])}">
+			<a href="{:Url('Expert/course_list')}">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>专家文章</p>
+			</a>
+		</li>
+		<li>
+			<a href="{:Url('Transport/car_list')}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>物流运输</p>
 			</a>
 		</li>
 		<li>
-			<a href="{:Url('Category/near',['model_id' => $model_id])}">
+			<a href="{:Url('Index/near')}">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>附近会员</p>
 			</a>

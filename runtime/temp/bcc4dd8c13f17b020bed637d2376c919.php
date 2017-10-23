@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"E:\WWW\foo\public/../application/../template/pc/category\detail.html";i:1508486883;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"E:\WWW\foo\public/../application/../template/pc/category\detail.html";i:1508745651;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -80,6 +80,11 @@
 </script>
 <!-- 轮播图 end -->
 
+	<div class="user-info-wrap">
+		<span class="user-name"><?php echo \think\Session::get('user.name'); ?></span>
+		<span class="grade">&starf;&starf;&starf;</span>
+		<span class="basemodel-name">(<?php echo $soncat_name; ?>)</span>
+	</div>
 	<!--客户基础模型入口-->
 	<ul class="interface clear">
 		<li>
@@ -100,22 +105,35 @@
 				<p>产品上架</p>
 			</a>
 		</li>
-		<?php if(is_array($market_cats) || $market_cats instanceof \think\Collection || $market_cats instanceof \think\Paginator): $i = 0; $__LIST__ = $market_cats;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$mc): $mod = ($i % 2 );++$i;?>
+		<?php if(is_array($market_cats) || $market_cats instanceof \think\Collection || $market_cats instanceof \think\Paginator): $i = 0; $__LIST__ = $market_cats;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$mc): $mod = ($i % 2 );++$i;if($mc['id'] <= '2'): ?>
 		<li>
-			<a href="<?php echo Url('Goods/buy',array('mc_pid'=>$mc['id'])); ?>">
+			<a href="<?php echo Url('Goods/buy',array('acc_model_id'=>2,'mc_id'=>$mc['id'])); ?>">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p><?php echo $mc['name']; ?></p>
 			</a>
 		</li>
-		<?php endforeach; endif; else: echo "" ;endif; ?>
+		<?php else: ?>
 		<li>
-			<a href="<?php echo Url('Goods/buy',array('cat_id'=>$cat_id)); ?>">
+			<a href="<?php echo Url('Market/market_list',array('mc_id'=>$mc['id'])); ?>">
+                <img src="/assets/image/zhuanshu.png"/>
+				<p><?php echo $mc['name']; ?></p>
+			</a>
+		</li>
+		<?php endif; endforeach; endif; else: echo "" ;endif; ?>
+		<li>
+			<a href="<?php echo Url('Goods/buy',array('acc_model_id'=>1,'cat_id'=>$cat_id)); ?>">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>在线抢单</p>
 			</a>
 		</li>
 		<li>
-			<a href="<?php echo Url('Category/transport'); ?>">
+			<a href="<?php echo Url('Expert/course_list'); ?>">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>专家文章</p>
+			</a>
+		</li>
+		<li>
+			<a href="<?php echo Url('Transport/car_list'); ?>">
                 <img src="/assets/image/zhuanshu.png"/>
 				<p>物流运输</p>
 			</a>

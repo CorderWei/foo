@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"E:\WWW\foo\public/../application/../template/pc/index\index.html";i:1508479787;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:64:"E:\WWW\foo\public/../application/../template/pc/index\index.html";i:1508742055;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -97,7 +97,6 @@
 		<?php if(is_array($arts) || $arts instanceof \think\Collection || $arts instanceof \think\Paginator): $i = 0; $__LIST__ = $arts;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$art): $mod = ($i % 2 );++$i;?>
 		<li><a class="clear" href="<?php echo Url('Index/article_detail',array('id'=>$art['id'])); ?>"><span class="fl art-title"><?php echo $art['title']; ?></span><span class="fr"><?php echo $art['add_time']; ?></span></a></li>
 		<?php endforeach; endif; else: echo "" ;endif; ?>
-
 	</ul>
 </body>
 </html>

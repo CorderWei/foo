@@ -1,0 +1,32 @@
+{include file="public/head"}
+<body>
+	{include file="public/title"}
+	<style>
+		.auth-form span{
+			line-height: 3rem;
+		}
+	</style>
+	<div class="auth-form">
+		<div>
+			<label>用户编号:</label>
+			<span>{$user.id}</span>
+		</div>
+		<div>
+			<label>注册时间:</label>
+			<span>{$user.add_time|date="Y-m-d",###}</span>
+		</div>
+		<div>
+			<label>当前坐标(经度):</label>
+			<span>{$user.lon}</span>
+		</div>
+		<div>
+			<label>当前坐标(维度):</label>
+			<span>{$user.lat}</span>
+		</div>
+		<div>
+			<label>已认证身份:</label>
+			<span>{$user.auth_names}</span>
+		</div>
+	</div>
+</body>
+{include file="public/foot"}

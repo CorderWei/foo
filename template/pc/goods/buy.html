@@ -14,6 +14,7 @@
 		{volist name="list" id="item"}
 		<tr>
 			<form class="hidden_form" action="{:Url('Goods/make_order')}" method="post">
+				<input name="goods_id" type="hidden" value="{$item.id}"/>
 				<input name="pro" type="hidden" value="{$item.pro}"/>
 				<input name="city" type="hidden" value="{$item.city}"/>
 				<input name="area" type="hidden" value="{$item.area}"/>
@@ -36,48 +37,8 @@
 		</tr>
 		{/volist}
 	</table>
-	<!--<ul>
-		<li>
-			<span>地区</span>
-			<span>供货人</span>
-			<span>品种</span>
-			<span>价格</span>
-			<span>数量</span>
-			<span>合计</span>
-			<span>上架时间</span>
-			<span>操作</span>
-		<li>
-			-&#45;&#45;&#45;&#45;&#45;&#45;下方 | 线只是分割作用，修改样式时删除掉！ 本行也删除-&#45;&#45;&#45;&#45;
-			{volist name="list" id="item"}
-		<li>
-			<form class="hidden_form" action="{:Url('Goods/make_order')}" method="post">
-			<input name="pro" type="hidden" value="{$item.pro}"/>
-			<input name="city" type="hidden" value="{$item.city}"/>
-			<input name="area" type="hidden" value="{$item.area}"/>
-			
-			<input name="cat_id" type="hidden" value="{$item.cat_id}"/>
-			<input name="cat_name" type="hidden" value="{$item.cat_name}"/>
-			<input name="seller_id" type="hidden" value="{$item.user_id}"/>
-			<input name="seller_name" type="hidden" value="{$item.user_name}"/>
-			
-			<input name="price" type="hidden" value="{$item.price}"/>
-			<input name="num" type="hidden" value="{$item.num}"/>
-			<input name="total" type="hidden" value="{$item.total}"/>
-			</form>
-			
-			<span>{$item.region_name}</span>|
-			<span>
-				<a href="{:Url('User/people',array('id'=>$item.user_id))}">{$item.user_name}</a>
-			</span>|
-			<span>{$item.cat_name}</span>|
-			<span>{$item.price}元/只</span>|
-			<span>{$item.num}</span>|
-			<span>{$item.total}元</span>|
-			<span>{$item.add_time}</span>|
-			<button class="dobuy">抢单</button>
-		</li>
-		{/volist}
-	</ul>-->
+	<!-- 分页-->
+	{include file="public/paginate"}
 	<script>
 		$(function(){
 			submit_event();

@@ -1,7 +1,7 @@
 <?php
 
 	namespace app\home\controller;
-	
+
 	use app\home\controller\Base;
 	use think\Request;
 	use think\Db;
@@ -17,25 +17,35 @@
 		public function _initialize()
 		{
 			parent::_initialize();
-			$this->authCheck();
 		}
-		
-		public function index(){
+
+		public function index()
+		{
 			$market_cats = Db::name('market_cat')->where('pid = 0')->select();
 			$this->assign('market_cats', $market_cats);
 			return $this->fetch();
 		}
 
-		public function course_list()
+		public function my_course()
 		{
 			$uid = $this->user_id;
 			$list = Db::name('course')->where("user_id = $uid")->paginate(10);
 			$this->assign("list", $list);
+			$this->assign('paginate', $list->render());
+			return $this->fetch();
+		}
+
+		public function course_list()
+		{
+			$list = Db::name('course')->where("is_publish = 1")->paginate(10);
+			$this->assign("list", $list);
+			$this->assign('paginate', $list->render());
 			return $this->fetch();
 		}
 
 		public function add_course()
 		{
+			$this->authCheck();
 			if (Request::instance()->isPost())
 			{
 				$map = Request::instance()->param();
@@ -69,22 +79,23 @@
 				}
 				if (Db::name('course')->insert($map))
 				{
-					$this->success('发布成功，请等待审核', url('category/index', ['model_id' => 3]));
+					$this->success('发布成功，请等待审核', url('Expert/index'));
 				}
 				else
 				{
-					$this->error('发布成功，请联系管理', url('category/index', ['model_id' => 3]));
+					$this->error('发布成功，请联系管理', url('Expert/index'));
 				}
 			}
 			return $this->fetch();
 		}
-		
-		public function detail(){
+
+		public function detail()
+		{
 			$course_id = Request::instance()->param("id");
 			$course = Db::name('Course')->find($course_id);
-			$this->assign('course',$course);
+			$this->assign('course', $course);
 			return $this->fetch();
 		}
-		
+
 	}
 	

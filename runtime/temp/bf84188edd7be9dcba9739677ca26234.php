@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"E:\WWW\foo\public/../application/../template/pc/expert\add_course.html";i:1508393198;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:70:"E:\WWW\foo\public/../application/../template/pc/expert\add_course.html";i:1508393198;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508556537;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -42,8 +42,9 @@
 	<link rel="stylesheet" type="text/css" href="/assets/style/header.css" />
 <script type="text/javascript" src="/assets/script/jquery-1.12.4.min.js"></script>
 <!--顶部入口-->
+<?php $ctrl_name = think\Session::get('basemodel.ctrl_name'); $act_name = think\Session::get('basemodel.act_name'); ?>
 <div class="header">
-	<span class="com_btn t-c btn-city back">返回</span>
+	<a class="com_btn t-c btn-city" href='<?php echo Url("$ctrl_name/$act_name"); ?>'>返回</a>
 	<a class="main_title" href="/">养殖天网首页</a>
 	<a class="com_btn t-c btn-chat" href="<?php echo Url('Index/huanxin'); ?>">聊天室</a>
 </div>

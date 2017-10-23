@@ -1,0 +1,16 @@
+<table class="product-online-table">
+	<tr>
+		<th>编号</th>
+		<th>车牌号</th>
+		<th>配送半径</th>
+		<th>约车电话</th>
+	</tr>
+	{volist name="list" id="item"}
+	<tr>
+		<td><a href="{:Url('Transport/car_manage',['id'=>$item.id])}">{$item.id}</a></td>
+		<td>{$item.car_no}</td>
+		<td>{$item.radius}</td>
+		<td>{$item.phone}</td>
+	</tr>
+	{/volist}
+</table>

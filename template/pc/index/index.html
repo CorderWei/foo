@@ -18,7 +18,6 @@
 		{volist name="arts" id="art"}
 		<li><a class="clear" href="{:Url('Index/article_detail',array('id'=>$art.id))}"><span class="fl art-title">{$art.title}</span><span class="fr">{$art.add_time}</span></a></li>
 		{/volist}
-
 	</ul>
 </body>
 {include file="public/foot"}

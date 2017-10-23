@@ -1,19 +1,22 @@
 {include file="public/head"}
 <body>
 	{include file="public/title"}
-	<p>{$cur_city}行情信息查询</p>
-	<ul>
-		<li><span>地区 |</span><span>种类 |</span><span>总数量</span>
-		</li>
-		<br/>
-	{volist name="matter" id="m"}
-	<li>
-		<span>{$m.region_name}</span>
-		<span>{$m.cat_name}</span>
-		<span>{$m.sum}</span>
-	</li>
-	{/volist}
-	</ul>
-	
+	<table class="product-online-table">
+		<caption><h4 class="product-online-title"><span>{$cur_city}</span>行情信息查询</h4></caption>
+		<tr>
+			<th>地区</th>
+			<th>种类</th>
+			<th>总数量</th>
+		</tr>
+		{volist name="matter" id="m"}
+		<tr>
+			<td>{$m.region_name}</td>
+			<td>{$m.cat_name}</td>
+			<td>{$m.sum}</td>
+		</tr>
+		{/volist}
+	</table>
+	<!-- 分页-->
+	{include file="public/paginate"}	
 </body>
 {include file="public/foot"}

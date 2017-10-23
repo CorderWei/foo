@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:65:"E:\WWW\foo\public/../application/../template/pc/expert\index.html";i:1508487177;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:65:"E:\WWW\foo\public/../application/../template/pc/expert\index.html";i:1508573459;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:70:"E:\WWW\foo\public/../application/../template/pc/public\user_inter.html";i:1508549849;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -81,19 +81,27 @@
 </script>
 <!-- 轮播图 end -->
 
+	<!--用户信息-->
 	<div class="user-info-wrap">
-		<span class="user-name"><?php echo \think\Session::get('user.name'); ?></span>
-		<span class="grade">&starf;&starf;&starf;</span>
-		<span class="basemodel-name">(<?php echo \think\Session::get('basemodel.name'); ?>)</span>
-		<div class="user-bottom">
-			<a href="<?php echo Url('User/index'); ?>">个人中心</a>
-			<a href="<?php echo Url('Category/auth'); ?>">信息认证</a>
-		</div>
+	<span class="user-name"><?php echo \think\Session::get('user.name'); ?></span>
+	<span class="grade">&starf;&starf;&starf;</span>
+	<span class="basemodel-name">(<?php echo \think\Session::get('basemodel.name'); ?>)</span>
+	<div class="user-bottom">
+		<a href="<?php echo Url('User/index'); ?>">个人中心</a>
+		<a href="<?php echo Url('Auth/auth_tpl'); ?>">信息认证</a>
 	</div>
-	<!--客户基础模型入口-->
+</div>
+
+	<!--功能入口-->
 	<ul class="interface clear">
 		<li>
 			<a href="<?php echo Url('Expert/course_list'); ?>">
+				<img src="/assets/image/zhuanshu.png"/>
+				<p>文章列表</p>
+			</a>
+		</li>
+		<li>
+			<a href="<?php echo Url('Expert/my_course'); ?>">
 				<img src="/assets/image/zhuanshu.png"/>
 				<p>我的发布</p>
 			</a>

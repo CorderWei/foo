@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:68:"E:\WWW\foo\public/../application/../template/pc/category\matter.html";i:1508122027;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:68:"E:\WWW\foo\public/../application/../template/pc/category\matter.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508556537;s:68:"E:\WWW\foo\public/../application/../template/pc/public\paginate.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -42,8 +42,9 @@
 	<link rel="stylesheet" type="text/css" href="/assets/style/header.css" />
 <script type="text/javascript" src="/assets/script/jquery-1.12.4.min.js"></script>
 <!--顶部入口-->
+<?php $ctrl_name = think\Session::get('basemodel.ctrl_name'); $act_name = think\Session::get('basemodel.act_name'); ?>
 <div class="header">
-	<span class="com_btn t-c btn-city back">返回</span>
+	<a class="com_btn t-c btn-city" href='<?php echo Url("$ctrl_name/$act_name"); ?>'>返回</a>
 	<a class="main_title" href="/">养殖天网首页</a>
 	<a class="com_btn t-c btn-chat" href="<?php echo Url('Index/huanxin'); ?>">聊天室</a>
 </div>
@@ -55,20 +56,56 @@
 	});
 </script>
 
-	<p><?php echo $cur_city; ?>行情信息查询</p>
-	<ul>
-		<li><span>地区 |</span><span>种类 |</span><span>总数量</span>
-		</li>
-		<br/>
-	<?php if(is_array($matter) || $matter instanceof \think\Collection || $matter instanceof \think\Paginator): $i = 0; $__LIST__ = $matter;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$m): $mod = ($i % 2 );++$i;?>
-	<li>
-		<span><?php echo $m['region_name']; ?></span>
-		<span><?php echo $m['cat_name']; ?></span>
-		<span><?php echo $m['sum']; ?></span>
-	</li>
-	<?php endforeach; endif; else: echo "" ;endif; ?>
-	</ul>
-	
+	<table class="product-online-table">
+		<caption><h4 class="product-online-title"><span><?php echo $cur_city; ?></span>行情信息查询</h4></caption>
+		<tr>
+			<th>地区</th>
+			<th>种类</th>
+			<th>总数量</th>
+		</tr>
+		<?php if(is_array($matter) || $matter instanceof \think\Collection || $matter instanceof \think\Paginator): $i = 0; $__LIST__ = $matter;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$m): $mod = ($i % 2 );++$i;?>
+		<tr>
+			<td><?php echo $m['region_name']; ?></td>
+			<td><?php echo $m['cat_name']; ?></td>
+			<td><?php echo $m['sum']; ?></td>
+		</tr>
+		<?php endforeach; endif; else: echo "" ;endif; ?>
+	</table>
+	<!-- 分页-->
+	<style>
+	.pagination{ 
+		text-align:center; 
+		background:#f1f1f1; 
+		padding:7px 0; 
+		margin-top: 30px;
+	}
+	.pagination:after { 
+		content: "\0020"; 
+		display: block; 
+		height: 0; 
+		clear: both; 
+	}
+	.pagination li{ 
+		float:left;
+	}
+	.pagination a{ 
+		margin:0 5px; 
+		border:#DA4453 solid 1px; 
+		display:inline-block; 
+		padding:2px 6px 1px; 
+		line-height:16px; 
+		background:#fff; color:#DA4453;
+	}
+	.pagination span{ 
+		margin:0 5px;
+		border:#DA4453 solid 1px;
+		display:inline-block;
+		padding:2px 6px 1px; 
+		line-height:16px; color:#DA4453; 
+		color:#fff; background:#DA4453;
+	}
+</style>
+<?php echo $paginate; ?>	
 </body>
 </html>
 

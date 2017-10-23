@@ -41,6 +41,7 @@ foo.trans.ajaxForm = function (selector, validate, callback, flag) {
 		if (validate || validate_result) {
 			$.post(url, data, callback, "text");
 		}
+		return false;
 	});
 };
 

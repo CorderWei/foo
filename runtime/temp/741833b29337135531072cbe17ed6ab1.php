@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:63:"E:\WWW\foo\public/../application/../template/pc/index\near.html";i:1508122182;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:63:"E:\WWW\foo\public/../application/../template/pc/index\near.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508556537;s:68:"E:\WWW\foo\public/../application/../template/pc/public\paginate.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -42,8 +42,9 @@
 	<link rel="stylesheet" type="text/css" href="/assets/style/header.css" />
 <script type="text/javascript" src="/assets/script/jquery-1.12.4.min.js"></script>
 <!--顶部入口-->
+<?php $ctrl_name = think\Session::get('basemodel.ctrl_name'); $act_name = think\Session::get('basemodel.act_name'); ?>
 <div class="header">
-	<span class="com_btn t-c btn-city back">返回</span>
+	<a class="com_btn t-c btn-city" href='<?php echo Url("$ctrl_name/$act_name"); ?>'>返回</a>
 	<a class="main_title" href="/">养殖天网首页</a>
 	<a class="com_btn t-c btn-chat" href="<?php echo Url('Index/huanxin'); ?>">聊天室</a>
 </div>
@@ -55,7 +56,60 @@
 	});
 </script>
 
-	功能开发中...敬请期待
+	<table class="product-online-table">
+		<caption><h4 class="product-online-title">附近会员</h4></caption>
+		<tr>
+			<th>用户编号</th>
+			<th>环信账号</th>
+			<th>状态</th>
+		</tr>
+		<?php if(is_array($list) || $list instanceof \think\Collection || $list instanceof \think\Paginator): $k = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$item): $mod = ($k % 2 );++$k;?>
+		<tr>
+			<td><?php echo $item['id']; ?></td>
+			<td><?php echo $item['name']; ?></td>
+			<?php switch($item['is_online']): case "1": ?>
+			<td style="color:#FD424D;">在线</td>
+			<?php break; case "0": ?>
+			<td>离线</td>
+			<?php break; endswitch; ?>
+		</tr>
+		<?php endforeach; endif; else: echo "" ;endif; ?>
+	</table>
+	<!-- 分页-->
+	<style>
+	.pagination{ 
+		text-align:center; 
+		background:#f1f1f1; 
+		padding:7px 0; 
+		margin-top: 30px;
+	}
+	.pagination:after { 
+		content: "\0020"; 
+		display: block; 
+		height: 0; 
+		clear: both; 
+	}
+	.pagination li{ 
+		float:left;
+	}
+	.pagination a{ 
+		margin:0 5px; 
+		border:#DA4453 solid 1px; 
+		display:inline-block; 
+		padding:2px 6px 1px; 
+		line-height:16px; 
+		background:#fff; color:#DA4453;
+	}
+	.pagination span{ 
+		margin:0 5px;
+		border:#DA4453 solid 1px;
+		display:inline-block;
+		padding:2px 6px 1px; 
+		line-height:16px; color:#DA4453; 
+		color:#fff; background:#DA4453;
+	}
+</style>
+<?php echo $paginate; ?>
 </body>
 </html>
 

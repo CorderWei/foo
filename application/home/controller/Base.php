@@ -15,16 +15,18 @@
 	{
 
 		// 当前控制器下免登录action
-		public $nologin = [];
+		public $nologin = [
+		];
 
 		public function _initialize()
 		{
 			parent::_initialize();
-			// 定位检查
-			$this->needPosition();
+			
+			$cur_city = session('position.city_name');
+			$this->assign('cur_city', $cur_city);
 			// 登录检查和更新用户状态
 			$this->needLogin($this->nologin);
-			// 获取基础模型信息
+			// 获取当前用户所属的基础模型信息,如果要传递访问区域(如饲养户访问厂商,专家等)所属的模型,用acc_model_id
 			$this->getBaseModel();
 			if (session('?basemodel'))
 			{
@@ -34,25 +36,6 @@
 			$parent_id['parent_id'] = 1;
 			$region = Db::name('Region')->where($parent_id)->select();
 			$this->assign('region', $region);
-		}
-
-		// 位置锁定
-		public function needPosition()
-		{
-			// 位置信息 session空则找cookie,都空则跳转到定位
-			if (!session('?position'))
-			{
-				if (cookie('?position'))
-				{
-					session('position', cookie('position'));
-				}
-				else
-				{
-					$this->redirect('Index/citychange');
-				}
-			}
-			$cur_city = session('position.city_name');
-			$this->assign('cur_city', $cur_city);
 		}
 
 		// 用户登录
@@ -88,21 +71,22 @@
 		// 模型定位
 		public function getBaseModel()
 		{
-			
+
 			$this->model_id = Request::instance()->param('model_id') ?: session('basemodel.id');
-			
+
 			if (!empty($this->model_id))
 			{
 				$basemodel = Db::name('basemodel')->find($this->model_id);
 				if ($basemodel)
 				{
 					session('basemodel', $basemodel);
+					$this->assign('basemodel', $basemodel);
 				}
 			}
 		}
 
 		// 根据权限判定能否进入该区域
-		public function authCheck()
+		public function authCheck($is_doAuth = false)
 		{
 			$basemodel = session('basemodel');
 			$model_id = $basemodel['id'];
@@ -134,18 +118,36 @@
 					break;
 			}
 			Db::name($table_name)->where($where)->select();
-			if (!is_authed($cid))
+			// 如果正在执行验证
+			if ($is_doAuth)
 			{
-				if (Db::name($table_name)->where($where)->select())
+				// 判断为重复认证,则发生页面跳转,否则继续执行认证
+				if (is_authed($cid))
 				{
-					return $this->error('您的信息正在认证中,请耐心等待');
+					return $this->error('您已经认证了该信息,请勿重复认证');
 				}
-				else
+			}
+			// 进入其他入口时,如无认证则跳转,否则继续执行
+			else
+			{
+				if (!is_authed($cid))
 				{
-					return $this->error('您尚未认证所需信息', "Auth/auth_tpl?$param_name={$cat_id}");
+					if (Db::name($table_name)->where($where)->select())
+					{
+						return $this->error('您的信息正在认证中,请耐心等待');
+					}
+					else
+					{
+						if (isset($param_name))
+						{
+							return $this->error('您尚未认证所需信息', "Auth/auth_tpl?$param_name=$cid");
+						}
+						else
+						{
+							return $this->error('您尚未认证所需信息', "Auth/auth_tpl");
+						}
+					}
 				}
-			}else{
-				return true;
 			}
 		}
 

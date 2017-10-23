@@ -24,7 +24,7 @@
 		<div>
 			<label>厂区类型:</label>	
 			<select name="mc_id">
-				<option value="0">请选择业务范畴</option>
+				<option value="0">请选择厂区类型</option>
 				{volist name="cats" id="cat"}
 				{if condition="$cat['id'] eq $auth_catid"}
 				<option value="{$cat.id}" selected="selected">{$cat.name}</option>
@@ -107,7 +107,7 @@
 			<input name="school_address" />
 		</div>
 		<div>
-			<label>资质证件说明及编号:</label>
+			<label>资质证件编号:</label>
 			<input name="license" />
 		</div>
 		{/case}

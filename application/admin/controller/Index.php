@@ -6,37 +6,15 @@
 	use think\Request;
 	use think\Db;
 
-	class Index extends Controller
+	class Index extends Base
 	{
 
 		public function _initialize()
 		{
+			$this->nologin = array(
+				'login', 'dologin', 'logout',
+			);
 			parent::_initialize();
-			if (session('?admin'))
-			{
-				$admin = session('admin');
-				$admin = Db::name('Admin')->where("id", $admin['id'])->find();
-				session('admin', $admin);  //刷新session 
-				//$role = Db::name('Role')->where("id", $admin['id'])->find();
-				//session('role', $role);  //刷新权限
-
-				$this->admin = $admin;
-				$this->admin_id = $admin['id'];
-				$this->assign('admin', $admin); //存储用户信息
-				$this->assign('admin_id', $this->admin_id);
-			}
-			else
-			{
-				// 免登录动作列表
-				$nologin = array(
-					'login', 'dologin', 'logout',
-				);
-				if (!in_array($this->request->action(), $nologin))
-				{
-					$this->error('请您先登录！', 'Admin/Index/login');
-					exit;
-				}
-			}
 		}
 
 		// 登录
@@ -74,7 +52,6 @@
 			// 角色权限
 			session('role', null);
 
-			// 经纬度存在cookie中保留
 			$this->success('退出完毕', 'index');
 		}
 

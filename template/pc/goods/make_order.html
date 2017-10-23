@@ -139,56 +139,75 @@
 				color: #fff;
 			}
 		</style>
+		{load href="/assets/script/jquery-1.12.4.min.js" /} 
+		<script>
+			$(function(){
+				$("#pay_form").submit(function(){
+					if ($('#WIDmobile').val() == "") {
+						alert('请填写联系电话');
+						return false;
+					}
+					if ($('#WIDaddress').val() == "") {
+						alert('请填写配送地址');
+						return false;
+					}
+				});
+			});
+		</script>
 	</head>
 	<body text=#000000 bgColor="#ffffff" leftMargin=0 topMargin=4>
 		<header class="am-header">
 			<h1>支付宝移动支付</h1>
 		</header>
 		<div id="main">
-			<form name=alipayment action="{:Url('Goods/dobuy')}" method=post target="_blank">
-				<input id="pro" type="hidden" name="WIDout_pro" value="{$data.pro}"/>
-				<input id="city" type="hidden" name="WIDout_city" value="{$data.city}"/>
-				<input id="area" type="hidden" name="WIDout_area" value="{$data.area}"/>
+			<form id="pay_form" name=alipayment action="{:Url('Goods/dobuy')}" method=post target="_blank">
+				<input id="goods_id" type="hidden" name="goods_id" value="{$data.goods_id}"/>
+				<input id="pro" type="hidden" name="pro" value="{$data.pro}"/>
+				<input id="city" type="hidden" name="city" value="{$data.city}"/>
+				<input id="area" type="hidden" name="area" value="{$data.area}"/>
+				<input id="buyer_id" type="hidden" name="buyer_id" value="{$data.buyer_id}"/>
+				<input id="seller_id" type="hidden" name="seller_id" value="{$data.seller_id}"/>
+				<input id="seller_name" type="hidden" name="seller_name" value="{$data.seller_name}"/>
 				<div id="body" style="clear:left">
 					<dl class="content">
 						<dt>商户订单号：</dt>
 						<dd>
-							<input id="WIDout_trade_no" name="WIDout_trade_no" value="{$snno}"/>
+							<input id="WIDout_trade_no" name="WIDout_trade_no" value="{$snno}" readonly="readonly"/>
 						</dd>
 						<hr class="one_line">
 						<dt>商品名称：</dt>
 						<dd>
-							<input id="WIDsubject" name="WIDsubject" value="{$data.cat_name}"/>
+							<input id="WIDsubject" name="WIDsubject" value="{$data.cat_name}" readonly="readonly"/>
 						</dd>
 						<hr class="one_line">
 						<dt>商品规格：</dt>
 						<dd>
-							<input id="WIDbody" name="WIDbody" value="{$data.cat_id}" />
+							<input id="WIDbody" name="WIDbody" value="{$data.cat_id}" readonly="readonly"/>
 						</dd>
 						<hr class="one_line">
 						<dt>商品价格：</dt>
 						<dd>
-							<input id="WIDbody" name="WIDprice" value="{$data.price}" />
+							<input id="WIDbody" name="WIDprice" value="{$data.price}" readonly="readonly"/>
 						</dd>
 						<hr class="one_line">
 						<dt>商品数量：</dt>
 						<dd>
-							<input id="WIDbody" name="WIDnum" value="{$data.num}" />
+							<input id="WIDbody" name="WIDnum" value="{$data.num}" readonly="readonly"/>
 						</dd>
 						<hr class="one_line">
 						<dt>付款金额：</dt>
 						<dd>
-							<input id="WIDtotal_amount" name="WIDtotal_amount" value="{$data.total}"/>
+							<input id="WIDtotal_amount" name="WIDtotal_amount" value="{$data.total}" readonly="readonly"/>
 						</dd>
 						<hr class="one_line">
 						<dt>联系电话：</dt>
 						<dd>
-							<input id="WIDbody" name="WIDmobile" value="" />
+							<input id="WIDmobile" name="WIDmobile" value="" />
 						</dd>
 						<hr class="one_line">
 						<dt>配送地址：</dt>
 						<dd>
-							<input id="WIDbody" name="WIDaddress" value="" />
+							<input id="WIDaddress" name="WIDaddress" value="" />
 						</dd>
 						<hr class="one_line">
 						<dt>备注：</dt>

@@ -106,7 +106,7 @@ html {
 }
 .articles li a .art-title {
   display: block;
-  width: 65%;
+  width: 56%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

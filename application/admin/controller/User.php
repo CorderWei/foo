@@ -6,36 +6,14 @@
 	use think\Request;
 	use think\Db;
 
-	class User extends Controller
+	class User extends Base
 	{
 
 		public function _initialize()
 		{
+			// 免登录动作列表
+			$this->nologin = array();
 			parent::_initialize();
-			if (session('?admin'))
-			{
-				$admin = session('admin');
-				$admin = Db::name('Admin')->where("id", $admin['id'])->find();
-				session('admin', $admin);  //刷新session 
-				//$role = Db::name('Role')->where("id", $admin['id'])->find();
-				//session('role', $role);  //刷新权限
-
-				$this->admin = $admin;
-				$this->admin_id = $admin['id'];
-				$this->assign('admin', $admin); //存储用户信息
-				$this->assign('admin_id', $this->admin_id);
-			}
-			else
-			{
-				// 免登录动作列表
-				$nologin = array(
-				);
-				if (!in_array($this->request->action(), $nologin))
-				{
-					$this->error('请您先登录！', 'Admin/Index/login');
-					exit;
-				}
-			}
 		}
 
 		// 验证用户分类
@@ -56,15 +34,50 @@
 			$this->assign("model_name", $model_name);
 			$this->assign("table_name", $table_name);
 
-			$pagedata = Db::table("foo_$table_name")
-				->alias('t')
-				->join('foo_category c', 'c.id = t.cat_id', 'LEFT')
-				->join('foo_user u', 'u.id = t.user_id', 'LEFT')
-				->field("t.*,c.name cat_name,u.name user_name")
-				->paginate(10, false, [
-				'query' => Request::instance()->param(),
-			]);
-			//$pagedata = Db::name($table_name)->paginate(10);
+			// 根据模型查询不同的 联合表的数据
+			switch ($base_id)
+			{
+				case 1:
+					$pagedata = Db::table("foo_$table_name")
+						->alias('t')
+						->join('foo_category c', 'c.id = t.cat_id', 'LEFT')
+						->join('foo_user u', 'u.id = t.user_id', 'LEFT')
+						->field("t.*,c.name cat_name,u.name user_name")
+						->paginate(10, false, [
+						'query' => Request::instance()->param(),
+					]);
+					break;
+				case 2:
+					$pagedata = Db::table("foo_$table_name")
+						->alias('t')
+						->join('market_cat c', 'c.id = t.mc_id', 'LEFT')
+						->join('foo_user u', 'u.id = t.user_id', 'LEFT')
+						->field("t.*,t.mc_id cat_id,c.name cat_name,u.name user_name")
+						->paginate(10, false, [
+						'query' => Request::instance()->param(),
+					]);
+					break;
+
+				default:
+					$pagedata = Db::table("foo_$table_name")
+						->alias('t')
+						->join('market_cat c', 'c.id = t.cat_id', 'LEFT')
+						->join('foo_user u', 'u.id = t.user_id', 'LEFT')
+						->field("t.*,c.name cat_name,u.name user_name")
+						->paginate(10, false, [
+						'query' => Request::instance()->param(),
+					]);
+					break;
+			}
+
+//			$pagedata = Db::table("foo_$table_name")
+//				->alias('t')
+//				->join('foo_category c', 'c.id = t.cat_id', 'LEFT')
+//				->join('foo_user u', 'u.id = t.user_id', 'LEFT')
+//				->field("t.*,c.name cat_name,u.name user_name")
+//				->paginate(10, false, [
+//				'query' => Request::instance()->param(),
+//			]);
 			$this->assign("pagedata", $pagedata);
 			echo $this->fetch();
 		}

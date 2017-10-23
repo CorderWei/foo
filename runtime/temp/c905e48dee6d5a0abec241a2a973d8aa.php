@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"E:\WWW\foo\public/../application/../template/pc/transport\my_car.html";i:1508398582;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:69:"E:\WWW\foo\public/../application/../template/pc/expert\my_course.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508556537;s:68:"E:\WWW\foo\public/../application/../template/pc/public\paginate.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -42,8 +42,9 @@
 	<link rel="stylesheet" type="text/css" href="/assets/style/header.css" />
 <script type="text/javascript" src="/assets/script/jquery-1.12.4.min.js"></script>
 <!--顶部入口-->
+<?php $ctrl_name = think\Session::get('basemodel.ctrl_name'); $act_name = think\Session::get('basemodel.act_name'); ?>
 <div class="header">
-	<span class="com_btn t-c btn-city back">返回</span>
+	<a class="com_btn t-c btn-city" href='<?php echo Url("$ctrl_name/$act_name"); ?>'>返回</a>
 	<a class="main_title" href="/">养殖天网首页</a>
 	<a class="com_btn t-c btn-chat" href="<?php echo Url('Index/huanxin'); ?>">聊天室</a>
 </div>
@@ -55,38 +56,58 @@
 	});
 </script>
 
-	<div>
-		<label>车辆地址</label>
-		<span><?php echo $car['address']; ?></span>
-	</div>
-	<div>
-		<label>约车电话</label>
-		<span><?php echo $car['phone']; ?></span>
-	</div>
-	<div>
-		<label>车牌号</label>
-		<span><?php echo $car['car_no']; ?></span>
-	</div>
-	<div>
-		<label>驾照编号</label>
-		<span><?php echo $car['car_license']; ?></span>
-	</div>
-	<div>
-		<label>车主证件号</label>
-		<span><?php echo $car['card_no']; ?></span>
-	</div>
-	<div>
-		<label>配送半径(公里)</label>
-		<span><?php echo $car['radius']; ?></span>
-	</div>
-	<div>
-		<label>车主近照</label>
-		<span><img src="<?php echo $car['owner_pic']; ?>"></span>
-	</div>
-	<div>
-		<label>车辆照片</label>
-		<span><img src="<?php echo $car['car_pic']; ?>"></span>
-	</div>
+	<ul class="articles">
+		<?php if(is_array($list) || $list instanceof \think\Collection || $list instanceof \think\Paginator): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$course): $mod = ($i % 2 );++$i;?>
+		<li>
+			<a class="clear" href="<?php echo Url('Expert/detail',array('id'=>$course['id'])); ?>">
+				<span class="fl art-title"><?php echo $course['title']; ?></span>
+				<span>
+				<?php if($course['is_publish'] == '0'): ?>
+				未审核
+				<?php else: ?>
+				已审核
+				<?php endif; ?>
+				</span>
+				<span class="fr"><?php echo date('Y-m-d',$course['add_time']); ?></span>
+			</a>
+		</li>
+		<?php endforeach; endif; else: echo "" ;endif; ?>
+	</ul>
+	<!-- 分页-->
+	<style>
+	.pagination{ 
+		text-align:center; 
+		background:#f1f1f1; 
+		padding:7px 0; 
+		margin-top: 30px;
+	}
+	.pagination:after { 
+		content: "\0020"; 
+		display: block; 
+		height: 0; 
+		clear: both; 
+	}
+	.pagination li{ 
+		float:left;
+	}
+	.pagination a{ 
+		margin:0 5px; 
+		border:#DA4453 solid 1px; 
+		display:inline-block; 
+		padding:2px 6px 1px; 
+		line-height:16px; 
+		background:#fff; color:#DA4453;
+	}
+	.pagination span{ 
+		margin:0 5px;
+		border:#DA4453 solid 1px;
+		display:inline-block;
+		padding:2px 6px 1px; 
+		line-height:16px; color:#DA4453; 
+		color:#fff; background:#DA4453;
+	}
+</style>
+<?php echo $paginate; ?>
 </body>
 </html>
 

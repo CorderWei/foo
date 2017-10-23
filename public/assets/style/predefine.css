@@ -157,3 +157,14 @@ a {
 	border: none;
 	margin: 1rem auto;
 }
+.foo_submit{
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 1px 1em;
+    color: #fff;
+    background-color: #FD424D;
+}
+.serach_condi{
+	width: 26em;
+    margin: 10px auto;
+}

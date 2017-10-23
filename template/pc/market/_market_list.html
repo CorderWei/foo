@@ -1,0 +1,15 @@
+<table class="product-online-table">
+	<tr>
+		<th>名称</th>
+		<th>地址</th>
+		<th>联系电话</th>
+	</tr>
+	{volist name="list" id="item"}
+	<tr>
+		<td>{$item.name}</a></td>
+		<td>{$item.address}</td>
+		<td>{$item.phone}</td>
+	</tr>
+	<div class="none"><a href="{:Url('Market/market_manage',['id'=>$item.id])}"></a></div>
+	{/volist}
+</table>

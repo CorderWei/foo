@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"E:\WWW\foo\public/../application/../template/pc/index\citychange.html";i:1507947438;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:70:"E:\WWW\foo\public/../application/../template/pc/public\citychange.html";i:1507772516;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"E:\WWW\foo\public/../application/../template/pc/index\citychange.html";i:1507947438;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:70:"E:\WWW\foo\public/../application/../template/pc/public\citychange.html";i:1508742261;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -46,9 +46,11 @@
 <!-- 城市切换公用模板，搭配公用函数使用-->
 <!-- 省份 -->
 <select name="pro" id="pro" data-url="<?php echo Url('Index/citychange'); ?>">
-	<?php if(is_array($region) || $region instanceof \think\Collection || $region instanceof \think\Paginator): if( count($region)==0 ) : echo "" ;else: foreach($region as $key=>$v): ?>
+	<?php if(is_array($region) || $region instanceof \think\Collection || $region instanceof \think\Paginator): if( count($region)==0 ) : echo "" ;else: foreach($region as $key=>$v): if(\think\Session::get('position.pro_id') == $v['region_id']): ?>
+	<option value="<?php echo $v['region_id']; ?>" selected><?php echo $v['region_name']; ?></option>
+	<?php else: ?>
 	<option value="<?php echo $v['region_id']; ?>"><?php echo $v['region_name']; ?></option>
-	<?php endforeach; endif; else: echo "" ;endif; ?>
+	<?php endif; endforeach; endif; else: echo "" ;endif; ?>
 </select>
 <!-- 城市 -->
 <select name="city" id="city" data-url="<?php echo Url('Index/citychange'); ?>">

@@ -1,7 +1,7 @@
 <?php
 
 	namespace app\home\controller;
-	
+
 	use think\Request;
 	use think\Db;
 	use think\Loader;
@@ -15,15 +15,50 @@
 		public function _initialize()
 		{
 			$this->nologin = array(
-				'login', 'dologin', 'logout', 'register', 'doregister', 'changepass', 'index', 'note_city',
-				'citychange',
+				'citychange', 'login', 'dologin', 'logout', 'register', 'doregister', 'changepass', 'index', 'note_city',
 			);
 			parent::_initialize();
 		}
 
+		//城市切换
+		public function citychange()
+		{
+			$cur_city = session('position.city_name');
+			$this->assign('cur_city', $cur_city);
+			if (request()->isPost())
+			{
+				$parent_id['parent_id'] = input('post.pro_id', 'addslashes');
+				$region = Db::name('Region')->where($parent_id)->select();
+				$opt = '<option value=0>--选择市区--</option>';
+				foreach ($region as $key => $val)
+				{
+					$opt .= "<option value='{$val['region_id']}'>{$val['region_name']}</option>";
+				}
+				echo json_encode($opt);
+			}
+			else
+			{
+				$parent_id['parent_id'] = 1;
+				$region = Db::name('Region')->where($parent_id)->select();
+				$this->assign('region', $region);
+				return $this->fetch();
+			}
+		}
+
 		public function index()
 		{
-			// 获取坐标位置
+			// 获取坐标位置 session空则找cookie,都空则跳转到定位
+			if (!session('?position'))
+			{
+				if (cookie('?position'))
+				{
+					session('position', cookie('position'));
+				}
+				else
+				{
+					$this->redirect('citychange');
+				}
+			}
 			// 轮播管理
 			// 入口分类
 			// 按照认证模型
@@ -32,7 +67,7 @@
 
 			// 文章
 			$article = new Article;
-			
+
 			// 按照用户所在城市过滤
 			$region = session('position.city_id');
 			$where = "region = 0 or region = $region";
@@ -156,6 +191,10 @@
 		// 退出登录
 		public function logout()
 		{
+
+			$uid = $this->user_id;
+			Db::name('User')->where("id = $uid")->update(['is_online' => 0]);
+
 			// 用户信息
 			session('user', null);
 			// 位置信息
@@ -165,29 +204,6 @@
 
 			// 经纬度存在cookie中保留,位置信息仍留在cookie中下次使用
 			$this->success('退出完毕', 'index');
-		}
-
-		// 城市切换
-		public function citychange()
-		{
-			if (request()->isPost())
-			{
-				$parent_id['parent_id'] = input('post.pro_id', 'addslashes');
-				$region = Db::name('Region')->where($parent_id)->select();
-				$opt = '<option value=0>--请选择市区--</option>';
-				foreach ($region as $key => $val)
-				{
-					$opt .= "<option value='{$val['region_id']}'>{$val['region_name']}</option>";
-				}
-				echo json_encode($opt);
-			}
-			else
-			{
-				$parent_id['parent_id'] = 1;
-				$region = Db::name('Region')->where($parent_id)->select();
-				$this->assign('region', $region);
-				return $this->fetch();
-			}
 		}
 
 		// 当前位置信息存入session和cookie
@@ -207,10 +223,25 @@
 			$hx_pass = $user['hx_pass'];
 			$this->redirect("/WebIm.html?name=$name&hx_pass=$hx_pass");
 		}
-		
+
 		// 附近会员
 		public function near()
 		{
+			$self = $this->user;
+			$self_id = $this->user_id;
+			$distance = Request::instance()->param('distance') ?: 2.5; //千米数,默认方圆5公里
+			$range_lat_min = $self['lat'] - $distance * 0.009; // 经纬度0.009度为1千米
+			$range_lat_max = $self['lat'] + $distance * 0.009;
+			$eange_lon_min = $self['lon'] - $distance * 0.009;
+			$eange_lon_max = $self['lon'] + $distance * 0.009;
+			$members = Db::name('User')
+				->where("id <> $self_id ")
+				->where("lat between $range_lat_min and $range_lat_max ")
+				->where("lon between $eange_lon_min and $eange_lon_max ")
+				->paginate(10);
+
+			$this->assign('list', $members);
+			$this->assign('paginate', $members->render());
 			return $this->fetch();
 		}
 

@@ -26,12 +26,19 @@
 		public function detail()
 		{
 			$this->authCheck();
+			// 传递具体的业务分类id到下一层
+			$cat_id = Request::instance()->param('cat_id');
+			$this->assign("cat_id", $cat_id);
+			// 业务分类名称
+			$soncat_name = Db::name('Category')->where("id = $cat_id")->value('name');
+			$this->assign("soncat_name", $soncat_name);
+            // 列举所有的厂商服务
 			$market_cats = Db::name('Market_cat')->where('pid = 0')->select();
-			$this->assign("market_cats",$market_cats);
+			$this->assign("market_cats", $market_cats);
 			return $this->fetch();
 		}
 
-		// 我的专属(饲养户/厂商自己的统计管理,公开到行情查询中)
+		// 我的专属(饲养户自己的统计管理,公开到行情查询中)
 		public function manage()
 		{
 			// 提交
@@ -85,16 +92,7 @@
 			{
 				$city_id = session('position.city_id');
 				// 查询当前城市下当前分类下，按照二级分类统计的行情
-				$sql = "SELECT
-							SUM(m.num) sum, 
- 							r.region_name,
-							c. NAME cat_name
-						FROM
-							foo_manage m
-						LEFT JOIN foo_category c ON (m.cat_id = c.id)
-						LEFT JOIN foo_region r ON (m.area = r.region_id)
-						WHERE
-						1 = 1 AND m.city = $city_id ";
+				$sql = "1 = 1 AND m.city = $city_id ";
 				if (!empty($cat_id))
 				{
 					$sql .= "AND m.cat_id IN (
@@ -106,11 +104,20 @@
 								pid = $cat_id
 						) ";
 				}
-				$sql .= " 
-						GROUP BY
-						region_name,cat_name";
-				$matter = Db::query($sql);
+				
+				$matter = Db::name('manage')
+					->alias('m')
+					->join('foo_category c', 'm.cat_id = c.id', 'LEFT')
+					->join('foo_region r', 'm.area = r.region_id', 'LEFT')
+					->where($sql)
+					->field('SUM(m.num) sum,r.region_name,c.NAME cat_name')
+					->group('region_name,c.NAME')
+					->paginate(10, false, [
+					'query' => Request::instance()->param(),
+				]);
+
 				$this->assign('matter', $matter);
+				$this->assign('paginate', $matter->render());
 			}
 
 			return $this->fetch();
@@ -147,11 +154,6 @@
 				$goods[$key]['total'] = $value['price'] * $value['num'];
 			}
 			$this->assign('list', $goods);
-			return $this->fetch();
-		}
-
-		public function transport()
-		{
 			return $this->fetch();
 		}
 

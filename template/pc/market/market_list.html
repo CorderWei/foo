@@ -1,0 +1,29 @@
+{include file="public/head"}
+<body>
+	{include file="public/title"}
+	<div>
+		<form data-url="{:Url('Market/market_list')}" id="search_form">
+			<input type="hidden" name="mc_id" value="{$mc_id}">
+			<div class="serach_condi">
+				{load href="/assets/style/citychange.css" /}
+				{include file="public/citychange"}
+				<span class="foo_submit">筛选</span>	
+			</div>
+		</form>
+	</div>
+	<!-- 厂区列表-->
+	<div id="market_list">
+	{include file="market/_market_list"}
+	</div>
+	<!-- 分页-->
+	{include file="public/paginate"}
+</body>
+<script>
+	$(function () {
+		foo.trans.ajaxForm('#search_form', true, function (list) {
+			console.log(list);
+			$("#market_list").html(list);
+		});
+	});
+</script>
+{include file="public/foot"}

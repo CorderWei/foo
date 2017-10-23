@@ -1,5 +1,30 @@
 {include file="public/head"}
 <body>
 	{include file="public/title"}
+	<div>
+		<form data-url="{:Url('Transport/car_list')}" id="search_form">
+		<div class="serach_condi">
+		{load href="/assets/style/citychange.css" /}
+		{include file="public/citychange"}
+		</div>
+		<div class="serach_condi">
+		<input name='radius' placeholder="最大配送半径"/>
+		<span class="foo_submit">筛选</span>
+		</div>
+		</form>
+	</div>
+	<!-- ajax车辆列表-->
+	<div id="car_list">
+		{include file="transport/_car_list"}
+	</div>
+	<!-- 分页-->
+	{include file="public/paginate"}
 </body>
+<script>
+    $(function(){
+		foo.trans.ajaxForm('#search_form',true,function(list){
+			$("#car_list").html(list);
+		});
+	});
+</script>
 {include file="public/foot"}

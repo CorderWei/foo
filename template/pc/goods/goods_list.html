@@ -2,9 +2,18 @@
 <body>
 	{include file="public/title"}
 <caption><h4 class="product-online-title"><span>{$cur_city}</span>我已上架的产品列表</h4></caption>
+<style>
+	#search{
+		text-align: center;
+	}
+	#search input{
+		width:60px;
+	}
+</style>	
 <div id="search">
 	<form action="" method="post">
 		<span>种类:</span>
+		<input type="hidden" name="model_id" value="{$model_id}">
 		<select id="search" name="son_id">
 			<option value="0">--所有--</option>
 			{volist name="son_cat" id="cat"}
@@ -16,8 +25,8 @@
 			{/volist}
 		</select>
 		<span>价格区间:</span>
-		<input name="min_price"/>元——<input name="max_price"/>元
-		<input type="submit" value="查询"/>
+		<input name="min_price" value="{$min_price}"/>元—<input name="max_price" value="{$max_price}"/>元
+		<button type="submit"/>查询</button>
 	</form>
 </div>
 <table class="product-online-table">
@@ -41,7 +50,8 @@
 </tr>
 {/volist}
 </table>
-
+<!-- 分页-->
+{include file="public/paginate"}
 <button class="btn btn-show-form" id="add">添加</button>
 <form id="add_form" class="none add_form" method="post" action="{:Url('Goods/add_goods')}">
 	<select name="cat_id">
@@ -69,7 +79,7 @@
 	function del_event() {
 		$(document.body).on('click', ".foo_trigger", function () {
 			if (confirm("您确定下架吗？")) {
-				var binder = $(this).siblings('.foo_update');
+				var binder = $(this).parents('tr').find('.foo_update');
 				console.log(binder.data());
 				var url = binder.data('url');
 				$.post(url, binder.data(), function (data) {

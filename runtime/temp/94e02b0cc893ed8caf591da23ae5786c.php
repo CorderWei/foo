@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:67:"E:\WWW\foo\public/../application/../template/pc/category\index.html";i:1508486074;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:5:{s:67:"E:\WWW\foo\public/../application/../template/pc/category\index.html";i:1508549753;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:66:"E:\WWW\foo\public/../application/../template/pc/public\header.html";i:1507862389;s:70:"E:\WWW\foo\public/../application/../template/pc/public\user_inter.html";i:1508549849;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -81,15 +81,18 @@
 </script>
 <!-- 轮播图 end -->
 
+	<!--用户信息-->
 	<div class="user-info-wrap">
-		<span class="user-name"><?php echo \think\Session::get('user.name'); ?></span>
-		<span class="grade">&starf;&starf;&starf;</span>
-		<span class="basemodel-name">(<?php echo \think\Session::get('basemodel.name'); ?>)</span>
-		<div class="user-bottom">
-			<a href="<?php echo Url('User/index'); ?>">个人中心</a>
-			<a href="<?php echo Url('Category/auth'); ?>">信息认证</a>
-		</div>
+	<span class="user-name"><?php echo \think\Session::get('user.name'); ?></span>
+	<span class="grade">&starf;&starf;&starf;</span>
+	<span class="basemodel-name">(<?php echo \think\Session::get('basemodel.name'); ?>)</span>
+	<div class="user-bottom">
+		<a href="<?php echo Url('User/index'); ?>">个人中心</a>
+		<a href="<?php echo Url('Auth/auth_tpl'); ?>">信息认证</a>
 	</div>
+</div>
+
+	<!--业务类型入口-->
 	<ul class="category_list clear">
 		<?php if(is_array($categorys) || $categorys instanceof \think\Collection || $categorys instanceof \think\Paginator): $i = 0; $__LIST__ = $categorys;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$cat): $mod = ($i % 2 );++$i;?>
 		<li class="fl">

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:71:"E:\WWW\foo\public/../application/../template/pc/transport\car_list.html";i:1508396922;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508122697;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:7:{s:71:"E:\WWW\foo\public/../application/../template/pc/transport\car_list.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\head.html";i:1508157721;s:65:"E:\WWW\foo\public/../application/../template/pc/public\title.html";i:1508556537;s:70:"E:\WWW\foo\public/../application/../template/pc/public\citychange.html";i:1508742261;s:72:"E:\WWW\foo\public/../application/../template/pc/transport\_car_list.html";i:1508567131;s:68:"E:\WWW\foo\public/../application/../template/pc/public\paginate.html";i:1508743915;s:64:"E:\WWW\foo\public/../application/../template/pc/public\foot.html";i:1507516574;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -42,8 +42,9 @@
 	<link rel="stylesheet" type="text/css" href="/assets/style/header.css" />
 <script type="text/javascript" src="/assets/script/jquery-1.12.4.min.js"></script>
 <!--顶部入口-->
+<?php $ctrl_name = think\Session::get('basemodel.ctrl_name'); $act_name = think\Session::get('basemodel.act_name'); ?>
 <div class="header">
-	<span class="com_btn t-c btn-city back">返回</span>
+	<a class="com_btn t-c btn-city" href='<?php echo Url("$ctrl_name/$act_name"); ?>'>返回</a>
 	<a class="main_title" href="/">养殖天网首页</a>
 	<a class="com_btn t-c btn-chat" href="<?php echo Url('Index/huanxin'); ?>">聊天室</a>
 </div>
@@ -55,6 +56,97 @@
 	});
 </script>
 
+	<div>
+		<form data-url="<?php echo Url('Transport/car_list'); ?>" id="search_form">
+		<div class="serach_condi">
+		<link rel="stylesheet" type="text/css" href="/assets/style/citychange.css" />
+		<script type="text/javascript" src="/assets/script/citychange.js"></script>
+<!-- 城市切换公用模板，搭配公用函数使用-->
+<!-- 省份 -->
+<select name="pro" id="pro" data-url="<?php echo Url('Index/citychange'); ?>">
+	<?php if(is_array($region) || $region instanceof \think\Collection || $region instanceof \think\Paginator): if( count($region)==0 ) : echo "" ;else: foreach($region as $key=>$v): if(\think\Session::get('position.pro_id') == $v['region_id']): ?>
+	<option value="<?php echo $v['region_id']; ?>" selected><?php echo $v['region_name']; ?></option>
+	<?php else: ?>
+	<option value="<?php echo $v['region_id']; ?>"><?php echo $v['region_name']; ?></option>
+	<?php endif; endforeach; endif; else: echo "" ;endif; ?>
+</select>
+<!-- 城市 -->
+<select name="city" id="city" data-url="<?php echo Url('Index/citychange'); ?>">
+	<option></option>
+</select>
+<!-- 区县 -->
+<select name="area" id="area">
+	<option></option>
+</select>
+
+		</div>
+		<div class="serach_condi">
+		<input name='radius' placeholder="最大配送半径"/>
+		<span class="foo_submit">筛选</span>
+		</div>
+		</form>
+	</div>
+	<!-- ajax车辆列表-->
+	<div id="car_list">
+		<table class="product-online-table">
+	<tr>
+		<th>编号</th>
+		<th>车牌号</th>
+		<th>配送半径</th>
+		<th>约车电话</th>
+	</tr>
+	<?php if(is_array($list) || $list instanceof \think\Collection || $list instanceof \think\Paginator): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$item): $mod = ($i % 2 );++$i;?>
+	<tr>
+		<td><a href="<?php echo Url('Transport/car_manage',['id'=>$item['id']]); ?>"><?php echo $item['id']; ?></a></td>
+		<td><?php echo $item['car_no']; ?></td>
+		<td><?php echo $item['radius']; ?></td>
+		<td><?php echo $item['phone']; ?></td>
+	</tr>
+	<?php endforeach; endif; else: echo "" ;endif; ?>
+</table>
+	</div>
+	<!-- 分页-->
+	<style>
+	.pagination{ 
+		text-align:center; 
+		background:#f1f1f1; 
+		padding:7px 0; 
+		margin-top: 30px;
+	}
+	.pagination:after { 
+		content: "\0020"; 
+		display: block; 
+		height: 0; 
+		clear: both; 
+	}
+	.pagination li{ 
+		float:left;
+	}
+	.pagination a{ 
+		margin:0 5px; 
+		border:#DA4453 solid 1px; 
+		display:inline-block; 
+		padding:2px 6px 1px; 
+		line-height:16px; 
+		background:#fff; color:#DA4453;
+	}
+	.pagination span{ 
+		margin:0 5px;
+		border:#DA4453 solid 1px;
+		display:inline-block;
+		padding:2px 6px 1px; 
+		line-height:16px; color:#DA4453; 
+		color:#fff; background:#DA4453;
+	}
+</style>
+<?php echo $paginate; ?>
 </body>
+<script>
+    $(function(){
+		foo.trans.ajaxForm('#search_form',true,function(list){
+			$("#car_list").html(list);
+		});
+	});
+</script>
 </html>
 
