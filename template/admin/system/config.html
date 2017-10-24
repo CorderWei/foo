@@ -1,0 +1,34 @@
+{include file="public/head"}
+<body>
+	<form id="config_form" data-url="">
+		<ul class="simple-ul">
+			<li>
+				<label>站点名称:</label>
+				<input value="养殖天网"/>
+			</li>
+			<li>
+				<label>联系电话:</label>
+				<input value="3442222"/>
+			</li>
+			<li>
+				<label>电子邮箱:</label>
+				<input value="tianwang@126.com"/>
+			</li>
+			<li>
+				<label>地址:</label>
+				<input value="山东济南"/>
+			</li>
+			<li>
+				<label></label>
+				<span class="foo_submit">提交</span>
+			</li>
+		</ul>	
+	</form>	
+</body>
+<script>
+	
+	foo.trans.ajaxForm("#config_form",true,function(){
+		
+	});
+</script>
+{include file="public/foot"}

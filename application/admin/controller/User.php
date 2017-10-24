@@ -69,15 +69,6 @@
 					]);
 					break;
 			}
-
-//			$pagedata = Db::table("foo_$table_name")
-//				->alias('t')
-//				->join('foo_category c', 'c.id = t.cat_id', 'LEFT')
-//				->join('foo_user u', 'u.id = t.user_id', 'LEFT')
-//				->field("t.*,c.name cat_name,u.name user_name")
-//				->paginate(10, false, [
-//				'query' => Request::instance()->param(),
-//			]);
 			$this->assign("pagedata", $pagedata);
 			echo $this->fetch();
 		}

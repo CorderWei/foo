@@ -1,0 +1,21 @@
+.simple-ul{
+	padding:4em;
+}
+.simple-ul li{
+	margin:1em;
+}
+.simple-ul label{
+	display: inline-block;
+    margin: 0.5em;
+    font-size: 1.5em;
+    width: 6em;
+    text-align: right;
+}
+.simple-ul input{
+	font-size: 1.5em;
+}
+.simple-ul span{
+    font-size: 1.5em;
+}
+
+

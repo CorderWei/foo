@@ -90,3 +90,9 @@
 		return $new_auth;
 	}
 	
+	function js_msg($message,$icon,$time='1500'){
+		$start = "<script>";
+		$mid = "layer.msg('$message', {icon: $icon,time: $time})";
+		$end = "</script>";
+		return $start.$mid.$end;
+	}

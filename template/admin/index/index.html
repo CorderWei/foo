@@ -45,6 +45,7 @@
 <script>
 	$(function () {
 		$("#menu").jqueryAccordionMenu();
+		// ajax跳转
 		foo.trans.ajaxJump('.action_btn','admin',function(page){
 			$("#content").html(page);
 		});
