@@ -2,7 +2,7 @@
 
 	return array(
 		array('name' => '设置', 'child' => array(
-				array('name' => '站点设置', 'act' => 'index', 'op' => 'System'),
+				array('name' => '站点设置', 'act' => 'config', 'op' => 'System'),
 				array('name' => '清除缓存', 'act' => 'cleanCache', 'op' => 'System'),
 			)),
 		array('name' => '会员', 'child' => array(
